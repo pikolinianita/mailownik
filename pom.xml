@@ -34,5 +34,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>12</maven.compiler.source>
         <maven.compiler.target>12</maven.compiler.target>
+        <exec.mainClass>pl.luccasso.mailownik.gui.MainWindow</exec.mainClass>
     </properties>
+    
+    
+
+    
 </project>

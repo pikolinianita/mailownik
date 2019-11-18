@@ -44,13 +44,13 @@ public class FinancialDataTest {
      */
     @Test
     public void testImportPaymentPerKlasses() {
-        System.out.println("importPaymentPerKlasses");
+       /* System.out.println("importPaymentPerKlasses");
         String filePatch = "e:/cenyvsnz.txt";
         FinancialData instance = new FinancialData();
         FinancialData expResult = null;
         FinancialData result = instance.importPaymentPerKlasses(filePatch);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        System.out.println(gson.toJson(instance));
+        System.out.println(gson.toJson(instance));*/
         //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");

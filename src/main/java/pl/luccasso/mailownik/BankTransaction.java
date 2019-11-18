@@ -40,7 +40,7 @@ public class BankTransaction {
     boolean siblingsSuspected;  //tu może być dwójka dzieci
     String[] splittedTitle;     // tablice pomocnicze, może do wywałki?
     String[] syfTitle;          // tablice pomocnice, moze do wywałki
-    String niceString;          //String z tytułem przelewu, I hope
+    public String niceString;          //String z tytułem przelewu, I hope
     String matchNotes;          //info about matches with guys  
 
     /**
@@ -235,5 +235,9 @@ public class BankTransaction {
             siblingsSuspected = true;
         }
     }
+    
+    public String saveTransaction(){
+        return String.join("\t", date.toString(), title, "konto: " + account, String.valueOf(amount)+"PLN") + "\n\n";
+  }
     
 }

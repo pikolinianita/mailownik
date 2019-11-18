@@ -42,16 +42,16 @@ public class GAppsParserTest {
     @Test
     public void testSomeMethod() {
         // TODO review the generated test code and remove the default call to fail.
-        gap = new GAppsParser("e:/pupils.txt");
+      /* gap = new GAppsParser("e:/pupils.txt");
         var gson = new GsonBuilder().setPrettyPrinting().create();
         System.out.println(gson.toJson(gap.pupilsI));
         System.out.println("---------------faken----------------");
         //System.out.println(gson.toJson(gap.fakenNauczLudziKomentek()));
         /*gap.fakenNauczLudziKomentek().forEach((e)-> 
                 System.out.println("SP " + e.schoolNr + " : " + e.fName + " " + e.lName));
-        */
+        
         gap.fakenKlasses().forEach((e)-> 
                 System.out.println("SP " + e.schoolNr + " : " + e.klass + " - " + e.fName + " " + e.lName));
-    }
+    */}
     
 }

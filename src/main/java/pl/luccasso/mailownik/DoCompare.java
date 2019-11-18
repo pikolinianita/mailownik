@@ -7,11 +7,15 @@ package pl.luccasso.mailownik;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -38,6 +42,7 @@ public class DoCompare {
     public static void main(String[] args) {
         var dc = new DoCompare();
         dc.doWork();
+        dc.save();
     }
     
     public Map<BankTransaction, List<Pupil>> getToBeDecidedMap(){
@@ -357,6 +362,49 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     public void SetPupPath (String path){
         this.pupPath = path;
     }
+    
+    public void addToFittedData(Pupil p, BankTransaction bt){
+        fittedData.merge(p, List.of(bt), (o, n) -> {o.addAll(n);return o;});
+    }
+    
+    public void removeFromHumanToDecide(BankTransaction bt){
+        humanToDecide.remove(bt);
+    } 
+
+    public void addToLeftOvers(BankTransaction bt){
+        leftOvers.add(bt);
+    }
+    
+    public void save(){
+        
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter("e:/leftovers.txt");
+            for(var p:leftOvers) {
+                fw.write(p.saveTransaction());
+            }   for(var p:siblings) {
+                fw.write(p.saveTransaction());
+            }   for(var p:humanToDecide.keySet()) {
+                fw.write(p.saveTransaction());
+            }
+            
+            fw = new FileWriter("e:/output.txt");
+                for(var p: fittedData.keySet()){
+                    
+                    fw.write(p.processTransactions(fittedData.get(p)).getFileLine());
+                }
+        } catch (IOException ex) {
+            Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fw.close();
+            } catch (IOException ex) {
+                Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+    }
+    
 }
 
 

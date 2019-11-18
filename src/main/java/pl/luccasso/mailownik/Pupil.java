@@ -5,6 +5,9 @@
  */
 package pl.luccasso.mailownik;
 
+import com.google.gson.Gson;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -12,20 +15,23 @@ import java.util.Objects;
  * @author piko
  */
 public class Pupil {
-        static int idCount = 0;
+        static int idCount = 1000;
         int id;
         int schoolNr;
         String fName;
         String lName;
         String klass;
-    
+        String nTel;        
+        String eMail;
+        String [] timeSheet;
+        List <String> accountNrs;
+        List <TransactionInfo> transactions;
+        int allPayments;
    
-    Pupil(){
-        if (idCount == 0) {
-            idCount=1000;
-        }
-    }
+    /*Pupil(){
         
+    }
+        */
     /**
     * For testing Only
     * @param i
@@ -34,7 +40,7 @@ public class Pupil {
     * @param kl 
     */     
    Pupil (int i, String fN, String lN, String kl){
-       this();
+      // this();
        this.id = idCount++;
        this.schoolNr = i;
        this.fName = fN.strip().toLowerCase();
@@ -44,16 +50,34 @@ public class Pupil {
 
     @Override
     public String toString() {
-        return "Pupil{" + "schoolNr=" + schoolNr + ", fName=" + fName + ", lName=" + lName + ", klass=" + klass + '}';
+        return "Uczeń: " + "schoolNr=" + schoolNr + ", fName=" + fName + ", lName=" + lName + ", klass=" + klass + " .";
     }
         
     Pupil(GAppsParser.PupilImport e) {
-       this();
+       //this();
        this.id = idCount++;
        this.schoolNr = e.schoolNr;
        this.fName = e.fName.strip().toLowerCase();
        this.lName = e.lName.strip().toLowerCase();
        this.klass = e.klass.toLowerCase().strip();
+       //String[] timeSheet;
+       this.nTel = e.fTel.length()>5 ? e.fTel : e.mTel ;       
+       this.eMail = e.eMail;
+       timeSheet = new String[20];
+       for( int i=0; i<20;i++){
+           if (i >= e.timeSheet.length) {
+               timeSheet[i] = "";
+           } else {
+               switch (e.timeSheet[i]){
+                   case "0": timeSheet[i] = "0"; break;
+                   case "1": timeSheet[i] = "1"; break;
+                   default: timeSheet[i] = "";
+               }
+           }
+       }
+       accountNrs = new LinkedList<>();
+       transactions = new LinkedList<>();
+       allPayments = 0;
     }
 
     @Override
@@ -163,5 +187,20 @@ public class Pupil {
         return false;
     }
     
+    public String getFileLine(){
+        Gson gson = new Gson();
+        String ob = String.join("\t", timeSheet);
+        String tr =  gson.toJson(transactions);
+                return String.join("\t",String.valueOf(id), String.valueOf(schoolNr),
+                        fName,lName,klass, nTel, eMail,  ob,String. valueOf(allPayments), tr )+"\n";
+    }
+
+    Pupil processTransactions(List<BankTransaction> lisT) {
+        for(var bt:lisT){
+            transactions.add(new TransactionInfo(bt));
+            allPayments += bt.amount;
+        }
+        return this;
+    }
     
 }

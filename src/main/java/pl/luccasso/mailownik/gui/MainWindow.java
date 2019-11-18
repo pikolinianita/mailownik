@@ -24,8 +24,8 @@ import javax.swing.filechooser.FileSystemView;
  * @author piko
  */
 public class MainWindow extends JPanel implements ActionListener{
-    private static DoCompare mainData;
-    JButton bankButton, pupButton, fireButton;
+    static DoCompare mainData;
+    JButton bankButton, pupButton, fireButton, saveButton;
     JLabel bankLabel, pupilLabel;
     String bankPath, pupPath;
     TBDWindow tbdWindow;
@@ -49,6 +49,8 @@ public class MainWindow extends JPanel implements ActionListener{
          fireButton.addActionListener(this);
          tbdButton = new JButton("Decyzje, decyzje...");
          tbdButton.addActionListener(this);
+         saveButton = new JButton("Zapisz Dane");
+         saveButton.addActionListener(this);
          
          add(header);
          add(bankLabel);
@@ -120,6 +122,9 @@ public class MainWindow extends JPanel implements ActionListener{
       }
       if (e.getSource() == tbdButton){
           tbdWindow = new TBDWindow("To Be Decided", mainData.getToBeDecidedMap());
+      }
+      if (e.getSource() == saveButton){
+          MainWindow.mainData.save();
       }
       
     }
