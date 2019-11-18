@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author piko
  */
 public class GAppsParserTest {
-    GAppsParser gap;
+    //GAppsParser gap;
     
     public GAppsParserTest() {
     }
