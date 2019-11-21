@@ -231,13 +231,17 @@ public class BankTransaction {
     }
 
     public void checkForSiblings() {
+        System.out.println(BankFileParser.finData);
         if (BankFileParser.finData.isSiblingsValue(amount)) {
             siblingsSuspected = true;
         }
     }
     
     public String saveTransaction(){
-        return String.join("\t", date.toString(), title, "konto: " + account, String.valueOf(amount)+"PLN") + "\n\n";
+        return String.join("\t", date.toString(), title, "konto: " + account, String.valueOf(amount)+"PLN") + "\n";
   }
+    public String tooltipInfo() {
+        return String.join("\n", "Wpłynęło: " + date.toString(), title, "konto: " + account, String.valueOf(amount)+"PLN");
+    }
     
 }

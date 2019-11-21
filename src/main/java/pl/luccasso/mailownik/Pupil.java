@@ -6,15 +6,17 @@
 package pl.luccasso.mailownik;
 
 import com.google.gson.Gson;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  *
  * @author piko
  */
-public class Pupil {
+public class Pupil implements Comparable<Pupil>{
         static int idCount = 1000;
         int id;
         int schoolNr;
@@ -24,9 +26,11 @@ public class Pupil {
         String nTel;        
         String eMail;
         String [] timeSheet;
-        List <String> accountNrs;
+        Set <String> accountNrs;
         List <TransactionInfo> transactions;
         int allPayments;
+        boolean AllYear;
+        boolean oneSemester;
    
     /*Pupil(){
         
@@ -50,7 +54,8 @@ public class Pupil {
 
     @Override
     public String toString() {
-        return "Uczeń: " + "schoolNr=" + schoolNr + ", fName=" + fName + ", lName=" + lName + ", klass=" + klass + " .";
+        //return "Uczeń: " + "schoolNr=" + schoolNr + ", fName=" + fName + ", lName=" + lName + ", klass=" + klass + " .";
+        return lName + " " + fName + " ," + klass + " ," + schoolNr;
     }
         
     Pupil(GAppsParser.PupilImport e) {
@@ -75,7 +80,7 @@ public class Pupil {
                }
            }
        }
-       accountNrs = new LinkedList<>();
+       accountNrs = new HashSet<>();
        transactions = new LinkedList<>();
        allPayments = 0;
     }
@@ -189,18 +194,51 @@ public class Pupil {
     
     public String getFileLine(){
         Gson gson = new Gson();
+        int zeroes =0, ones =0;
         String ob = String.join("\t", timeSheet);
+        for(char c: ob.toCharArray()){
+            if (c=='0') {
+                zeroes++;
+            } else if (c == '1') {
+                ones++;
+            }
+        }
         String tr =  gson.toJson(transactions);
-                return String.join("\t",String.valueOf(id), String.valueOf(schoolNr),
-                        fName,lName,klass, nTel, eMail,  ob,String. valueOf(allPayments), tr )+"\n";
+        String acc = gson.toJson(accountNrs);
+        String paymentType = AllYear ? "Roczna" : (oneSemester ? "semestr" : "Miesieczna");
+        //ob.
+        /*String.join("\t", "Id","Szkoła","Imie","Nazwisko","Klasa","Telefon","Mail",
+                "Zaj 1","2","3","4","5","6","7","8","9","10","11","12", "13","14","15","16","17","18","19","20",
+                "Suma wpłat","wpłaty","DanePrzelewow","konta"); */
+        return String.join("\t",String.valueOf(id), String.valueOf(schoolNr),
+                        fName,lName,klass, nTel, eMail, 
+                        ob, String.valueOf(ones), String.valueOf(zeroes), String.valueOf(allPayments), paymentType, tr, acc )+"\n";
+    }
+    
+    public String getShortUniqueString(){
+        return String.join(", ", lName, fName, String.valueOf(schoolNr), klass );
     }
 
     Pupil processTransactions(List<BankTransaction> lisT) {
+        if (lisT != null){
         for(var bt:lisT){
+            FinancialData.SchoolPayments payValues = DoCompare.finData.schoolToPaymentsMap.get(schoolNr);
+            if (bt.amount == payValues.allYear) {
+                AllYear = true;
+            } else if (bt.amount == payValues.oneSemester) {
+                oneSemester = true;
+            }
             transactions.add(new TransactionInfo(bt));
+            accountNrs.add(bt.account);
             allPayments += bt.amount;
-        }
+        }}
         return this;
+    }
+
+    
+    @Override
+    public int compareTo(Pupil p) {
+        return this.lName.compareTo(p.lName);
     }
     
 }

@@ -25,10 +25,10 @@ import java.util.stream.Collectors;
 public class DoCompare {
     String pupPath, bankPath;
     //czyste dane:
-    FinancialData finData;
+    static FinancialData finData;
     List<BankTransaction> listaTransakcji;
     List<Pupil> pupilList;
-
+    List <String> wrongLines;
     // uporzadkowane dane z Obecności
     Map<Integer, List<Pupil>> pupBySchoolMap;
     Map<String, List<Pupil>> pupByKlassMap;
@@ -109,6 +109,7 @@ public class DoCompare {
     private void analyzeTransaction2(BankTransaction bt) {
         bt.note("===========Fakk==============");
         try {
+            bt.checkForSiblings();
             if (bt.siblingsSuspected) {
                 siblings.add(bt);
                 bt.note("siblings");
@@ -229,6 +230,7 @@ public class DoCompare {
         } catch (Exception e) {
             leftOvers.add(bt);
             bt.note("------Exception----------");
+            e.printStackTrace(System.out);
            // Gson gson = new GsonBuilder().setPrettyPrinting().create();
            // System.out.println(gson.toJson(bt));
            // e.printStackTrace(System.out);
@@ -335,11 +337,14 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     //List<Pupil> nameSearch(List<Pupil>)
     private void loadStuff() {
         //listaTransakcji = new BankFileParser("e:/smalllist.txt").getListaTransakcji();
-        listaTransakcji = new BankFileParser(bankPath).getListaTransakcji();
+       
         finData = new FinancialData()
                 .importPaymentPerKlasses("e:/cenyvsnz.txt")
                 .importschools("e:/zajwszk.txt");
-        
+        BankFileParser.finData=this.finData;
+        var parser = new BankFileParser(bankPath);
+        listaTransakcji = parser.getListaTransakcji();
+        wrongLines = parser.getWrongLines();
         pupilList = new GAppsParser(pupPath).pupils;
 
     }
@@ -364,7 +369,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     }
     
     public void addToFittedData(Pupil p, BankTransaction bt){
-        fittedData.merge(p, List.of(bt), (o, n) -> {o.addAll(n);return o;});
+        fittedData.merge(p, new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n);return o;});
     }
     
     public void removeFromHumanToDecide(BankTransaction bt){
@@ -380,19 +385,35 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         FileWriter fw = null;
         try {
             fw = new FileWriter("e:/leftovers.txt");
-            for(var p:leftOvers) {
-                fw.write(p.saveTransaction());
-            }   for(var p:siblings) {
-                fw.write(p.saveTransaction());
-            }   for(var p:humanToDecide.keySet()) {
+            for (var p : leftOvers) {
                 fw.write(p.saveTransaction());
             }
+            for (var p : siblings) {
+                fw.write(p.saveTransaction());
+            }
+            for (var p : humanToDecide.keySet()) {
+                fw.write(p.saveTransaction());
+            }            
+            fw.close();
             
-            fw = new FileWriter("e:/output.txt");
-                for(var p: fittedData.keySet()){
+            fw = new FileWriter("e:/syfy.txt");
+            for (var p : wrongLines){
+                fw.write(p);
+            }
+            fw.close();
                     
-                    fw.write(p.processTransactions(fittedData.get(p)).getFileLine());
-                }
+            fw = new FileWriter("e:/output.txt");
+            /*for (var p : fittedData.keySet()) {
+                fw.write(p.processTransactions(fittedData.get(p)).getFileLine());
+            }*/
+            fw.write(String.join("\t", "Id","Szkoła","Imie","Nazwisko","Klasa","Telefon","Mail",
+                "Zaj 1","2","3","4","5","6","7","8","9","10","11","12", "13","14","15","16","17","18","19","20","obecny","Nieobecny",
+                "Suma wpłat","wpłaty","DanePrzelewow","konta"));
+            for (var p :pupilList){
+                fw.write(p.processTransactions(fittedData.get(p)).getFileLine());
+            }
+            fw.close();
+            
         } catch (IOException ex) {
             Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -404,7 +425,32 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         }
         
     }
+
     
+    public List<BankTransaction> getLeftOvers() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Kurka - getLeftOvers");   
+        return leftOvers;
+    }
+    
+    public List<Pupil> getPupilList(){
+        return pupilList;
+    }
+    public Map<Integer, List<Pupil>> getPupBySchoolMap(){
+           return pupBySchoolMap;
+    }
+
+    public List <String> getWrongLinesList() {
+         return wrongLines;
+    }
+
+    public  List<BankTransaction> getSiblingsBTList() {
+        return siblings;
+    }
+    
+    public int getAmountOfFittedTransactions(){
+        return (int) fittedData.values().stream().flatMap(li->li.stream()).count();
+    }
 }
 
 

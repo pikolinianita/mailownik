@@ -9,6 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -52,14 +54,16 @@ public class FinancialData {
     Map<Integer, SchoolPayments> schoolToPaymentsMap;
     //Przy tylu zajęciach tyle tzreba płacić 
     Map<Integer, SchoolPayments> nKlassesToPaymentMap;
+    List <Integer> siblingsValues; 
 
     public FinancialData() {
         schoolToPaymentsMap = new HashMap<>();
         nKlassesToPaymentMap = new HashMap<>();
+        siblingsValues = new LinkedList<>();
     }
     
     public boolean isSiblingsValue(int val){
-        if (nKlassesToPaymentMap.values().contains(val)) {
+        if (siblingsValues.contains(val)) {
             return true;
         }
         if (val % oneKlassWhenSibling == 0) {
@@ -79,6 +83,8 @@ public class FinancialData {
             while (sc.hasNext()) {
                 SchoolPayments sp = new SchoolPayments(sc.nextInt(), sc.nextInt(), sc.nextInt(), sc.nextInt(), sc.nextInt());
                 nKlassesToPaymentMap.put(sp.nZajec, sp);
+                siblingsValues.add(sp.allYearWithSibling);
+                siblingsValues.add(sp.oneSemesterWithSibling);
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FinancialData.class.getName()).log(Level.SEVERE, null, ex);

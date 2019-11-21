@@ -73,5 +73,15 @@ public class FinancialDataTest {
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
-    
+    @Test
+    public void testSibValues(){
+       var finData = new FinancialData()
+                .importPaymentPerKlasses("e:/cenyvsnz.txt")
+                .importschools("e:/zajwszk.txt");
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        System.out.println(gson.toJson(finData));
+        System.out.println(finData.isSiblingsValue(33));
+        System.out.println(finData.isSiblingsValue(99));
+        System.out.println(finData.isSiblingsValue(931));
+    }
 }

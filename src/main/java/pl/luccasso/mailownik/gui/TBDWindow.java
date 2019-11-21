@@ -29,7 +29,7 @@ import pl.luccasso.mailownik.*;
  * @author piko
  */
 public class TBDWindow extends JFrame implements ActionListener {
-
+    MainWindow handler;
     JPanel mainPanel;
     JPanel bottomRow;
     JButton ok, exit;
@@ -37,8 +37,9 @@ public class TBDWindow extends JFrame implements ActionListener {
     int counter;
     List<TBDTuple> lTuples;
 
-    public TBDWindow(String title, Map<BankTransaction, List<Pupil>> hTD) throws HeadlessException {
+    public TBDWindow(MainWindow mW, String title, Map<BankTransaction, List<Pupil>> hTD) throws HeadlessException {
         super(title);
+        handler = mW;
         counter = 0;
         humanToDecide = new LinkedHashMap<>(hTD);
         lTuples = new LinkedList<>();
@@ -64,12 +65,15 @@ public class TBDWindow extends JFrame implements ActionListener {
         bottomRow = new JPanel();
         ok = new JButton("Dalej");
         ok.addActionListener(this);
+        ok.addActionListener(handler);
         exit = new JButton("Anuluj");
+        exit.addActionListener(handler);
         exit.addActionListener(this);
         bottomRow.add(ok);
         bottomRow.add(exit);
         bottomRow.setOpaque(true);
         JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         JScrollPane kasza = new JScrollPane(contentPanel);
         setContentPane(kasza);
         contentPanel.setOpaque(true);
@@ -85,6 +89,7 @@ public class TBDWindow extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        System.out.println("Listener for tbd");
         if (e.getSource() == ok) {
             for (var t : lTuples) {
                 Pupil pup = t.getPupilOrNull();
@@ -97,10 +102,12 @@ public class TBDWindow extends JFrame implements ActionListener {
                 }
                     
             }
+            handler.writeSummary();
             this.dispose();
         }
 
         if (e.getSource() == exit) {
+            handler.writeSummary();
             this.dispose();
         }
     }

@@ -26,6 +26,7 @@ public class BankFileParser {
 
     List<BankTransaction> listaTransakcji;
     static public FinancialData finData;
+    List<String> wrongLines;
     
     public List<BankTransaction> getListaTransakcji() {
         return listaTransakcji;
@@ -49,6 +50,7 @@ public class BankFileParser {
 
      BankFileParser(String fileName) {
         listaTransakcji = new LinkedList<>();
+        wrongLines = new LinkedList<>();
         FileReader reader = null;
         String tmp;
         try {
@@ -63,6 +65,7 @@ public class BankFileParser {
                     isFirst = false;
                 } else {
                     if (!isFirst) {
+                        wrongLines.add(tmp);
                         System.out.println("Bląd!!! : " + tmp);
                     }
                 }
@@ -71,6 +74,7 @@ public class BankFileParser {
             Logger.getLogger(BankFileParser.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
+                System.out.println("WL: " + wrongLines);
                 reader.close();
             } catch (IOException ex) {
                 Logger.getLogger(BankFileParser.class.getName()).log(Level.SEVERE, null, ex);
@@ -92,5 +96,9 @@ public class BankFileParser {
                 Logger.getLogger(BankFileParser.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    public List<String> getWrongLines() {
+        return wrongLines;
     }
 }

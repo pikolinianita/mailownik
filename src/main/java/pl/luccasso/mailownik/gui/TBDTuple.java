@@ -5,12 +5,16 @@
  */
 package pl.luccasso.mailownik.gui;
 
+import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import pl.luccasso.mailownik.BankTransaction;
 import pl.luccasso.mailownik.Pupil;
 
@@ -27,6 +31,8 @@ public class TBDTuple extends JPanel {
         super();
         lCheckbox = new LinkedList<>();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBorder(new CompoundBorder( new LineBorder(Color.BLACK, 1),new EmptyBorder(5,5,5,5)));
+        
         bt = key;
         guys = value;
         JLabel tran = new JLabel(bt.niceString);

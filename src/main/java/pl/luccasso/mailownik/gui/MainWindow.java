@@ -25,10 +25,14 @@ import javax.swing.filechooser.FileSystemView;
  */
 public class MainWindow extends JPanel implements ActionListener{
     static DoCompare mainData;
-    JButton bankButton, pupButton, fireButton, saveButton;
+    JButton bankButton, pupButton, fireButton, saveButton, leftOButton;
     JLabel bankLabel, pupilLabel;
     String bankPath, pupPath;
     TBDWindow tbdWindow;
+    LeftOWindow leftOWindow; 
+    JLabel summary;
+    
+    
     private final JButton tbdButton;
     
     public MainWindow() {
@@ -51,14 +55,24 @@ public class MainWindow extends JPanel implements ActionListener{
          tbdButton.addActionListener(this);
          saveButton = new JButton("Zapisz Dane");
          saveButton.addActionListener(this);
+         leftOButton = new JButton("Resztki...");
+         leftOButton.addActionListener(this);
+         /*saveButton = new JButton("Zapis");
+         saveButton.addActionListener(this);*/
          
+         summary = new JLabel();
+         writeSummary();
          add(header);
          add(bankLabel);
          add(bankButton);
          add(pupilLabel);
          add(pupButton);
          add(fireButton);
+         add(leftOButton);
          add(tbdButton);
+         add(summary);
+         add(saveButton);
+         
     }
     
     
@@ -87,6 +101,7 @@ public class MainWindow extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        System.out.println("listener for MW");
       if (e.getSource() == bankButton) {
           JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
@@ -121,13 +136,37 @@ public class MainWindow extends JPanel implements ActionListener{
           MainWindow.mainData.doWork();
       }
       if (e.getSource() == tbdButton){
-          tbdWindow = new TBDWindow("To Be Decided", mainData.getToBeDecidedMap());
+          tbdWindow = new TBDWindow(this, "To Be Decided", mainData.getToBeDecidedMap());
       }
       if (e.getSource() == saveButton){
           MainWindow.mainData.save();
       }
+      if (e.getSource() == leftOButton){
+          leftOWindow = new LeftOWindow(this, "Resztkowka", mainData);
+      }
+      
+      
+      writeSummary();
       
     }
-    
+
+     void writeSummary() {
+         System.out.println("Write Summ");
+        if (mainData.getLeftOvers() == null) {
+            summary.setText("<html>Niepoliczone<br><br><br><br><br><br><br><br></html>");
+        } else {
+            int fitted = mainData.getAmountOfFittedTransactions();
+            int leftOvers = mainData.getLeftOvers().size();
+            int toDecide = mainData.getToBeDecidedMap().keySet().size();
+            int siblings = mainData.getSiblingsBTList().size();
+            int rubbish = mainData.getWrongLinesList().size();
+            int sum = fitted + leftOvers + toDecide + siblings + rubbish;
+
+            summary.setText("<html>Rekordów: " + sum + " <br>Dopasowane: " + fitted + " <br>Do decyzji: " + toDecide + "<br>Niedopasowane: " + leftOvers
+                    + "<br>Rodzenstwa: " + siblings + " <br>Dno: " + rubbish+ "</html>");
+        }
+    }
+
+   
     
 }
