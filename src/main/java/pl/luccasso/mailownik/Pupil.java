@@ -19,11 +19,14 @@ import java.util.Set;
 public class Pupil implements Comparable<Pupil>{
         static int idCount = 1000;
         int id;
+        String skryptId;
+        int nb;
         int schoolNr;
         String fName;
         String lName;
         String klass;
-        String nTel;        
+        String nTel;
+        String nTel2;
         String eMail;
         String [] timeSheet;
         Set <String> accountNrs;
@@ -66,8 +69,16 @@ public class Pupil implements Comparable<Pupil>{
        this.lName = e.lName.strip().toLowerCase();
        this.klass = e.klass.toLowerCase().strip();
        //String[] timeSheet;
-       this.nTel = e.fTel.length()>5 ? e.fTel : e.mTel ;       
+       this.nTel = e.fTel.length()>1 ? e.fTel : "" ; 
+       this.nTel2 = e.mTel.length()>1 ? e.mTel : "";
        this.eMail = e.eMail;
+       try{
+       this.nb = Integer.valueOf(e.nb);
+       }
+       catch (NumberFormatException exc){
+           this.nb = 0;
+       }
+       this.skryptId = e.skryptID;
        timeSheet = new String[20];
        for( int i=0; i<20;i++){
            if (i >= e.timeSheet.length) {
@@ -206,13 +217,21 @@ public class Pupil implements Comparable<Pupil>{
         String tr =  gson.toJson(transactions);
         String acc = gson.toJson(accountNrs);
         String paymentType = AllYear ? "Roczna" : (oneSemester ? "semestr" : "Miesieczna");
+        int toPay = 0;
+        if (AllYear) {
+            toPay = DoCompare.finData.schoolToPaymentsMap.get(schoolNr).allYear;
+        } else if (oneSemester ) {
+            toPay = DoCompare.finData.schoolToPaymentsMap.get(schoolNr).oneSemester;
+        } else {
+            toPay = (zeroes + ones - this.nb)*35;
+        }
         //ob.
         /*String.join("\t", "Id","Szkoła","Imie","Nazwisko","Klasa","Telefon","Mail",
                 "Zaj 1","2","3","4","5","6","7","8","9","10","11","12", "13","14","15","16","17","18","19","20",
                 "Suma wpłat","wpłaty","DanePrzelewow","konta"); */
-        return String.join("\t",String.valueOf(id), String.valueOf(schoolNr),
-                        fName,lName,klass, nTel, eMail, 
-                        ob, String.valueOf(ones), String.valueOf(zeroes), String.valueOf(allPayments), paymentType, tr, acc )+"\n";
+        return String.join("\t",String.valueOf(id),skryptId, String.valueOf(schoolNr),
+                        fName,lName,klass, nTel, nTel2,eMail, 
+                        ob, String.valueOf(ones), String.valueOf(zeroes), String.valueOf(nb), String.valueOf(allPayments), String.valueOf(toPay), paymentType, tr, acc )+"\n";
     }
     
     public String getShortUniqueString(){

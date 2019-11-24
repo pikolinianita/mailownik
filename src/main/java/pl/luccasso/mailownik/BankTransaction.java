@@ -122,6 +122,26 @@ public class BankTransaction {
         }
     }
 
+    public BankTransaction(BankTransaction bt, int div) {
+        this.title = bt.title;
+        this.date = bt.date;
+        this.amount = bt.amount / div;
+        this.account = bt.account;
+        this.klass = bt.klass;
+        this.school = bt.school;
+        this.dubiousInfo = bt.dubiousInfo;
+        this.amStr = bt.amStr + " div by " + div;
+        this.isDoomed = bt.isDoomed;
+        this.hasDubiousKlass = bt.hasDubiousKlass;
+        this.hasDubiousSchool = bt.hasDubiousSchool;
+        this.siblingsSuspected = bt.siblingsSuspected;
+        this.splittedTitle = bt.splittedTitle;
+        this.syfTitle = bt.syfTitle;
+        this.niceString = bt.niceString;
+        this.matchNotes = bt.matchNotes;
+    }
+
+    
     /**
      * Sprawdza czy da się dopasować pattern (w domysle - klasy) do stringa.
      * jeśli znajdzie 2 lub więcej to podejrzewa rodzeńswo, jak 1 to wpisuje,
@@ -242,6 +262,11 @@ public class BankTransaction {
   }
     public String tooltipInfo() {
         return String.join("\n", "Wpłynęło: " + date.toString(), title, "konto: " + account, String.valueOf(amount)+"PLN");
+    }
+
+    BankTransaction divideCashAndReturnNew(int nSiblings) {
+        
+        return new BankTransaction(this, nSiblings);
     }
     
 }

@@ -38,6 +38,7 @@ public class DoCompare {
     Map<BankTransaction, List<Pupil>> humanToDecide;
     List<BankTransaction> leftOvers;
     List<BankTransaction> siblings;
+    Map<Pupil, List<BankTransaction>> sibFitted;
 
     public static void main(String[] args) {
         var dc = new DoCompare();
@@ -358,6 +359,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         humanToDecide = new HashMap<>();
         leftOvers = new LinkedList<>();
         siblings = new LinkedList<>();
+        sibFitted = new HashMap<>();
     }
 
     public void SetBankPath(String path){
@@ -388,13 +390,19 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
             for (var p : leftOvers) {
                 fw.write(p.saveTransaction());
             }
-            for (var p : siblings) {
-                fw.write(p.saveTransaction());
-            }
+            
             for (var p : humanToDecide.keySet()) {
                 fw.write(p.saveTransaction());
             }            
             fw.close();
+            
+            fw = new FileWriter("e:/siblings_org.txt");
+            for (var p : siblings) {
+                fw.write(p.saveTransaction());
+            }
+            fw.close();
+            
+           
             
             fw = new FileWriter("e:/syfy.txt");
             for (var p : wrongLines){
@@ -406,13 +414,23 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
             /*for (var p : fittedData.keySet()) {
                 fw.write(p.processTransactions(fittedData.get(p)).getFileLine());
             }*/
-            fw.write(String.join("\t", "Id","Szkoła","Imie","Nazwisko","Klasa","Telefon","Mail",
-                "Zaj 1","2","3","4","5","6","7","8","9","10","11","12", "13","14","15","16","17","18","19","20","obecny","Nieobecny",
-                "Suma wpłat","wpłaty","DanePrzelewow","konta"));
+            fw.write(String.join("\t", "Id","SkryptID","Szkoła","Imie","Nazwisko","Klasa","Tel Mamy","Tel Taty","Mail",
+                "Zaj 1","2","3","4","5","6","7","8","9","10","11","12", "13","14","15","16","17","18","19","20","obecny","Nieobecny","Usprawiedliwione",
+                "Suma wpłat","Winien","wpłaty","DanePrzelewow","konta")+"\n");
             for (var p :pupilList){
                 fw.write(p.processTransactions(fittedData.get(p)).getFileLine());
             }
             fw.close();
+            
+            fw = new FileWriter("e:/siblings_calc.txt");
+            fw.write(String.join("\t", "Id","SkryptID","Szkoła","Imie","Nazwisko","Klasa","Tel Mamy", "Tel Taty","Mail",
+                "Zaj 1","2","3","4","5","6","7","8","9","10","11","12", "13","14","15","16","17","18","19","20","obecny","Nieobecny","Usprawiedliwione",
+                "Suma wpłat","Winien","wpłaty","DanePrzelewow","konta"+"\n"));
+            for (var p: sibFitted.keySet()){
+                fw.write(p.processTransactions(sibFitted.get(p)).getFileLine());
+            }
+            fw.close();
+            
             
         } catch (IOException ex) {
             Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
@@ -450,6 +468,21 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     
     public int getAmountOfFittedTransactions(){
         return (int) fittedData.values().stream().flatMap(li->li.stream()).count();
+    }
+
+    
+
+    public void pushLinesToSiblings(BankTransaction bt, List<Pupil> chosenSiblings) {
+        int nSiblings = chosenSiblings.size();
+        System.out.println("Lista rodzenstwa to: " +  nSiblings);
+        System.out.println("sib Fitted: " + sibFitted.keySet().size());
+        for(var p: chosenSiblings){
+            BankTransaction tmpTrans = bt.divideCashAndReturnNew(nSiblings);
+            sibFitted.merge(p, new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
+            
+        }
+        siblings.remove(bt);
+            
     }
 }
 

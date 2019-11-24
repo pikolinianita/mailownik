@@ -38,6 +38,8 @@ public class GAppsParser {
         String mTel;
         String fTel;
         String eMail;
+        String skryptID;
+        String nb; 
 
         private boolean isNice() {
             //In case mamy nulla
