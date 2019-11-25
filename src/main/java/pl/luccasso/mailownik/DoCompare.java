@@ -416,7 +416,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
             }*/
             fw.write(String.join("\t", "Id","SkryptID","Szkoła","Imie","Nazwisko","Klasa","Tel Mamy","Tel Taty","Mail",
                 "Zaj 1","2","3","4","5","6","7","8","9","10","11","12", "13","14","15","16","17","18","19","20","obecny","Nieobecny","Usprawiedliwione",
-                "Suma wpłat","Winien","wpłaty","DanePrzelewow","konta")+"\n");
+                "Suma wpłat","Winien","wpłaty","W sumie zaplaci","Ilosc zajec w szkole","DanePrzelewow","konta")+"\n");
             for (var p :pupilList){
                 fw.write(p.processTransactions(fittedData.get(p)).getFileLine());
             }
@@ -425,7 +425,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
             fw = new FileWriter("e:/siblings_calc.txt");
             fw.write(String.join("\t", "Id","SkryptID","Szkoła","Imie","Nazwisko","Klasa","Tel Mamy", "Tel Taty","Mail",
                 "Zaj 1","2","3","4","5","6","7","8","9","10","11","12", "13","14","15","16","17","18","19","20","obecny","Nieobecny","Usprawiedliwione",
-                "Suma wpłat","Winien","wpłaty","DanePrzelewow","konta"+"\n"));
+                "Suma wpłat","Winien","wpłaty","W sumie zaplaci","Ilosc zajec w szkole","DanePrzelewow","konta"+"\n"));
             for (var p: sibFitted.keySet()){
                 fw.write(p.processTransactions(sibFitted.get(p)).getFileLine());
             }

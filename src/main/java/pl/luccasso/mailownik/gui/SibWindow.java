@@ -42,6 +42,7 @@ public class SibWindow extends JFrame implements ActionListener {
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         JScrollPane kasza = new JScrollPane(contentPanel);
+        kasza.getVerticalScrollBar().setUnitIncrement(16);
         setContentPane(kasza);
         contentPanel.setOpaque(true);
 

@@ -30,7 +30,7 @@ public class GAppsParser {
     class PupilImport {
 
         int schoolNr;
-        int tmpData;
+        String tmpData;
         String fName;
         String lName;
         String klass;

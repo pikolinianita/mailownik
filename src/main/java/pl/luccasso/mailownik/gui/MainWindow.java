@@ -25,7 +25,7 @@ import javax.swing.filechooser.FileSystemView;
  */
 public class MainWindow extends JPanel implements ActionListener{
     static DoCompare mainData;
-    JButton bankButton, pupButton, fireButton, saveButton, leftOButton,siblingsButton;
+    JButton bankButton, pupButton, fireButton, saveButton, leftOButton,siblingsButton,loadDB,removeEntries,fixEntries;
     JLabel bankLabel, pupilLabel;
     String bankPath, pupPath;
     TBDWindow tbdWindow;
@@ -140,7 +140,7 @@ public class MainWindow extends JPanel implements ActionListener{
           MainWindow.mainData.doWork();
       }
       if (e.getSource() == tbdButton){
-          tbdWindow = new TBDWindow(this, "To Be Decided", mainData.getToBeDecidedMap());
+          tbdWindow = new TBDWindow(this, "Niepewni", mainData.getToBeDecidedMap());
       }
       if (e.getSource() == saveButton){
           MainWindow.mainData.save();
@@ -151,7 +151,7 @@ public class MainWindow extends JPanel implements ActionListener{
       
       if (e.getSource() == siblingsButton){
           System.out.println("  hej hej");
-          sibWindow = new SibWindow(this, "Rodzenstawa", mainData);
+          sibWindow = new SibWindow(this, "Rodzenstwa", mainData);
       }
       
       

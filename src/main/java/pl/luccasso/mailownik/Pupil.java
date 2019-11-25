@@ -6,6 +6,9 @@
 package pl.luccasso.mailownik;
 
 import com.google.gson.Gson;
+import com.jhlabs.image.Histogram;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +37,7 @@ public class Pupil implements Comparable<Pupil>{
         int allPayments;
         boolean AllYear;
         boolean oneSemester;
+        boolean isSibling;
    
     /*Pupil(){
         
@@ -87,6 +91,8 @@ public class Pupil implements Comparable<Pupil>{
                switch (e.timeSheet[i]){
                    case "0": timeSheet[i] = "0"; break;
                    case "1": timeSheet[i] = "1"; break;
+                   case "M":
+                   case "m": timeSheet[i] = "M"; break;
                    default: timeSheet[i] = "";
                }
            }
@@ -205,18 +211,64 @@ public class Pupil implements Comparable<Pupil>{
     
     public String getFileLine(){
         Gson gson = new Gson();
-        int zeroes =0, ones =0;
+        int zeroes =0, ones =0, nbs = 0;
         String ob = String.join("\t", timeSheet);
         for(char c: ob.toCharArray()){
             if (c=='0') {
                 zeroes++;
             } else if (c == '1') {
                 ones++;
+            } else if (c == 'M') {
+                nbs++;
             }
         }
+        //this.nb+=nbs;
         String tr =  gson.toJson(transactions);
         String acc = gson.toJson(accountNrs);
-        String paymentType = AllYear ? "Roczna" : (oneSemester ? "semestr" : "Miesieczna");
+        String paymentType;
+        int toPay, toPayTotal = 0;
+        int nZajec =  DoCompare.finData.schoolToPaymentsMap.get(schoolNr).nZajec;
+        if (this.AllYear) {
+            if (isSibling) {
+                paymentType = "R Roczna";
+                toPay = DoCompare.finData.schoolToPaymentsMap.get(schoolNr).allYearWithSibling;
+                toPayTotal = toPay;
+
+            } else {
+                paymentType = "Roczna";
+                toPay = DoCompare.finData.schoolToPaymentsMap.get(schoolNr).allYear;
+                toPayTotal = toPay;
+            }
+        } else if (this.oneSemester) {
+            if (isSibling) {
+                paymentType = "R Semestr";
+                toPay = DoCompare.finData.schoolToPaymentsMap.get(schoolNr).oneSemesterWithSibling;
+                toPayTotal = toPay * 2;
+                if (LocalDate.now().isAfter(LocalDate.of(2020, 2, 20))) {
+                    toPay *= 2;
+                }
+            } else {
+                paymentType = "Semestralna";
+                toPay = DoCompare.finData.schoolToPaymentsMap.get(schoolNr).oneSemester;
+                toPayTotal = toPay * 2;
+                if (LocalDate.now().isAfter(LocalDate.of(2020, 2, 20))) {
+                    toPay *= 2;
+                }
+            }
+        } else if (allPayments % 35 == 0) {
+            paymentType = "Miesieczna";
+            toPay = (zeroes + ones - this.nb) * 35;
+            toPayTotal = (nZajec - this.nb - nbs) * 35;
+        } else if (allPayments % 33 == 0) {
+            paymentType = "Rodz Mies";
+            toPay = (zeroes + ones - this.nb) * 33;
+            toPayTotal = (nZajec - this.nb - nbs) * 33;
+        } else {
+            paymentType = "?Suspected?";
+            toPay = (zeroes + ones - this.nb) * 35;
+        }
+        
+        /*String paymentType = AllYear ? "Roczna" : (oneSemester ? "semestr" : "Miesieczna");
         int toPay = 0;
         if (AllYear) {
             toPay = DoCompare.finData.schoolToPaymentsMap.get(schoolNr).allYear;
@@ -224,14 +276,16 @@ public class Pupil implements Comparable<Pupil>{
             toPay = DoCompare.finData.schoolToPaymentsMap.get(schoolNr).oneSemester;
         } else {
             toPay = (zeroes + ones - this.nb)*35;
-        }
+        }*/
+        
+        this.nb+=nbs;
         //ob.
         /*String.join("\t", "Id","Szkoła","Imie","Nazwisko","Klasa","Telefon","Mail",
                 "Zaj 1","2","3","4","5","6","7","8","9","10","11","12", "13","14","15","16","17","18","19","20",
                 "Suma wpłat","wpłaty","DanePrzelewow","konta"); */
         return String.join("\t",String.valueOf(id),skryptId, String.valueOf(schoolNr),
-                        fName,lName,klass, nTel, nTel2,eMail, 
-                        ob, String.valueOf(ones), String.valueOf(zeroes), String.valueOf(nb), String.valueOf(allPayments), String.valueOf(toPay), paymentType, tr, acc )+"\n";
+                        fName,lName,klass, nTel2, nTel,eMail, 
+                        ob, String.valueOf(ones), String.valueOf(zeroes), String.valueOf(nb), String.valueOf(allPayments), String.valueOf(toPay), paymentType,String.valueOf(toPayTotal), String.valueOf(nZajec),tr, acc )+"\n";
     }
     
     public String getShortUniqueString(){
@@ -242,10 +296,13 @@ public class Pupil implements Comparable<Pupil>{
         if (lisT != null){
         for(var bt:lisT){
             FinancialData.SchoolPayments payValues = DoCompare.finData.schoolToPaymentsMap.get(schoolNr);
-            if (bt.amount == payValues.allYear) {
+            if (bt.amount == payValues.allYear || bt.amount == payValues.allYearWithSibling ) {
                 AllYear = true;
-            } else if (bt.amount == payValues.oneSemester) {
+            } else if (bt.amount == payValues.oneSemester || bt.amount == payValues.oneSemesterWithSibling) {
                 oneSemester = true;
+            }
+            if (bt.amount == payValues.allYearWithSibling || bt.amount == payValues.oneSemesterWithSibling){
+                this.isSibling = true;
             }
             transactions.add(new TransactionInfo(bt));
             accountNrs.add(bt.account);

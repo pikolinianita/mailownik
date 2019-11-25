@@ -48,8 +48,8 @@ public class TBDWindow extends JFrame implements ActionListener {
         mainPanel = new JPanel();
 
         int n = humanToDecide.keySet().size();
-        if (n > 10) {
-            n = 10;
+        if (n > 30) {
+            n = 30;
         }
         var it = humanToDecide.entrySet().iterator();
         for (int i = 0; i < n; i++) {
@@ -75,6 +75,7 @@ public class TBDWindow extends JFrame implements ActionListener {
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         JScrollPane kasza = new JScrollPane(contentPanel);
+        kasza.getVerticalScrollBar().setUnitIncrement(16);
         setContentPane(kasza);
         contentPanel.setOpaque(true);
         contentPanel.add(desc);

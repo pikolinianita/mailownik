@@ -43,6 +43,7 @@ class LeftOWindow extends JFrame implements ActionListener {
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         JScrollPane kasza = new JScrollPane(contentPanel);
         setContentPane(kasza);
+        kasza.getVerticalScrollBar().setUnitIncrement(16);
         contentPanel.setOpaque(true);
         int nItems = btList.size()>50? 50 : btList.size();
         
