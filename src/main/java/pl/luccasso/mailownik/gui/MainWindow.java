@@ -26,8 +26,8 @@ import javax.swing.filechooser.FileSystemView;
 public class MainWindow extends JPanel implements ActionListener{
     static DoCompare mainData;
     JButton bankButton, pupButton, fireButton, saveButton, leftOButton,siblingsButton,loadDB,removeEntries,fixEntries;
-    JLabel bankLabel, pupilLabel;
-    String bankPath, pupPath;
+    JLabel bankLabel, pupilLabel, dBLabel;
+    String bankPath, pupPath, dBPath;
     TBDWindow tbdWindow;
     LeftOWindow leftOWindow; 
     SibWindow sibWindow;
@@ -41,11 +41,15 @@ public class MainWindow extends JPanel implements ActionListener{
          
         pupPath = "e:/pupils.txt";
         bankPath = "e:/listatestowa.csv";
-       
+        dBPath = null;
+        
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
          var header = new JLabel("Wybierz pliki");
+         dBLabel = new JLabel("Plik z istniejącą bazą Danych to: " + dBPath);
          bankLabel = new JLabel("Wybierz plik z banku. Teraz to: " + bankPath);
          pupilLabel = new JLabel("wybierz plik z danymi uczniów. Teraz to" + pupPath);
+         loadDB = new JButton("Otwórz");
+         loadDB.addActionListener(this);
          bankButton = new JButton("Otwórz");
          bankButton.addActionListener(this);
          pupButton = new JButton("Otworz");
@@ -66,6 +70,8 @@ public class MainWindow extends JPanel implements ActionListener{
          summary = new JLabel();
          writeSummary();
          add(header);
+         add(dBLabel);
+         add(loadDB);
          add(bankLabel);
          add(bankButton);
          add(pupilLabel);
@@ -106,7 +112,22 @@ public class MainWindow extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("listener for MW");
-      if (e.getSource() == bankButton) {
+        if (e.getSource() == loadDB) {
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+		int returnValue = jfc.showOpenDialog(null);
+		// int returnValue = jfc.showSaveDialog(null);
+
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = jfc.getSelectedFile();
+                        dBPath = selectedFile.getAbsolutePath();
+                        MainWindow.mainData.SetDBPath(dBPath);
+			System.out.println(selectedFile.getAbsolutePath());
+                        dBLabel.setText("Plik z istniejącą bazą Danych to: " + dBPath);
+        }
+        }
+        
+        if (e.getSource() == bankButton) {
           JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
 		int returnValue = jfc.showOpenDialog(null);
@@ -150,7 +171,7 @@ public class MainWindow extends JPanel implements ActionListener{
       }
       
       if (e.getSource() == siblingsButton){
-          System.out.println("  hej hej");
+          //System.out.println("  hej hej");
           sibWindow = new SibWindow(this, "Rodzenstwa", mainData);
       }
       
@@ -160,7 +181,7 @@ public class MainWindow extends JPanel implements ActionListener{
     }
 
      void writeSummary() {
-         System.out.println("Write Summ");
+         //System.out.println("Write Summ");
         if (mainData.getLeftOvers() == null) {
             summary.setText("<html>Niepoliczone<br><br><br><br><br><br><br><br></html>");
         } else {

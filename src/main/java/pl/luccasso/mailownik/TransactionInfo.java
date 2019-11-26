@@ -13,9 +13,10 @@ import java.time.LocalDate;
  */
 class TransactionInfo {
     
-    String title;           //pole z mięskiem do dalszej analizy
+               //pole z mięskiem do dalszej analizy
     LocalDate date;         //data wpłaty
-    int amount;   
+    int amount;      
+    String title; 
     String account; 
 
     public TransactionInfo(BankTransaction bt) {

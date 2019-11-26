@@ -7,8 +7,11 @@ package pl.luccasso.mailownik;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -17,13 +20,14 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.Scanner;
 
 /**
  *
  * @author piko
  */
 public class DoCompare {
-    String pupPath, bankPath;
+    String pupPath, bankPath, savedPath;
     //czyste dane:
     static FinancialData finData;
     List<BankTransaction> listaTransakcji;
@@ -53,6 +57,7 @@ public class DoCompare {
     public DoCompare() {
         pupPath = "e:/pupils.txt";
         bankPath = "e:/listatestowa.csv";
+        savedPath = null;
     }
 
     
@@ -346,7 +351,13 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         var parser = new BankFileParser(bankPath);
         listaTransakcji = parser.getListaTransakcji();
         wrongLines = parser.getWrongLines();
-        pupilList = new GAppsParser(pupPath).pupils;
+        pupilList = loadPreviousData(savedPath);
+        List<Pupil> tmpList = new GAppsParser(pupPath).pupils;
+        if (pupilList == null) {
+            pupilList = tmpList;
+        } else {
+            updatePupilsAddIfAbsent(pupilList, tmpList);
+        }
 
     }
     
@@ -454,6 +465,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     public List<Pupil> getPupilList(){
         return pupilList;
     }
+    
     public Map<Integer, List<Pupil>> getPupBySchoolMap(){
            return pupBySchoolMap;
     }
@@ -470,8 +482,6 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         return (int) fittedData.values().stream().flatMap(li->li.stream()).count();
     }
 
-    
-
     public void pushLinesToSiblings(BankTransaction bt, List<Pupil> chosenSiblings) {
         int nSiblings = chosenSiblings.size();
         System.out.println("Lista rodzenstwa to: " +  nSiblings);
@@ -483,6 +493,55 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         }
         siblings.remove(bt);
             
+    }
+
+    List<Pupil> loadPreviousData(String inpPath) {
+        if (inpPath == null) {
+            return null;
+        }
+        FileReader fr = null;
+        Scanner sc = null;
+        List<Pupil> pupList = new LinkedList<>(); 
+        try {
+            fr = new FileReader(inpPath);
+            sc = new Scanner(fr);
+            sc.nextLine();
+            while(sc.hasNext()){
+                 pupList.add(new Pupil(sc.nextLine()));
+            }
+            sc.close();
+            return pupList;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (sc != null) {
+                    sc.close();
+                }
+                fr.close();
+            } catch (IOException ex) {
+                Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    return null;
+    }
+
+    public void SetDBPath(String dBPath) {
+        savedPath = dBPath;
+    }
+
+    private void updatePupilsAddIfAbsent(List<Pupil> oldList, List<Pupil> googleList) {
+        next_pupil:
+        for (var p : googleList) {
+            String ID = p.skryptId;
+            for (var op : oldList) {
+                if (ID.equals(op.skryptId)) {
+                    op.updateValuesWithGoogleData(p);
+                    break next_pupil;
+                }
+            }
+            oldList.add(p);
+        }
     }
 }
 

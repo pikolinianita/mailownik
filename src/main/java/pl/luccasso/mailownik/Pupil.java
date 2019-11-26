@@ -9,10 +9,12 @@ import com.google.gson.Gson;
 import com.jhlabs.image.Histogram;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -59,6 +61,49 @@ public class Pupil implements Comparable<Pupil>{
        this.klass = kl.toLowerCase().strip();
    }     
 
+   //Pupil(){};
+   
+    Pupil(String line) {
+        var sc = new Scanner(line);
+        sc.useDelimiter("\t");
+        var gson = new Gson();
+        
+        this.id = sc.nextInt();
+        this.skryptId = sc.next();
+        this.schoolNr = sc.nextInt();
+        this.fName = sc.next();
+        System.out.println(fName);
+        this.lName = sc.next();
+        System.out.println(lName);
+        this.klass = sc.next();
+        System.out.println(klass);
+        this.nTel2 = sc.next();
+        System.out.println(nTel2);
+        this.nTel = sc.next();
+        System.out.println(nTel);
+        this.eMail = sc.next();
+        System.out.println(eMail);
+        System.out.println("-----------------");
+        this.timeSheet = new String[20];
+        for (int i = 0; i < 20; i++) {
+            
+            this.timeSheet[i] = sc.next();
+            System.out.println(timeSheet[i]);
+        }
+        sc.next();
+        sc.next();
+        sc.next();
+        this.allPayments = sc.nextInt();
+        sc.next();
+        sc.next();
+        sc.next();
+        sc.next();
+        TransactionInfo[] tr = gson.fromJson(sc.next(), TransactionInfo[].class);
+        this.transactions = new LinkedList(Arrays.asList(tr));
+        this.accountNrs = new HashSet<>(Arrays.asList(gson.fromJson(sc.next(), String[].class)));
+
+    }
+   
     @Override
     public String toString() {
         //return "Uczeń: " + "schoolNr=" + schoolNr + ", fName=" + fName + ", lName=" + lName + ", klass=" + klass + " .";
@@ -315,6 +360,18 @@ public class Pupil implements Comparable<Pupil>{
     @Override
     public int compareTo(Pupil p) {
         return this.lName.compareTo(p.lName);
+    }
+
+    void updateValuesWithGoogleData(Pupil p) {
+       this.fName = p.fName;
+       this.lName = p.lName;
+       this.klass = p.klass;
+       //String[] timeSheet;
+       this.nTel = p.nTel; 
+       this.nTel2 = p.nTel2;
+       this.eMail = p.eMail;
+       this.timeSheet = p.timeSheet;
+       this.nb = p.nb;
     }
     
 }
