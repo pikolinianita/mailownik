@@ -36,7 +36,7 @@ public class DoCompare {
     // uporzadkowane dane z Obecności
     Map<Integer, List<Pupil>> pupBySchoolMap;
     Map<String, List<Pupil>> pupByKlassMap;
-
+    Map<String, List<Pupil>> pupByAccountMap;
     //Wynikowe Dane
     Map<Pupil, List<BankTransaction>> fittedData;
     Map<BankTransaction, List<Pupil>> humanToDecide;
@@ -115,6 +115,19 @@ public class DoCompare {
     private void analyzeTransaction2(BankTransaction bt) {
         bt.note("===========Fakk==============");
         try {
+            if(pupByAccountMap.containsKey(bt.account)){
+                var pList = pupByAccountMap.get(bt.account);
+                if (pList.size()>1) {
+                    siblings.add(bt);
+                    bt.note("siblings - fitted by account");
+                    return;
+                }                
+                fittedData.merge(pList.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
+                bt.note("account");
+                return;
+            }
+            
+            
             bt.checkForSiblings();
             if (bt.siblingsSuspected) {
                 siblings.add(bt);
@@ -352,12 +365,14 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         listaTransakcji = parser.getListaTransakcji();
         wrongLines = parser.getWrongLines();
         pupilList = loadPreviousData(savedPath);
-        List<Pupil> tmpList = new GAppsParser(pupPath).pupils;
-        if (pupilList == null) {
+        pupilList = new GAppsParser(pupPath, pupilList).pupils;
+        //System.out.println();
+        
+        /*if (pupilList == null) {
             pupilList = tmpList;
         } else {
             updatePupilsAddIfAbsent(pupilList, tmpList);
-        }
+        }*/
 
     }
     
@@ -366,6 +381,13 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     private void makeStructures() {
         pupBySchoolMap = pupilList.stream().collect(Collectors.groupingBy(e -> e.schoolNr));
         pupByKlassMap = pupilList.stream().collect(Collectors.groupingBy(e -> e.klass));
+        pupByAccountMap = new HashMap<>();
+        for (var p: pupilList){
+            for(var acc: p.accountNrs) {
+                pupByAccountMap.merge(acc, new LinkedList(List.of(p)),(o,n)->{o.addAll(n);return o;});
+            }
+        }
+        //
         fittedData = new HashMap<>();
         humanToDecide = new HashMap<>();
         leftOvers = new LinkedList<>();

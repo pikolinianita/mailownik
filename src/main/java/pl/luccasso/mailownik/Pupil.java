@@ -190,6 +190,10 @@ public class Pupil implements Comparable<Pupil>{
             return false;
         }
         
+        if(this.skryptId.equals(other.skryptID)) {
+            return true;
+        }
+        
         if (this.schoolNr != other.schoolNr) {
             return false;
         }
@@ -338,21 +342,28 @@ public class Pupil implements Comparable<Pupil>{
     }
 
     Pupil processTransactions(List<BankTransaction> lisT) {
-        if (lisT != null){
-        for(var bt:lisT){
-            FinancialData.SchoolPayments payValues = DoCompare.finData.schoolToPaymentsMap.get(schoolNr);
-            if (bt.amount == payValues.allYear || bt.amount == payValues.allYearWithSibling ) {
-                AllYear = true;
-            } else if (bt.amount == payValues.oneSemester || bt.amount == payValues.oneSemesterWithSibling) {
-                oneSemester = true;
+        if (lisT != null) {
+            new_transaction:
+            for (var bt : lisT) {
+                for(var ti:transactions){
+                    if(ti.equals(bt)){
+                        break new_transaction;
+                    }
+                }
+                FinancialData.SchoolPayments payValues = DoCompare.finData.schoolToPaymentsMap.get(schoolNr);
+                if (bt.amount == payValues.allYear || bt.amount == payValues.allYearWithSibling) {
+                    AllYear = true;
+                } else if (bt.amount == payValues.oneSemester || bt.amount == payValues.oneSemesterWithSibling) {
+                    oneSemester = true;
+                }
+                if (bt.amount == payValues.allYearWithSibling || bt.amount == payValues.oneSemesterWithSibling) {
+                    this.isSibling = true;
+                }
+                transactions.add(new TransactionInfo(bt));
+                accountNrs.add(bt.account);
+                allPayments += bt.amount;
             }
-            if (bt.amount == payValues.allYearWithSibling || bt.amount == payValues.oneSemesterWithSibling){
-                this.isSibling = true;
-            }
-            transactions.add(new TransactionInfo(bt));
-            accountNrs.add(bt.account);
-            allPayments += bt.amount;
-        }}
+        }
         return this;
     }
 

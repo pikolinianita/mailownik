@@ -58,10 +58,15 @@ public class GAppsParser {
         }
     }
 
-    public GAppsParser(String filePath) {
+    public GAppsParser(String filePath, List<Pupil> dBList) {
         FileReader fR = null;
-        try {
+        if (dBList == null) {
             pupils = new LinkedList<>();
+        } else {
+            pupils = dBList;
+        }
+        
+        try {            
             pupilsI = new LinkedList<PupilImport>();
             fR = new FileReader(filePath);
             Scanner sc = new Scanner(fR);
@@ -70,7 +75,7 @@ public class GAppsParser {
                 PupilImport[] tmp = gson.fromJson(sc.nextLine(), PupilImport[].class);
                 pupilsI.addAll(Arrays.asList(tmp));
             }
-            pupils = ParseToPupils(pupilsI);
+            parseToPupils(pupilsI);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GAppsParser.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -82,19 +87,21 @@ public class GAppsParser {
         }
     }
 
-    private List<Pupil> ParseToPupils(List<PupilImport> pI) {
-        List<Pupil> pList = new LinkedList<>();
+    private void parseToPupils(List<PupilImport> pI) {
+        //List<Pupil> pupils = new LinkedList<>();
         for (var e : pI) {
             if (e.isNice()) {
                 e.toLowerCase();
-                List tmp = pList.stream().filter(f->f.equals(e)).collect(Collectors.toList());
+                List<Pupil> tmp = pupils.stream().filter(f->f.equals(e)).collect(Collectors.toList());
                 //TODO poprawić Sprawdzanie jesli uczen już jest; 
                 if (tmp.isEmpty()){ 
-                    pList.add(new Pupil(e));
-                }
+                    pupils.add(new Pupil(e));
+                } else if(tmp.size()==1){
+                    tmp.get(0).updateValuesWithGoogleData(new Pupil(e));
+                } else System.out.println("Blad w parsowaniu uczniow:" + tmp);
             }
         }
-        return pList;
+        //return pupils;
     }
 
     public List<PupilImport> fakenNauczLudziKomentek() {
