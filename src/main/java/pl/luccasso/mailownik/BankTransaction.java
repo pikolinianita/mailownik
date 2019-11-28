@@ -6,6 +6,7 @@
 package pl.luccasso.mailownik;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -267,6 +268,19 @@ public class BankTransaction {
     BankTransaction divideCashAndReturnNew(int nSiblings) {
         
         return new BankTransaction(this, nSiblings);
+    }
+
+    int forceSchoolFit(Collection<Integer> collS) {
+        int school = -1;
+        int nFits = 0;
+        for (Integer i:collS){
+            if (this.niceString.contains(String.valueOf(i))){
+                school = i;
+                nFits++;
+            }
+        }
+        
+        return nFits >1 ? -1: school;
     }
     
 }

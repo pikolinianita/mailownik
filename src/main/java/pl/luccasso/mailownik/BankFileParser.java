@@ -53,14 +53,16 @@ public class BankFileParser {
         wrongLines = new LinkedList<>();
         FileReader reader = null;
         String tmp;
-        try {
+         try {
             reader = new FileReader(fileName);
             Scanner sc = new Scanner(reader);
             boolean isFirst = true;
             while (sc.hasNext()) {
                 tmp = sc.nextLine();
                 //System.out.println(tmp);
-                if (tmp.contains("mBiznes konto pomocnicze 0711 ... 2221;") && tmp.contains("Wpływy - inne")) {
+                if ((tmp.contains("mBiznes konto pomocnicze 0711 ... 2221;") || tmp.contains("mBiznes konto pomocnicze 6911 ... 2218") 
+                        || tmp.contains("mBiznes konto pomocnicze 2611 ... 2220") || tmp.contains("mBiznes konto pomocnicze 2611 ... 2219"))
+                        && tmp.contains("Wpływy - inne")) {
                     listaTransakcji.add(new BankTransaction(tmp));
                     isFirst = false;
                 } else {
@@ -72,6 +74,7 @@ public class BankFileParser {
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(BankFileParser.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("exception in file read:" );
         } finally {
             try {
                 System.out.println("WL: " + wrongLines);

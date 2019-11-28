@@ -56,6 +56,13 @@ public class GAppsParser {
          klass = klass.strip().toLowerCase();
          
         }
+
+        @Override
+        public String toString() {
+            return "PupilImport{" + "schoolNr=" + schoolNr + ", fName=" + fName + ", lName=" + lName + ", klass=" + klass + ", skryptID=" + skryptID + '}';
+        }
+        
+        
     }
 
     public GAppsParser(String filePath, List<Pupil> dBList) {

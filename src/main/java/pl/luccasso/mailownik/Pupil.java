@@ -6,7 +6,7 @@
 package pl.luccasso.mailownik;
 
 import com.google.gson.Gson;
-import com.jhlabs.image.Histogram;
+//import com.jhlabs.image.Histogram;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
@@ -40,6 +40,7 @@ public class Pupil implements Comparable<Pupil>{
         boolean AllYear;
         boolean oneSemester;
         boolean isSibling;
+        Set <String> familyIDs;
    
     /*Pupil(){
         
@@ -107,7 +108,7 @@ public class Pupil implements Comparable<Pupil>{
     @Override
     public String toString() {
         //return "Uczeń: " + "schoolNr=" + schoolNr + ", fName=" + fName + ", lName=" + lName + ", klass=" + klass + " .";
-        return lName + " " + fName + " ," + klass + " ," + schoolNr;
+        return lName + " " + fName + " ," + klass + " ," + schoolNr + " ," + skryptId;
     }
         
     Pupil(GAppsParser.PupilImport e) {
@@ -189,8 +190,10 @@ public class Pupil implements Comparable<Pupil>{
         if (other == null) {
             return false;
         }
-        
+        //System.out.println("this :" + this);
+        //System.out.println("other :" + other);
         if(this.skryptId.equals(other.skryptID)) {
+            
             return true;
         }
         
