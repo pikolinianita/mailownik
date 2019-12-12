@@ -11,6 +11,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -249,7 +253,8 @@ public class DoCompare {
         } catch (Exception e) {
             leftOvers.add(bt);
             bt.note("------Exception----------");
-            e.printStackTrace(System.out);
+            System.out.println("anal2: -Ex- : " + bt.title);
+            //e.printStackTrace(System.out);
            // Gson gson = new GsonBuilder().setPrettyPrinting().create();
            // System.out.println(gson.toJson(bt));
            // e.printStackTrace(System.out);
@@ -357,8 +362,12 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     private void loadStuff() {
         //listaTransakcji = new BankFileParser("e:/smalllist.txt").getListaTransakcji();
        
+       /* Path cenyPath = Paths.get("data/Ceny.txt");
+        System.out.println(cenyPath);
+        System.out.println(cenyPath.toAbsolutePath());
+        String ceny = cenyPath.toFile().exists() ? cenyPath.toString() : "e:/cenyvsnz.txt";*/
         finData = new FinancialData()
-                .importPaymentPerKlasses("e:/cenyvsnz.txt")
+                .importPaymentPerKlasses("e:/cenyvsnz.txt") //"e:/cenyvsnz.txt
                 .importschools("e:/zajwszk.txt");
         BankFileParser.finData=this.finData;
         var parser = new BankFileParser(bankPath);

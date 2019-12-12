@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ToolTipManager;
 import pl.luccasso.mailownik.BankTransaction;
 import pl.luccasso.mailownik.DoCompare;
 
@@ -36,7 +37,7 @@ class LeftOWindow extends JFrame implements ActionListener {
         
         btList = mainData.getLeftOvers();
         lOPanList = new LinkedList<>();
-      
+        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
         System.out.println("resztki");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JPanel contentPanel = new JPanel();

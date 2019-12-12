@@ -251,7 +251,7 @@ public class BankTransaction {
     }
 
     public void checkForSiblings() {
-        System.out.println(BankFileParser.finData);
+        //System.out.println(BankFileParser.finData);
         if (BankFileParser.finData.isSiblingsValue(amount)) {
             siblingsSuspected = true;
         }

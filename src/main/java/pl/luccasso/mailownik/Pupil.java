@@ -316,6 +316,9 @@ public class Pupil implements Comparable<Pupil>{
             paymentType = "?Suspected?";
             toPay = (zeroes + ones - this.nb) * 35;
         }
+        if (allPayments == 0) {
+            paymentType = "Brak Wpłat";
+        }
         
         /*String paymentType = AllYear ? "Roczna" : (oneSemester ? "semestr" : "Miesieczna");
         int toPay = 0;

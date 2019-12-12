@@ -85,12 +85,18 @@ public class LOPanel extends JPanel implements ActionListener{
         generator = new Random();
         int number = generator.nextInt(10);
         */
-        transaction = new JLabel(bt.niceString);
-        transaction.setToolTipText(bt.saveTransaction());
+        if (bt.niceString == null || bt.niceString.length()<5){
+            transaction = new JLabel(bt.saveTransaction());
+        } else {
+            transaction = new JLabel(bt.niceString);
+        }
+        transaction.setToolTipText("<html><p width=\"500\">" + bt.saveTransaction()+"</p></html>");
+         //"<html><p width=\"500\">" +value+"</p></html>"
         //patternList = new JComboBox(pupilStr);
         var pupArray = pupList.toArray(new Pupil[pupList.size()]);
         Arrays.sort(pupArray);
         patternList = new JComboBox(pupArray);
+        patternList.setSelectedIndex(-1);
         patternList.setEditable(false);
         patternList.addActionListener(this);
         patternList.setMaximumSize(new Dimension(400, 100));

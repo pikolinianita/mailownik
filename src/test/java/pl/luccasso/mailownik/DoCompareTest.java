@@ -47,7 +47,7 @@ public class DoCompareTest {
      */
     @Test
     public void testLoadPrevous() {
-        System.out.println("main");
+       /* System.out.println("main");
         //String[] args = null;
         DoCompare dc = new DoCompare();
         dc.finData = new FinancialData()
@@ -58,7 +58,7 @@ public class DoCompareTest {
         dc.humanToDecide = new HashMap<>();
         dc.siblings = new LinkedList<>();
         dc.wrongLines = new LinkedList<>();
-        dc.save();
+        dc.save();*/
         
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");

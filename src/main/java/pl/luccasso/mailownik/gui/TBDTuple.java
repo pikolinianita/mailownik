@@ -36,7 +36,7 @@ public class TBDTuple extends JPanel {
         bt = key;
         guys = value;
         JLabel tran = new JLabel(bt.niceString);
-        System.out.println(bt.niceString);
+        //System.out.println(bt.niceString);
         add(tran);
         for(var p:guys){
             var lab = new JCheckBox(p.toString());

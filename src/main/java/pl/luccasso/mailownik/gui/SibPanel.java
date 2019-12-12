@@ -44,8 +44,8 @@ public class SibPanel  extends JPanel implements ActionListener{
         isSet = false;
         
         transaction = new JLabel(bt.niceString);
-        transaction.setToolTipText(bt.saveTransaction());
-         
+        transaction.setToolTipText("<html><p width=\"500\">" + bt.saveTransaction() + "</p></html>");
+         //"<html><p width=\"500\">" +value+"</p></html>"
         int nSiblings = 3;
         var level = new JPanel();
         level.setLayout(new BoxLayout(level, BoxLayout.Y_AXIS));
