@@ -68,7 +68,7 @@ public class ConfigF {
     }
 
     //@Override
-    static public String listConfig() {
+    static public String getPupilsConfigLong() {
         return "ConfigF{/n pupPath  = " + pupPath + '}';
     }
     

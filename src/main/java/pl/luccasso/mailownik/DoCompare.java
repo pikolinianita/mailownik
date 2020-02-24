@@ -66,54 +66,58 @@ public class DoCompare {
 
     
     
-    public void doWork() {
-       
-        
+    public void doWork() {        
         loadStuff();
         makeStructures();
-        {
-            System.out.println("---------------org lista trans------");
-            System.out.println(listaTransakcji.size());
-            System.out.println("-------Set----------");
-            System.out.println(pupByKlassMap.keySet());
-            System.out.println("-------Set----------");
-            System.out.println(pupBySchoolMap.keySet());
-        }
+        writeMapsToSout();
         listaTransakcji.forEach(this::analyzeTransaction2);
-        {
-            System.out.println("---------------sibli--------------");
-            System.out.println(siblings.size());
-            System.out.println(siblings);
-            System.out.println("------------Left Overs------------");
-            System.out.println(leftOvers.size());
-            System.out.println(leftOvers);
-            System.out.println("------------Human To Decide---------");
-            System.out.println(humanToDecide.entrySet().size());
-            System.out.println(humanToDecide.entrySet());
-            System.out.println("------------fitted------------------");
-            System.out.println(fittedData.values().stream().flatMap(li->li.stream()).count());
-            System.out.println(fittedData.entrySet());
-        }
+        writeListsToSout(); 
+    }
+
+    void writeListsToSout() {
+        System.out.println("---------------sibli--------------");
+        System.out.println(siblings.size());
+        System.out.println(siblings);
+        System.out.println("------------Left Overs------------");
+        System.out.println(leftOvers.size());
+        System.out.println(leftOvers);
+        System.out.println("------------Human To Decide---------");
+        System.out.println(humanToDecide.entrySet().size());
+        System.out.println(humanToDecide.entrySet());
+        System.out.println("------------fitted------------------");
+        System.out.println(fittedData.values().stream().flatMap(li->li.stream()).count());
+        System.out.println(fittedData.entrySet());
         
+        var tmpList = new LinkedList<>(listaTransakcji);
+        tmpList.removeAll(siblings);
+        tmpList.removeAll(leftOvers);
+        tmpList.removeAll(humanToDecide.keySet());
+        fittedData.values().forEach(e -> {
+            tmpList.removeAll(e);
+        });
         
-            var tmpList = new LinkedList<>(listaTransakcji);
-            tmpList.removeAll(siblings);
-            tmpList.removeAll(leftOvers);
-            tmpList.removeAll(humanToDecide.keySet());
-            fittedData.values().forEach(e->{tmpList.removeAll(e);});
-            //tmpList.removeAll()
-            System.out.println("------------F lost------------------");
-            System.out.println(tmpList.size());   
-            System.out.println(tmpList);        
-            System.out.println("--------- end ---------");
-            System.out.println("---------------org lista trans------");
-            System.out.println(listaTransakcji.size());
-            System.out.println("---------------org lista trans set------");
-            System.out.println(new HashSet(listaTransakcji).size());
-            System.out.println("---------------mapa----------------------");
-            Map tmpMap = listaTransakcji.stream().collect(Collectors.groupingBy((tr)->tr.matchNotes));
-            System.out.println(tmpMap.entrySet().size());
-            System.out.println(tmpMap);
+        //tmpList.removeAll()
+        System.out.println("------------F lost------------------");
+        System.out.println(tmpList.size());
+        System.out.println(tmpList);
+        System.out.println("--------- end ---------");
+        System.out.println("---------------org lista trans------");
+        System.out.println(listaTransakcji.size());
+        System.out.println("---------------org lista trans set------");
+        System.out.println(new HashSet(listaTransakcji).size());
+        System.out.println("---------------mapa----------------------");
+        Map tmpMap = listaTransakcji.stream().collect(Collectors.groupingBy((tr) -> tr.matchNotes));
+        System.out.println(tmpMap.entrySet().size());
+        System.out.println(tmpMap);
+    }
+
+    void writeMapsToSout() {
+        System.out.println("---------------org lista trans------");
+        System.out.println(listaTransakcji.size());
+        System.out.println("-------Set----------");
+        System.out.println(pupByKlassMap.keySet());
+        System.out.println("-------Set----------");
+        System.out.println(pupBySchoolMap.keySet());
     }
 
     private void analyzeTransaction2(BankTransaction bt) {
