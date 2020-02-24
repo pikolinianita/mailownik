@@ -45,6 +45,11 @@ class TransactionInfo {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "TransactionInfo{" + "date=" + date + ", amount=" + amount + ", title=" + title + ", account=" + account + '}';
+    }
     
     
     

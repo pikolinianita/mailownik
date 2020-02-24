@@ -51,8 +51,7 @@ public class PikaLoggerTest {
         File f = new File("logtest.txt");
         assertEquals(true, f.isFile());
         assertEquals(58, f.length());
-        // TODO review the generated test code and remove the default call to fail.
-        
-    }
+        }
+    
     
 }

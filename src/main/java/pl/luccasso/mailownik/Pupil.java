@@ -62,6 +62,10 @@ public class Pupil implements Comparable<Pupil>{
    }     
 
    //Pupil(){};
+   /**
+    * Do wczytywania danych z pliku "wynikowego".csv 
+    * @param line linijka z pliku csv
+    */
    
     Pupil(String line) {
         var sc = new Scanner(line);
@@ -71,24 +75,16 @@ public class Pupil implements Comparable<Pupil>{
         this.id = sc.nextInt();
         this.skryptId = sc.next();
         this.schoolNr = sc.nextInt();
-        this.fName = sc.next();
-        System.out.println(fName);
-        this.lName = sc.next();
-        System.out.println(lName);
-        this.klass = sc.next();
-        System.out.println(klass);
-        this.nTel2 = sc.next();
-        System.out.println(nTel2);
-        this.nTel = sc.next();
-        System.out.println(nTel);
+        this.fName = sc.next();       
+        this.lName = sc.next();        
+        this.klass = sc.next();       
+        this.nTel2 = sc.next();     
+        this.nTel = sc.next();     
         this.eMail = sc.next();
-        System.out.println(eMail);
-        System.out.println("-----------------");
+        
         this.timeSheet = new String[20];
-        for (int i = 0; i < 20; i++) {
-            
+        for (int i = 0; i < 20; i++) {            
             this.timeSheet[i] = sc.next();
-            System.out.println(timeSheet[i]);
         }
         sc.next();
         sc.next();
@@ -339,6 +335,11 @@ public class Pupil implements Comparable<Pupil>{
                         fName,lName,klass, nTel2, nTel,eMail, 
                         ob, String.valueOf(ones), String.valueOf(zeroes), String.valueOf(nb), String.valueOf(allPayments), String.valueOf(toPay), paymentType,String.valueOf(toPayTotal), String.valueOf(nZajec),tr, acc )+"\n";
     }
+    
+    public String getPupilDataNoTimeSheet(){
+        return String.join(", ", getShortUniqueString(), String.valueOf(allPayments), transactions.toString(), accountNrs.toString());
+    }
+            
     
     public String getShortUniqueString(){
         return String.join(", ", lName, fName, String.valueOf(schoolNr), klass );

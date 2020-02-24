@@ -44,16 +44,21 @@ public class FinancialDataTest {
      */
     @Test
     public void testImportPaymentPerKlasses() {
-       /* System.out.println("importPaymentPerKlasses");
-        String filePatch = "e:/cenyvsnz.txt";
+        System.out.println("importPaymentPerKlasses");
+        String filePatch = "e:/AsiowyTest/cenyvsnz.txt";
         FinancialData instance = new FinancialData();
-        FinancialData expResult = null;
-        FinancialData result = instance.importPaymentPerKlasses(filePatch);
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        System.out.println(gson.toJson(instance));*/
-        //assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        
+        
+        instance.importPaymentPerKlasses(filePatch);
+        FinancialData.SchoolPayments classes13 = instance.nKlassesToPaymentMap.get(13);
+        
+        
+        assertTrue(378 == classes13.allYear);
+        assertTrue(189 == classes13.oneSemester);
+        assertEquals(712,classes13.allYearWithSibling);
+        assertEquals(356,classes13.oneSemesterWithSibling);
+        
+       
     }
 
     /**
@@ -61,18 +66,14 @@ public class FinancialDataTest {
      */
     @Test
     public void testImportschools() {
-       /* System.out.println("importschools");
-        String filePatch = "e:/zajwszk.txt";
-        FinancialData instance = new FinancialData().importPaymentPerKlasses("e:/cenyvsnz.txt");
-        FinancialData expResult = null;
-        FinancialData result = instance.importschools(filePatch);
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        System.out.println(gson.toJson(instance));
-        */
-        //assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        System.out.println("importschools");
+        String filePatch = "e:/AsiowyTest/zajwszk.txt";
+        FinancialData instance = new FinancialData().importPaymentPerKlasses("e:/AsiowyTest/cenyvsnz.txt").importschools(filePatch);
+        
+        
+       
     }
+    
     @Test
     public void testSibValues(){
        var finData = new FinancialData()

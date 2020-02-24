@@ -26,7 +26,8 @@ class PikaFormatter extends Formatter {
  */
 public class PikaLogger {    
     
-    private static  Logger logger;
+    private static Logger logger;
+    
     /**
      * @param name
      * @param path
