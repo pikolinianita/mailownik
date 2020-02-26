@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pl.luccasso.mailownik;
+package pl.luccasso.mailownik.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -20,13 +20,13 @@ import java.util.Scanner;
  * @author piko
  */
 public class ConfigF {
-    static String pupPath = "e:/test/pupils.txt";
-    static String bankPath = "e:/test/listatestowa.csv";
-    static String savedPath = "e:/test/output.tsv";
-    static String logFile = "e:/test/logs.txt";
-    static String payPerClass = "e:/cenyvsnz.txt"; 
-    static String ClassPerSchool  ="e:/zajwszk.txt";
-    static String configPath = "e:/config.txt";
+     static String pupPath = "e:/asiowytest/pupils14.txt";
+     static String bankPath = "e:/asiowytest/listatestowa14a.csv";
+     static String savedPath = "e:/asiowytest/outputtst.txt";
+     static String logFile = "e:/asiowytest/logs.txt";
+     static String payPerClass = "e:/asiowytest/cenyvsnz.txt"; 
+     static String ClassPerSchool  ="e:/asiowytest/zajwszk.txt";
+     static String configPath = "e:/asiowytest/config.txt";
     
     static void saveToFile(String f) throws IOException{
        
@@ -70,6 +70,62 @@ public class ConfigF {
     //@Override
     static public String getPupilsConfigLong() {
         return "ConfigF{/n pupPath  = " + pupPath + '}';
+    }
+
+    public static String getPupPath() {
+        return pupPath;
+    }
+
+    public static String getBankPath() {
+        return bankPath;
+    }
+
+    public static String getSavedPath() {
+        return savedPath;
+    }
+
+    public static String getLogFile() {
+        return logFile;
+    }
+
+    public static String getPayPerClass() {
+        return payPerClass;
+    }
+
+    public static String getClassPerSchool() {
+        return ClassPerSchool;
+    }
+
+    public static String getConfigPath() {
+        return configPath;
+    }
+
+    public static void setPupPath(String aPupPath) {
+        pupPath = aPupPath;
+    }
+
+    public static void setBankPath(String aBankPath) {
+        bankPath = aBankPath;
+    }
+
+    public static void setSavedPath(String aSavedPath) {
+        savedPath = aSavedPath;
+    }
+
+    public static void setLogFile(String aLogFile) {
+        logFile = aLogFile;
+    }
+
+    public static void setPayPerClass(String aPayPerClass) {
+        payPerClass = aPayPerClass;
+    }
+
+    public static void setClassPerSchool(String aClassPerSchool) {
+        ClassPerSchool = aClassPerSchool;
+    }
+
+    public static void setConfigPath(String aConfigPath) {
+        configPath = aConfigPath;
     }
     
     

@@ -69,9 +69,9 @@ public class DoCompare {
     public void doWork() {        
         loadStuff();
         makeStructures();
-        writeMapsToSout();
+        writeMapsToSout(); //debug
         listaTransakcji.forEach(this::analyzeTransaction2);
-        writeListsToSout(); 
+        writeListsToSout(); //debug
     }
 
     void writeListsToSout() {

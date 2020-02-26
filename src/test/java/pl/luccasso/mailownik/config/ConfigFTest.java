@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pl.luccasso.mailownik;
+package pl.luccasso.mailownik.config;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -80,5 +80,6 @@ public class ConfigFTest {
         assertTrue(ConfigF.logFile.toLowerCase().contains("asiowytest"));
         
     }
-    
+
+        
 }
