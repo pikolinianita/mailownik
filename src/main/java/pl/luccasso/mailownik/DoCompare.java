@@ -25,13 +25,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.Scanner;
+import pl.luccasso.mailownik.config.ConfigF;
 
 /**
  *
  * @author piko
  */
 public class DoCompare {
-    String pupPath, bankPath, savedPath;
+    //String pupPath, bankPath, savedPath;
     //czyste dane:
     static FinancialData finData;
     List<BankTransaction> listaTransakcji;
@@ -59,9 +60,9 @@ public class DoCompare {
     }
     
     public DoCompare() {
-        pupPath = "e:/pupils.txt";
-        bankPath = "e:/listatestowa.csv";
-        savedPath = null;
+        //pupPath = "e:/pupils.txt";
+        //bankPath = "e:/listatestowa.csv";
+        //savedPath = null;
     }
 
     
@@ -363,7 +364,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     }
 
     //List<Pupil> nameSearch(List<Pupil>)
-    private void loadStuff() {
+    void loadStuff() {
         //listaTransakcji = new BankFileParser("e:/smalllist.txt").getListaTransakcji();
        
        /* Path cenyPath = Paths.get("data/Ceny.txt");
@@ -371,14 +372,14 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         System.out.println(cenyPath.toAbsolutePath());
         String ceny = cenyPath.toFile().exists() ? cenyPath.toString() : "e:/cenyvsnz.txt";*/
         finData = new FinancialData()
-                .importPaymentPerKlasses("e:/cenyvsnz.txt") //"e:/cenyvsnz.txt
-                .importschools("e:/zajwszk.txt");
+                .importPaymentPerKlasses(ConfigF.getPayPerClass()) //"e:/cenyvsnz.txt
+                .importschools(ConfigF.getClassPerSchool());
         BankFileParser.finData=this.finData;
-        var parser = new BankFileParser(bankPath);
+        var parser = new BankFileParser(ConfigF.getBankPath());
         listaTransakcji = parser.getListaTransakcji();
         wrongLines = parser.getWrongLines();
-        pupilList = loadPreviousData(savedPath);
-        pupilList = new GAppsParser(pupPath, pupilList).pupils;
+        pupilList = loadPreviousData(ConfigF.getSavedPath());
+        pupilList = new GAppsParser(ConfigF.getPupPath(), pupilList).pupils;
         //System.out.println();
         
         /*if (pupilList == null) {
@@ -409,11 +410,11 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     }
 
     public void SetBankPath(String path){
-        this.bankPath = path;
+        ConfigF.setBankPath(path); //TODO remove this Function
     }
     
     public void SetPupPath (String path){
-        this.pupPath = path;
+       ConfigF.setPupPath(path); //TODO remove this Function
     }
     
     public void addToFittedData(Pupil p, BankTransaction bt){
@@ -562,7 +563,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     }
 
     public void SetDBPath(String dBPath) {
-        savedPath = dBPath;
+        ConfigF.setSavedPath(dBPath);
     }
 
     private void updatePupilsAddIfAbsent(List<Pupil> oldList, List<Pupil> googleList) {

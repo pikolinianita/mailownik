@@ -54,41 +54,30 @@ public class GAppsParser {
          fName = fName.strip().toLowerCase();
          lName = lName.strip().toLowerCase();
          klass = klass.strip().toLowerCase();
-         
         }
     }
 
     public GAppsParser(String filePath, List<Pupil> dBList) {
-        FileReader fR = null;
         if (dBList == null) {
             pupils = new LinkedList<>();
         } else {
             pupils = dBList;
         }
         
-        try {            
-            pupilsI = new LinkedList<PupilImport>();
-            fR = new FileReader(filePath);
-            Scanner sc = new Scanner(fR);
+        try ( Scanner sc = new Scanner(new FileReader(filePath))){            
+            pupilsI = new LinkedList<PupilImport>();            
             Gson gson = new Gson();
             while (sc.hasNext()) {
                 PupilImport[] tmp = gson.fromJson(sc.nextLine(), PupilImport[].class);
                 pupilsI.addAll(Arrays.asList(tmp));
-            }
-            parseToPupils(pupilsI);
+            }            
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GAppsParser.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                fR.close();
-            } catch (IOException ex) {
-                Logger.getLogger(GAppsParser.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        } 
+        parseToPupils(pupilsI);
     }
 
     private void parseToPupils(List<PupilImport> pI) {
-        //List<Pupil> pupils = new LinkedList<>();
         for (var e : pI) {
             if (e.isNice()) {
                 e.toLowerCase();
@@ -101,10 +90,9 @@ public class GAppsParser {
                 } else System.out.println("Blad w parsowaniu uczniow:" + tmp);
             }
         }
-        //return pupils;
     }
 
-    public List<PupilImport> fakenNauczLudziKomentek() {
+    List<PupilImport> fakenNauczLudziKomentek() {
         var fakenEntries = new LinkedList<PupilImport>();
         for (var p : pupilsI) {
             for (var s : p.timeSheet) {
@@ -117,10 +105,10 @@ public class GAppsParser {
         return fakenEntries;
     }
     
-     public List<PupilImport> fakenKlasses() {
-         var fakenEntries = pupilsI.stream()
-                 .filter( (ele) -> { return ! ele.klass.toLowerCase().matches("\\b\\d[a-z]\\b");  })
-                 .collect(Collectors.toCollection(LinkedList::new));
-         return fakenEntries;
+    List<PupilImport> fakenKlasses() {
+        var fakenEntries = pupilsI.stream()
+                .filter( (ele) -> { return ! ele.klass.toLowerCase().matches("\\b\\d[a-z]\\b");  })
+                .collect(Collectors.toCollection(LinkedList::new));
+        return fakenEntries;
      }
 }

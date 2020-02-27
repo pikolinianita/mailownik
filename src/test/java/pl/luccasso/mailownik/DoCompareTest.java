@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static pl.luccasso.mailownik.DoCompare.finData;
+import pl.luccasso.mailownik.config.ConfigF;
 
 /**
  *
@@ -64,6 +65,26 @@ public class DoCompareTest {
         //fail("The test case is a prototype.");
     }
 
+    @Test
+    public void testLoadStuff(){
+        System.out.println("------------------load Stuff--------------");
+         var dc = new DoCompare();
+         dc.loadStuff();
+        // System.out.println(dc.listaTransakcji);
+        // System.out.println(dc.wrongLines);
+         System.out.println(dc.pupilList);
+         for (var p : dc.pupilList){
+            System.out.println(p.getShortUniqueString());
+    }}
     
+    @Test
+    public void testLoadPrevData(){
+        System.out.println("------------------prev--------------");
+        var dc = new DoCompare();
+        var pupilList = dc.loadPreviousData(ConfigF.getSavedPath());
+        for (var p : pupilList){
+            System.out.println(p.getShortUniqueString());
+        }
+    }
     
 }

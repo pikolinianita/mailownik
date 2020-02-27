@@ -21,7 +21,7 @@ import java.util.Scanner;
  */
 public class ConfigF {
      static String pupPath = "e:/asiowytest/pupils14.txt";
-     static String bankPath = "e:/asiowytest/listatestowa14a.csv";
+     static String bankPath = "e:/asiowytest/listatestowa14b.csv";
      static String savedPath = "e:/asiowytest/outputtst.txt";
      static String logFile = "e:/asiowytest/logs.txt";
      static String payPerClass = "e:/asiowytest/cenyvsnz.txt"; 

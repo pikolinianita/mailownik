@@ -51,11 +51,8 @@ public class BankFileParser {
      BankFileParser(String fileName) {
         listaTransakcji = new LinkedList<>();
         wrongLines = new LinkedList<>();
-        FileReader reader = null;
         String tmp;
-        try {
-            reader = new FileReader(fileName);
-            Scanner sc = new Scanner(reader);
+        try (var sc = new Scanner(new FileReader(fileName) )){
             boolean isFirst = true;
             while (sc.hasNext()) {
                 tmp = sc.nextLine();
@@ -66,19 +63,16 @@ public class BankFileParser {
                 } else {
                     if (!isFirst) {
                         wrongLines.add(tmp);
-                        System.out.println("Bląd!!! : " + tmp);
+                        //System.out.println("Bląd!!! : " + tmp);
                     }
                 }
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(BankFileParser.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("FileNotFoundException");
         } finally {
-            try {
-                System.out.println("WL: " + wrongLines);
-                reader.close();
-            } catch (IOException ex) {
-                Logger.getLogger(BankFileParser.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            //System.out.println("WL: " + wrongLines);
+                
         }
     }
 
