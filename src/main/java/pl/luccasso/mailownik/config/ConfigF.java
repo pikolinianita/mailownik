@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -28,6 +29,15 @@ public class ConfigF {
      static String ClassPerSchool  ="e:/asiowytest/zajwszk.txt";
      static String configPath = "e:/asiowytest/config.txt";
     
+     static ArrayList<String> commonAccounts ;
+     
+     //TODO dopisać że to z pliku;
+     static{
+         commonAccounts = new ArrayList<>();
+         commonAccounts.add("36124025971111000031744632");
+     }
+     
+     
     static void saveToFile(String f) throws IOException{
        
         try (java.io.BufferedWriter fw = new BufferedWriter(new FileWriter(f))) {
@@ -47,7 +57,7 @@ public class ConfigF {
         }
     }
     
-   static void readFromFile(String f) throws FileNotFoundException{
+   static void readConfigFromFile(String f) throws FileNotFoundException{
        
         try (java.util.Scanner sc = new Scanner((new FileReader(f)))) {
             pupPath = sc.next();
@@ -62,11 +72,12 @@ public class ConfigF {
     }
 
     
-    static void setTestConfig() throws FileNotFoundException{
-         readFromFile("e:/asiowytest/config.txt");
+    static public void restoreCleanTestConfiguration() throws FileNotFoundException{
+         readConfigFromFile("e:/asiowytest/config.txt");
          
     }
-
+    
+    
     //@Override
     static public String getPupilsConfigLong() {
         return "ConfigF{/n pupPath  = " + pupPath + '}';

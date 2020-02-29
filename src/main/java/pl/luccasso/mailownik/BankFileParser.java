@@ -68,8 +68,9 @@ public class BankFileParser {
                 }
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(BankFileParser.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(BankFileParser.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("FileNotFoundException");
+            throw new RuntimeException("Nie ma pliku Bankowego z przelewami", ex);
         } finally {
             //System.out.println("WL: " + wrongLines);
                 

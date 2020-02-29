@@ -180,7 +180,7 @@ public class Pupil implements Comparable<Pupil>{
         return true;
     }
     
-    public boolean equals(GAppsParser.PupilImport other) {
+    public boolean hasSameSkryptIdAs(GAppsParser.PupilImport other) {
         
         if (other == null) {
             return false;
@@ -190,7 +190,9 @@ public class Pupil implements Comparable<Pupil>{
             return true;
         }
         
-        if (this.schoolNr != other.schoolNr) {
+        return false;
+        
+       /* if (this.schoolNr != other.schoolNr) {
             return false;
         }
         if (!Objects.equals(this.fName, other.fName)) {
@@ -202,7 +204,7 @@ public class Pupil implements Comparable<Pupil>{
         if (!Objects.equals(this.klass, other.klass)) {
             return false;
         }
-        return true;
+        return true;*/
     }
     
     

@@ -7,6 +7,8 @@ package pl.luccasso.mailownik.config;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +31,11 @@ public class ConfigFTest {
     
     @AfterAll
     public static void tearDownClass() {
+        try {
+            ConfigF.restoreCleanTestConfiguration();
+        } catch (FileNotFoundException ex) {
+           
+        }
     }
     
     @BeforeEach
@@ -45,7 +52,7 @@ public class ConfigFTest {
     @Test
     public void testSaveToFile() throws Exception {
         System.out.println("saveToFile");
-        ConfigF.readFromFile("e:/config.txt");
+        ConfigF.readConfigFromFile("e:/config.txt");
         
         
         ConfigF.saveToFile("e:/test/UnitTestConfig.txt");
@@ -55,14 +62,14 @@ public class ConfigFTest {
     }
 
     /**
-     * Test of readFromFile method, of class ConfigF.
+     * Test of readConfigFromFile method, of class ConfigF.
      */
     @Test
     public void testReadFromFile() throws Exception {
         System.out.println("readFromFile");
         
         ConfigF.bankPath = "";
-        ConfigF.readFromFile("e:/config.txt");
+        ConfigF.readConfigFromFile("e:/config.txt");
         assertEquals("e:/test/listatestowa.csv", ConfigF.bankPath);
         
     }
@@ -74,7 +81,7 @@ public class ConfigFTest {
         ConfigF.logFile = "";
         
         //When
-        ConfigF.setTestConfig();
+        ConfigF.restoreCleanTestConfiguration();
         
         //Then
         assertTrue(ConfigF.logFile.toLowerCase().contains("asiowytest"));

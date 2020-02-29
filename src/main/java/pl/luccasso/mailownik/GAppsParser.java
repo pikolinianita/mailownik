@@ -81,7 +81,7 @@ public class GAppsParser {
         for (var e : pI) {
             if (e.isNice()) {
                 e.toLowerCase();
-                List<Pupil> tmp = pupils.stream().filter(f->f.equals(e)).collect(Collectors.toList());
+                List<Pupil> tmp = pupils.stream().filter(f->f.hasSameSkryptIdAs(e)).collect(Collectors.toList());
                 //TODO poprawić Sprawdzanie jesli uczen już jest; 
                 if (tmp.isEmpty()){ 
                     pupils.add(new Pupil(e));

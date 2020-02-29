@@ -27,9 +27,9 @@ public class BankFileParserTest {
      */
     @Test
     public void testGetListaTransakcji() {
+        System.out.println("------------------testGetListaTransakcji--------------");
         
-        var bp = new BankFileParser(ConfigF.getBankPath());
-        
+        var bp = new BankFileParser(ConfigF.getBankPath());        
         assertEquals(15 , bp.listaTransakcji.size());
         
     }
@@ -54,7 +54,13 @@ public class BankFileParserTest {
     
     @Test
     public void testWrongFileName(){
-        var bp = new BankFileParser("u:/uhuh.xxx");
+        System.out.println("------------------testWrongFileName--------------");
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+        var bp = new BankFileParser("u:/uhuh.xxx"); });
+        
+        assertTrue(exception.getMessage()
+                .contains("Nie ma pliku Bankowego z przelewami"));
+        
     }
     
     /**

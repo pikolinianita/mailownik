@@ -5,10 +5,14 @@
  */
 package pl.luccasso.mailownik;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +44,14 @@ public class DoCompareTest {
     }
     
     @AfterEach
-    public void tearDown() {
+    public void tearDown()  {
+        try {
+            ConfigF.restoreCleanTestConfiguration();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DoCompareTest.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erron in ConfigF.restoreCleanTestConfiguration() klase doCompareTest");
+            throw new RuntimeException("Erron in ConfigF.restoreCleanTestConfiguration() klase doCompareTest",ex);
+        }
     }
 
     /**
@@ -67,7 +78,7 @@ public class DoCompareTest {
 
     @Test
     public void testLoadStuff(){
-        System.out.println("------------------load Stuff--------------");
+        System.out.println("------------------testLoadStuff--------------");
          var dc = new DoCompare();
          dc.loadStuff();
         // System.out.println(dc.listaTransakcji);
@@ -75,16 +86,58 @@ public class DoCompareTest {
          System.out.println(dc.pupilList);
          for (var p : dc.pupilList){
             System.out.println(p.getShortUniqueString());
-    }}
+    }
+         assertEquals(15,dc.pupilList.size());
+    }
     
     @Test
     public void testLoadPrevData(){
-        System.out.println("------------------prev--------------");
+        System.out.println("------------------testLoadPrevData--------------");
         var dc = new DoCompare();
         var pupilList = dc.loadPreviousData(ConfigF.getSavedPath());
         for (var p : pupilList){
             System.out.println(p.getShortUniqueString());
         }
+        assertEquals(15,pupilList.size());
+    
+        pupilList = new DoCompare().loadPreviousData("e:/asiowytest/outputtstless.txt");
+        assertEquals(13,pupilList.size());
+    }
+    
+    @Test
+    public void testLoadSomeFromOutputAndSomeNewFromGoogle(){
+        System.out.println("------------------testLoadSomeFromOutputAndSomeNewFromGoogle()--------------");
+        ConfigF.setSavedPath("e:/asiowytest/outputtstless.txt");
+        
+        var dc = new DoCompare();
+        dc.loadStuff();
+        
+        assertEquals(15,dc.pupilList.size());
+        assertEquals(15,new HashSet(dc.pupilList).size());
+    }
+    
+    @Test
+    public void testLoadSomeFromOutputAndSomeNewFromGoogle_WithOutputSchoolAltered(){
+        System.out.println("------------------testLoadSomeFromOutputAndSomeNewFromGoogle_897()--------------");
+        ConfigF.setSavedPath("e:/asiowytest/output15SP897.txt");
+        
+        var dc = new DoCompare();
+        dc.loadStuff();
+        
+        long hasShoolNr897 = dc.pupilList.stream()
+                .filter( p-> p.isMySchool(897))
+                .count();
+        assertEquals(13,hasShoolNr897);
+    }
+    @Test
+    public void testLoadSomeFromOutputAndSomeNewFromGoogle_AllUnique(){
+        System.out.println("------------------testLoadSomeFromOutputAndSomeNewFromGoogle_AllUnique()--------------");
+        ConfigF.setSavedPath("e:/asiowytest/output15SkrIdChanged.txt");
+        
+        var dc = new DoCompare();
+        dc.loadStuff();
+        
+        assertEquals(28,dc.pupilList.size());
     }
     
 }
