@@ -6,9 +6,7 @@
 package pl.luccasso.mailownik;
 
 import com.google.gson.Gson;
-import com.jhlabs.image.Histogram;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;

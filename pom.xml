@@ -50,6 +50,18 @@
                         <!-- version 2.19.1 is broken on jenkins -->
                         <version>3.0.0-M4</version>
                     </plugin>
+                    
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-site-plugin</artifactId>
+                        <version>3.7.1</version>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-project-info-reports-plugin</artifactId>
+                        <version>3.0.0</version>
+                    </plugin>
+                    
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-shade-plugin</artifactId>
@@ -70,7 +82,43 @@
                             </execution>
                         </executions>
                     </plugin>
+                    
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.8.5</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    
                 </plugins>
     </build>
+    
+    <reporting>
+        <plugins>
+            <plugin>
+                <configuration>
+                    <effort>Max</effort>
+                    <threshold>Default</threshold>
+                </configuration>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>3.1.12.2</version>
+            </plugin>
+        </plugins>
+    </reporting>
+    
     <name>Mailownik</name>
 </project>

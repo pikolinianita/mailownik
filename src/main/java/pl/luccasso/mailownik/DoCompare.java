@@ -5,17 +5,11 @@
  */
 package pl.luccasso.mailownik;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -295,82 +289,10 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         return tmp;
     }    
     
-    private void analyzeTransaction(BankTransaction bt) {
-        try {
-            bt.checkForSiblings();
-            if (bt.siblingsSuspected) {
-                siblings.add(bt);
-                return;
-            }
-            List<Pupil> tmpList;
-            if (!bt.hasDubiousSchool) {
-                tmpList = new LinkedList(pupBySchoolMap.get(Integer.valueOf(bt.school)));
-                tmpList.removeIf(p -> !p.isMylNameHere(bt.niceString));
-                //TODO better last check, Adding two lists (merge?)
-                if (tmpList.size() == 1) {
-                    fittedData.merge(tmpList.get(0), List.of(bt), (o, n) -> {
-                        o.addAll(n);
-                        return o;
-                    });
-                } else if (tmpList.size() > 1) {
-                    int index = -1;
-                    for (int i = 0; i < tmpList.size(); i++) {
-                        var e = tmpList.get(i);
-                        if (bt.hasDubiousSchool) {
-                            if (e.isMyKlassHere(bt.niceString)) {
-                                if (index == -1) {
-                                    index = tmpList.indexOf(e);
-                                } else {
-                                    index = -100;
-                                }
-                            }
-                        } else {
-                            if (e.isMyKlass(bt.klass)) {
-                                if (index == -1) {
-                                    index = tmpList.indexOf(e);
-                                } else {
-                                    index = -100;
-                                }
-                            }
-                        }
-                    }
-                    if (index > -1) {
-                        fittedData.merge(tmpList.get(index), List.of(bt), (o, n) -> {
-                            o.addAll(n);
-                            return o;
-                        });
-                    } else {
-                        leftOvers.add(bt);
-                    }
-                } else {
-                    leftOvers.add(bt);
-                }
-            } else if (!bt.hasDubiousKlass) {
-                tmpList = new LinkedList(pupByKlassMap.get(bt.klass));
-                tmpList.removeIf(p -> !p.isMylNameHere(bt.niceString));
-                //TODO better last check, Adding two lists (merge?)
-                if (tmpList.size() == 1) {
-                    fittedData.merge(tmpList.get(0), List.of(bt), (o, n) -> {o.addAll(n);return o;});
-                } else {
-                    humanToDecide.put(bt, tmpList);
-                }
-            } else {
-                System.out.println(bt);
-                leftOvers.add(bt);
-            }
-        } catch (Exception e) {
-            leftOvers.add(bt);
-        }
-    }
-
+    
     //List<Pupil> nameSearch(List<Pupil>)
     void loadStuff() {
-        //listaTransakcji = new BankFileParser("e:/smalllist.txt").getListaTransakcji();
-       
-       /* Path cenyPath = Paths.get("data/Ceny.txt");
-        System.out.println(cenyPath);
-        System.out.println(cenyPath.toAbsolutePath());
-        String ceny = cenyPath.toFile().exists() ? cenyPath.toString() : "e:/cenyvsnz.txt";*/
+        
         finData = new FinancialData()
                 .importPaymentPerKlasses(ConfigF.getPayPerClass()) //"e:/cenyvsnz.txt
                 .importschools(ConfigF.getClassPerSchool());
@@ -380,13 +302,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         wrongLines = parser.getWrongLines();
         pupilList = loadPreviousData(ConfigF.getSavedPath());
         pupilList = new GAppsParser(ConfigF.getPupPath(), pupilList).pupils;
-        //System.out.println();
         
-        /*if (pupilList == null) {
-            pupilList = tmpList;
-        } else {
-            updatePupilsAddIfAbsent(pupilList, tmpList);
-        }*/
 
     }
     

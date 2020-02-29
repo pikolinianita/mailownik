@@ -8,7 +8,6 @@ package pl.luccasso.mailownik;
 import com.google.gson.Gson;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;

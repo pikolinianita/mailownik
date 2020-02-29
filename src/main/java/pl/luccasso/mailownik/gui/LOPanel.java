@@ -5,7 +5,7 @@
  */
 package pl.luccasso.mailownik.gui;
 
-import java.awt.Component;
+
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,15 +17,10 @@ import java.util.Random;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ListCellRenderer;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import pl.luccasso.mailownik.BankTransaction;
-import pl.luccasso.mailownik.DoCompare;
 import pl.luccasso.mailownik.Pupil;
 
 
