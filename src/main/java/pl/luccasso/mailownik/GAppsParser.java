@@ -83,9 +83,9 @@ public class GAppsParser {
                 List<Pupil> tmp = pupils.stream().filter(f->f.hasSameSkryptIdAs(e)).collect(Collectors.toList());
                 //TODO poprawić Sprawdzanie jesli uczen już jest; 
                 if (tmp.isEmpty()){ 
-                    pupils.add(new Pupil(e));
+                    pupils.add(new SinglePupil(e));
                 } else if(tmp.size()==1){
-                    tmp.get(0).updateValuesWithGoogleData(new Pupil(e));
+                    tmp.get(0).updateValuesWithGoogleData(new SinglePupil(e));
                 } else System.out.println("Blad w parsowaniu uczniow:" + tmp);
             }
         }

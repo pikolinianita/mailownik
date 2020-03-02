@@ -309,11 +309,11 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     
     
     private void makeStructures() {
-        pupBySchoolMap = pupilList.stream().collect(Collectors.groupingBy(e -> e.schoolNr));
-        pupByKlassMap = pupilList.stream().collect(Collectors.groupingBy(e -> e.klass));
+        pupBySchoolMap = pupilList.stream().collect(Collectors.groupingBy(e -> e.getSchoolNr()));
+        pupByKlassMap = pupilList.stream().collect(Collectors.groupingBy(e -> e.getKlass()));
         pupByAccountMap = new HashMap<>();
         for (var p: pupilList){
-            for(var acc: p.accountNrs) {
+            for(var acc: p.getAccountNrs()) {
                 pupByAccountMap.merge(acc, new LinkedList(List.of(p)),(o,n)->{o.addAll(n);return o;});
             }
         }
@@ -459,7 +459,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
             sc = new Scanner(fr);
             sc.nextLine();
             while(sc.hasNext()){
-                 pupList.add(new Pupil(sc.nextLine()));
+                 pupList.add(new SinglePupil(sc.nextLine()));
             }
             sc.close();
             return pupList;
@@ -485,9 +485,9 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     private void updatePupilsAddIfAbsent(List<Pupil> oldList, List<Pupil> googleList) {
         next_pupil:
         for (var p : googleList) {
-            String ID = p.skryptId;
+            String ID = p.getSkryptId();
             for (var op : oldList) {
-                if (ID.equals(op.skryptId)) {
+                if (ID.equals(op.getSkryptId())) {
                     op.updateValuesWithGoogleData(p);
                     break next_pupil;
                 }

@@ -50,7 +50,7 @@ public class PupilConstructorTest {
     try(var sc = new Scanner(new BufferedReader(new FileReader("e:/Asiowytest/outputTst.txt")))){
             sc.nextLine();
             while (sc.hasNext()){
-                pupils.add(new Pupil(sc.nextLine()));
+                pupils.add(new SinglePupil(sc.nextLine()));
                 System.out.println(pupils.get(pupils.size()-1).getPupilDataNoTimeSheet());
             }
         
