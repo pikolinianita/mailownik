@@ -121,7 +121,7 @@ public class MainWindow extends JPanel implements ActionListener{
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = jfc.getSelectedFile();
                         dBPath = selectedFile.getAbsolutePath();
-                        MainWindow.mainData.SetDBPath(dBPath);
+                        MainWindow.mainData.setDBPath(dBPath);
 			System.out.println(selectedFile.getAbsolutePath());
                         dBLabel.setText("Plik z istniejącą bazą Danych to: " + dBPath);
         }
@@ -136,7 +136,7 @@ public class MainWindow extends JPanel implements ActionListener{
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = jfc.getSelectedFile();
                         bankPath = selectedFile.getAbsolutePath();
-                        MainWindow.mainData.SetBankPath(bankPath);
+                        MainWindow.mainData.setBankPath(bankPath);
 			System.out.println(selectedFile.getAbsolutePath());
                         bankLabel.setText("Wybierz plik z banku. Teraz to:"  + bankPath);
 		}
@@ -151,7 +151,7 @@ public class MainWindow extends JPanel implements ActionListener{
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = jfc.getSelectedFile();
                         pupPath = selectedFile.getAbsolutePath();
-                        MainWindow.mainData.SetPupPath(pupPath);
+                        MainWindow.mainData.setPupPath(pupPath);
 			System.out.println(selectedFile.getAbsolutePath());
                         pupilLabel.setText("wybierz plik z danymi uczniów. Teraz to" + pupPath);
 		}

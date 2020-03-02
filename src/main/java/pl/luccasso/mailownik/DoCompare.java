@@ -325,11 +325,11 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         sibFitted = new HashMap<>();
     }
 
-    public void SetBankPath(String path){
+    public void setBankPath(String path){
         ConfigF.setBankPath(path); //TODO remove this Function
     }
     
-    public void SetPupPath (String path){
+    public void setPupPath (String path){
        ConfigF.setPupPath(path); //TODO remove this Function
     }
     
@@ -478,7 +478,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     return null;
     }
 
-    public void SetDBPath(String dBPath) {
+    public void setDBPath(String dBPath) {
         ConfigF.setSavedPath(dBPath);
     }
 
