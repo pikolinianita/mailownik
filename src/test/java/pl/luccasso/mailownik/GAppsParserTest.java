@@ -5,7 +5,7 @@
  */
 package pl.luccasso.mailownik;
 
-import com.google.gson.GsonBuilder;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,9 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GAppsParserTest {
     //GAppsParser gap;
     
-    public GAppsParserTest() {
-    }
-    
+        
     @BeforeAll
     public static void setUpClass() {
     }

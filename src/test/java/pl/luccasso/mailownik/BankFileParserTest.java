@@ -7,10 +7,6 @@ package pl.luccasso.mailownik;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import pl.luccasso.mailownik.config.ConfigF;
 
 /**
@@ -19,9 +15,7 @@ import pl.luccasso.mailownik.config.ConfigF;
  */
 public class BankFileParserTest {
     
-    public BankFileParserTest() {
-    }
-
+    
     /**
      * Test of getListaTransakcji method, of class BankFileParser.
      */

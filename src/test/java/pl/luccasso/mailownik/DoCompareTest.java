@@ -6,11 +6,7 @@
 package pl.luccasso.mailownik;
 
 import java.io.FileNotFoundException;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.jupiter.api.AfterEach;
@@ -48,33 +44,11 @@ public class DoCompareTest {
         try {
             ConfigF.restoreCleanTestConfiguration();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DoCompareTest.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Erron in ConfigF.restoreCleanTestConfiguration() klase doCompareTest");
-            throw new RuntimeException("Erron in ConfigF.restoreCleanTestConfiguration() klase doCompareTest",ex);
         }
     }
 
-    /**
-     * Test of main method, of class DoCompare.
-     */
-    @Test
-    public void testLoadPrevous() {
-       /* System.out.println("main");
-        //String[] args = null;
-        DoCompare dc = new DoCompare();
-        dc.finData = new FinancialData()
-                .importPaymentPerKlasses("e:/cenyvsnz.txt")
-                .importschools("e:/zajwszk.txt");
-        dc.pupilList = dc.loadPreviousData("e:/output a.txt");
-        dc.leftOvers = new LinkedList<>();
-        dc.humanToDecide = new HashMap<>();
-        dc.siblings = new LinkedList<>();
-        dc.wrongLines = new LinkedList<>();
-        dc.save();*/
         
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
-    }
 
     @Test
     public void testLoadStuff(){

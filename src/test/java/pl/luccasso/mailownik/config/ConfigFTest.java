@@ -7,8 +7,6 @@ package pl.luccasso.mailownik.config;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,9 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class ConfigFTest {
     
-    public ConfigFTest() {
-    }
-    
+        
     @BeforeAll
     public static void setUpClass() {
     }
@@ -34,7 +30,7 @@ public class ConfigFTest {
         try {
             ConfigF.restoreCleanTestConfiguration();
         } catch (FileNotFoundException ex) {
-           
+            System.out.println("Erron in ConfigF.restoreCleanTestConfiguration() klase doCompareTest");  
         }
     }
     
