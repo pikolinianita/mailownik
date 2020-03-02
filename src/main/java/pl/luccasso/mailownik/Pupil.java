@@ -19,7 +19,8 @@ import java.util.Set;
  *
  * @author piko
  */
-public class Pupil implements Comparable<Pupil>{
+public class Pupil //implements Comparable<Pupil>
+{
         static int idCount = 1000;
         int id;
         String skryptId;
@@ -132,7 +133,7 @@ public class Pupil implements Comparable<Pupil>{
                    case "1": timeSheet[i] = "1"; break;
                    case "M":
                    case "m": timeSheet[i] = "M"; break;
-                   default: timeSheet[i] = "";
+                   default: timeSheet[i] = ""; break;
                }
            }
        }
@@ -243,7 +244,7 @@ public class Pupil implements Comparable<Pupil>{
             case '4': roman = "iv"; break;
             case '5': roman = "v"; break;
             case '6': roman = "vi";break;
-            default : roman = "vii";
+            default : roman = "vii";break;
         }
         if (ql.contains(roman+klass.charAt(1))) {
             return true;
@@ -256,7 +257,9 @@ public class Pupil implements Comparable<Pupil>{
     
     public String getFileLine(){
         Gson gson = new Gson();
-        int zeroes =0, ones =0, nbs = 0;
+        int zeroes =0;
+        int ones =0; 
+        int nbs = 0;
         String ob = String.join("\t", timeSheet);
         for(char c: ob.toCharArray()){
             if (c=='0') {
@@ -271,7 +274,8 @@ public class Pupil implements Comparable<Pupil>{
         String tr =  gson.toJson(transactions);
         String acc = gson.toJson(accountNrs);
         String paymentType;
-        int toPay, toPayTotal = 0;
+        int toPay;
+        int toPayTotal = 0;
         int nZajec =  DoCompare.finData.schoolToPaymentsMap.get(schoolNr).nZajec;
         if (this.AllYear) {
             if (isSibling) {
@@ -372,10 +376,10 @@ public class Pupil implements Comparable<Pupil>{
     }
 
     
-    @Override
+   /* @Override
     public int compareTo(Pupil p) {
         return this.lName.compareTo(p.lName);
-    }
+    } */
 
     void updateValuesWithGoogleData(Pupil p) {
        this.fName = p.fName;
