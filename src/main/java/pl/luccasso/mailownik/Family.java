@@ -16,6 +16,13 @@ import java.util.Set;
 public class Family implements Pupil{
 
     private List<SinglePupil> siblings;
+    
+    Set<String> accountNrs;
+    List<TransactionInfo> transactions;
+    int allPayments;
+    boolean AllYear;
+    boolean oneSemester;
+    boolean isSibling;
 
     public Family() {
         this.siblings = new LinkedList<>();
