@@ -131,7 +131,7 @@ public class SinglePupilBuilder {
         return new SinglePupil(id + count
                 , skryptId + count
                 , nb
-                , schoolNr + count
+                , schoolNr
                 , fName + count
                 , lName + count
                 , klass
@@ -164,20 +164,9 @@ public class SinglePupilBuilder {
     }
 
     private SinglePupilBuilder updatePupilData_Step() {           
-        if(!isThisFirst&&shouldAddCounter){
-            removeAndAddCounters();
-        } else if (shouldAddCounter){
-            addCounters();
-        }        
+         
         count++;
         return this;
     }
 
-    private void removeAndAddCounters() {
-       
-    }
-
-    private void addCounters() {
-                
-    }
 }

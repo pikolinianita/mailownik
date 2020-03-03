@@ -49,7 +49,7 @@ public class SinglePupilBuilderTest {
     
     
     @ParameterizedTest(name = "male_listy")
-    @ValueSource (ints = {1,2,3,4})
+    @ValueSource (ints = {1,2,3,40})
     public void testSizeOfPupilLists(int n){
         var lp = new SinglePupilBuilder().createSinglePupilList(n);
         assertEquals(n, lp.size());
