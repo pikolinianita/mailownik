@@ -20,7 +20,7 @@ public class Family implements Pupil{
     Set<String> accountNrs;
     List<TransactionInfo> transactions;
     int allPayments;
-    boolean AllYear;
+    boolean allYear;
     boolean oneSemester;
     boolean isSibling;
 

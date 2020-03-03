@@ -78,19 +78,12 @@ public class BankFileParser {
     }
 
     private static void saveToFile(String patch, String message) {
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter(patch);
+        
+        try (var fw = new FileWriter(patch);) {
             fw.write(message);
         } catch (IOException ex) {
             Logger.getLogger(BankFileParser.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                fw.close();
-            } catch (IOException ex) {
-                Logger.getLogger(BankFileParser.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        } 
     }
 
     public List<String> getWrongLines() {

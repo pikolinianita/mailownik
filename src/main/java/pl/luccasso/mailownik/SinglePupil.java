@@ -36,11 +36,11 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
         Set <String> accountNrs;
         List <TransactionInfo> transactions;
         int allPayments;
-        boolean AllYear;
+        boolean allYear;
         boolean oneSemester;
         boolean isSibling;
 
-    public SinglePupil(int id, String skryptId, int nb, int schoolNr, String fName, String lName, String klass, String nTel, String nTel2, String eMail, String[] timeSheet, Set<String> accountNrs, List<TransactionInfo> transactions, int allPayments, boolean AllYear, boolean oneSemester, boolean isSibling) {
+    public SinglePupil(int id, String skryptId, int nb, int schoolNr, String fName, String lName, String klass, String nTel, String nTel2, String eMail, String[] timeSheet, Set<String> accountNrs, List<TransactionInfo> transactions, int allPayments, boolean allYear, boolean oneSemester, boolean isSibling) {
         this.id = id;
         this.skryptId = skryptId;
         this.nb = nb;
@@ -55,7 +55,7 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
         this.accountNrs = accountNrs;
         this.transactions = transactions;
         this.allPayments = allPayments;
-        this.AllYear = AllYear;
+        this.allYear = allYear;
         this.oneSemester = oneSemester;
         this.isSibling = isSibling;
     }
@@ -290,7 +290,7 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
         int toPay;
         int toPayTotal = 0;
         int nZajec =  DoCompare.finData.schoolToPaymentsMap.get(schoolNr).nZajec;
-        if (this.AllYear) {
+        if (this.allYear) {
             if (isSibling) {
                 paymentType = "R Roczna";
                 toPay = DoCompare.finData.schoolToPaymentsMap.get(schoolNr).allYearWithSibling;
@@ -333,9 +333,9 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
             paymentType = "Brak Wpłat";
         }
         
-        /*String paymentType = AllYear ? "Roczna" : (oneSemester ? "semestr" : "Miesieczna");
+        /*String paymentType = allYear ? "Roczna" : (oneSemester ? "semestr" : "Miesieczna");
         int toPay = 0;
-        if (AllYear) {
+        if (allYear) {
             toPay = DoCompare.finData.schoolToPaymentsMap.get(schoolNr).allYear;
         } else if (oneSemester ) {
             toPay = DoCompare.finData.schoolToPaymentsMap.get(schoolNr).oneSemester;
@@ -369,13 +369,13 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
             new_transaction:
             for (var bt : lisT) {
                 for(var ti:transactions){
-                    if(ti.equals(bt)){
+                    if(ti.sameAs(bt)){
                         break new_transaction;
                     }
                 }
                 FinancialData.SchoolPayments payValues = DoCompare.finData.schoolToPaymentsMap.get(schoolNr);
                 if (bt.amount == payValues.allYear || bt.amount == payValues.allYearWithSibling) {
-                    AllYear = true;
+                    allYear = true;
                 } else if (bt.amount == payValues.oneSemester || bt.amount == payValues.oneSemesterWithSibling) {
                     oneSemester = true;
                 }

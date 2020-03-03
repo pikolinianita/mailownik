@@ -28,15 +28,19 @@ public class SinglePupilBuilder {
     private Set<String> accountNrs = null;
     private List<TransactionInfo> transactions = null;
     private int allPayments = 0;
-    private boolean AllYear = false;
+    private boolean allYear = false;
     private boolean oneSemester = false;
     private boolean isSibling = false;
 
     private int count = 100;
+    private boolean isThisFirst = true;
+    private boolean shouldAddCounter = false;
     
     public SinglePupilBuilder() {
+        //Default constructor
     }
-
+    
+    
     public SinglePupilBuilder setId(int id) {
         this.id = id;
         return this;
@@ -108,7 +112,7 @@ public class SinglePupilBuilder {
     }
 
     public SinglePupilBuilder setAllYear(boolean AllYear) {
-        this.AllYear = AllYear;
+        this.allYear = AllYear;
         return this;
     }
 
@@ -123,24 +127,57 @@ public class SinglePupilBuilder {
     }
 
     public SinglePupil createSinglePupil() {
-        return new SinglePupil(id, skryptId, nb, schoolNr, fName, lName, klass, nTel, nTel2, eMail, timeSheet, accountNrs, transactions, allPayments, AllYear, oneSemester, isSibling);
+        System.out.println(fName + count);
+        return new SinglePupil(id + count
+                , skryptId + count
+                , nb
+                , schoolNr + count
+                , fName + count
+                , lName + count
+                , klass
+                , nTel + count
+                , nTel2 + count
+                , eMail + count
+                , timeSheet
+                , accountNrs
+                , transactions
+                , allPayments
+                , allYear
+                , oneSemester
+                , isSibling);
+    }
+    
+    public SinglePupilBuilder shouldAddCounter(boolean b){
+        this.shouldAddCounter = b;
+        return this;
     }
     
     public List<SinglePupil> createSinglePupilList(int count) {
         var list = new LinkedList<SinglePupil>();
         list.add(createSinglePupil());
-        for (int i = 1; i< count; i++){
-            updatePupilData_Step();
+        updatePupilData_Step();
+        for (int i = 1; i< count; i++){            
             list.add(createSinglePupil());
-        }
-        
+            updatePupilData_Step();
+        }        
         return list;
     }
 
-    private void updatePupilData_Step() {
-        
-        
-        
+    private SinglePupilBuilder updatePupilData_Step() {           
+        if(!isThisFirst&&shouldAddCounter){
+            removeAndAddCounters();
+        } else if (shouldAddCounter){
+            addCounters();
+        }        
         count++;
+        return this;
+    }
+
+    private void removeAndAddCounters() {
+       
+    }
+
+    private void addCounters() {
+                
     }
 }

@@ -5,23 +5,22 @@
  */
 package pl.luccasso.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  *
  * @author piko
  */
-public class PikaLoggerTest {
+public class SinglePupilBuilderTest {
     
-    public PikaLoggerTest() {
+    public SinglePupilBuilderTest() {
     }
     
     @BeforeAll
@@ -40,16 +39,21 @@ public class PikaLoggerTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of getLogger method, of class PikaLogger.
-     */
     @Test
-    public void testGetLogger() throws IOException {
-        System.out.println("getLogger");
-        Logger test = new PikaLogger("", "logtest.txt").getLogger();
-        test.info("kicha");
-        File f = new File("logtest.txt");
-        assertEquals(true, f.isFile());
-        assertEquals(58, f.length());
-        }    
+    public void testCreateSinglePupil() {
+        var p = new SinglePupilBuilder().createSinglePupil();
+        assertEquals("Adam100",p.getFName());
+        assertEquals("Byk", p.getLName());
+        assertEquals("500000000", p.getNTel());
+    }
+    
+    
+    @ParameterizedTest(name = "male_listy")
+    @ValueSource (ints = {1,2,3,4})
+    public void testSizeOfPupilLists(int n){
+        var lp = new SinglePupilBuilder().createSinglePupilList(n);
+        assertEquals(n, lp.size());
+        System.out.println(lp);
+        System.out.println("");
+    }
 }

@@ -29,7 +29,7 @@ public class TransactionInfo {
 
     
     
-    public boolean equals(BankTransaction other) {
+    public boolean sameAs(BankTransaction other) {
         
         if (this.amount != other.amount) {
             return false;
