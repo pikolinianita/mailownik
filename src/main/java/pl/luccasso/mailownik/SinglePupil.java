@@ -39,11 +39,30 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
         boolean AllYear;
         boolean oneSemester;
         boolean isSibling;
-   
-    /*Pupil(){
-        
+
+    public SinglePupil(int id, String skryptId, int nb, int schoolNr, String fName, String lName, String klass, String nTel, String nTel2, String eMail, String[] timeSheet, Set<String> accountNrs, List<TransactionInfo> transactions, int allPayments, boolean AllYear, boolean oneSemester, boolean isSibling) {
+        this.id = id;
+        this.skryptId = skryptId;
+        this.nb = nb;
+        this.schoolNr = schoolNr;
+        this.fName = fName;
+        this.lName = lName;
+        this.klass = klass;
+        this.nTel = nTel;
+        this.nTel2 = nTel2;
+        this.eMail = eMail;
+        this.timeSheet = timeSheet;
+        this.accountNrs = accountNrs;
+        this.transactions = transactions;
+        this.allPayments = allPayments;
+        this.AllYear = AllYear;
+        this.oneSemester = oneSemester;
+        this.isSibling = isSibling;
     }
-        */
+   
+    
+        
+       
     /**
     * For testing Only
     * @param i
@@ -60,7 +79,7 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
        this.klass = kl.toLowerCase().strip();
    }     
 
-   //Pupil(){};
+  
    /**
     * Do wczytywania danych z pliku "wynikowego".csv 
     * @param line linijka z pliku csv

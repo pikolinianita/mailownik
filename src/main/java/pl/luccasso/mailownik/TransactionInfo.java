@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author piko
  */
-class TransactionInfo {
+public class TransactionInfo {
     
                //pole z mięskiem do dalszej analizy
     LocalDate date;         //data wpłaty

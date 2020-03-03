@@ -65,6 +65,7 @@ public class DoCompare {
         loadStuff();
         makeStructures();
         writeMapsToSout(); //debug
+        searchForSiblings();
         listaTransakcji.forEach(this::analyzeTransaction2);
         writeListsToSout(); //debug
     }
@@ -494,6 +495,10 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
             }
             oldList.add(p);
         }
+    }
+
+    void searchForSiblings() {
+        
     }
 }
 
