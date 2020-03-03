@@ -26,8 +26,6 @@ import pl.luccasso.mailownik.config.ConfigF;
  * @author piko
  */
 public class DoCompare {
-    //String pupPath, bankPath, savedPath;
-    //czyste dane:
     static FinancialData finData;
     List<BankTransaction> listaTransakcji;
     List<Pupil> pupilList;
@@ -52,14 +50,7 @@ public class DoCompare {
     public Map<BankTransaction, List<Pupil>> getToBeDecidedMap(){
         return humanToDecide;
     }
-    
-    public DoCompare() {
-        //pupPath = "e:/pupils.txt";
-        //bankPath = "e:/listatestowa.csv";
-        //savedPath = null;
-    }
 
-    
     
     public void doWork() {        
         loadStuff();
@@ -92,7 +83,6 @@ public class DoCompare {
             tmpList.removeAll(e);
         });
         
-        //tmpList.removeAll()
         System.out.println("------------F lost------------------");
         System.out.println(tmpList.size());
         System.out.println(tmpList);
@@ -180,11 +170,6 @@ public class DoCompare {
                     }
                 } else if (listWithlNames.size()==1){
                     
-                    /*if (fittedData.get(listWithlNames.get(0))!=null){
-                        System.out.println(fittedData.getClass().getCanonicalName());
-                        System.out.println(fittedData.get(listWithlNames.get(0)).getClass().getCanonicalName());
-                        System.out.println(fittedData.get(listWithlNames.get(0)).getClass().getName());
-                    }*/
                     fittedData.merge(listWithlNames.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
                     bt.note("School+ lName+");
                     return;
@@ -245,8 +230,6 @@ public class DoCompare {
             }
             
             tmpList = new LinkedList<>(pupilList);
-            //tmpList = tryFitNames(bt,tmpList);
-            //do Some 
             leftOvers.add(bt);
             bt.note("School?");
             
@@ -254,10 +237,7 @@ public class DoCompare {
             leftOvers.add(bt);
             bt.note("------Exception----------");
             System.out.println("anal2: -Ex- : " + bt.title);
-            //e.printStackTrace(System.out);
-           // Gson gson = new GsonBuilder().setPrettyPrinting().create();
-           // System.out.println(gson.toJson(bt));
-           // e.printStackTrace(System.out);
+       
 
         }
     }
@@ -289,9 +269,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
                 .collect(Collectors.toCollection(LinkedList::new));
         return tmp;
     }    
-    
-    
-    //List<Pupil> nameSearch(List<Pupil>)
+        
     void loadStuff() {
         
         finData = new FinancialData()
@@ -375,9 +353,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
             fw.close();
                     
             fw = new FileWriter("e:/output.txt");
-            /*for (var p : fittedData.keySet()) {
-                fw.write(p.processTransactions(fittedData.get(p)).getFileLine());
-            }*/
+           
             fw.write(String.join("\t", "Id","SkryptID","Szkoła","Imie","Nazwisko","Klasa","Tel Mamy","Tel Taty","Mail",
                 "Zaj 1","2","3","4","5","6","7","8","9","10","11","12", "13","14","15","16","17","18","19","20","obecny","Nieobecny","Usprawiedliwione",
                 "Suma wpłat","Winien","wpłaty","W sumie zaplaci","Ilosc zajec w szkole","DanePrzelewow","konta")+"\n");
@@ -409,8 +385,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     }
 
     
-    public List<BankTransaction> getLeftOvers() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<BankTransaction> getLeftOvers() {        
         System.out.println("Kurka - getLeftOvers");   
         return leftOvers;
     }

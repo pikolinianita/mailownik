@@ -41,11 +41,6 @@ public class FinancialData {
             this.nZajec = nZajec;
         }
 
-        /*
-         * public SchoolPayments(int nZajec) {
-         *
-         * }
-         */
     }
 
     int oneKlass = 35;
@@ -54,30 +49,29 @@ public class FinancialData {
     Map<Integer, SchoolPayments> schoolToPaymentsMap;
     //Przy tylu zajęciach tyle tzreba płacić 
     Map<Integer, SchoolPayments> nKlassesToPaymentMap;
-    List <Integer> siblingsValues; 
+    List<Integer> siblingsValues;
 
     public FinancialData() {
         schoolToPaymentsMap = new HashMap<>();
         nKlassesToPaymentMap = new HashMap<>();
         siblingsValues = new LinkedList<>();
     }
-    
-    public boolean isSiblingsValue(int val){
+
+    public boolean isSiblingsValue(int val) {
         if (siblingsValues.contains(val)) {
             return true;
         }
         if (val % oneKlassWhenSibling == 0) {
             return true;
-        } else{
-        return false;
+        } else {
+            return false;
         }
     }
 
     public FinancialData importPaymentPerKlasses(String filePatch) {
-        FileReader fr = null;
-        try {
-            fr = new FileReader(filePatch);
-            Scanner sc = new Scanner(fr);
+
+        try (var fr = new FileReader(filePatch);
+                Scanner sc = new Scanner(fr);) {
             //skip header
             sc.nextLine();
             while (sc.hasNext()) {
@@ -86,36 +80,23 @@ public class FinancialData {
                 siblingsValues.add(sp.allYearWithSibling);
                 siblingsValues.add(sp.oneSemesterWithSibling);
             }
-        } catch (FileNotFoundException ex) {
+        } catch (IOException ex) {  //includes File Not Found Exception
             Logger.getLogger(FinancialData.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                fr.close();
-            } catch (IOException ex) {
-                Logger.getLogger(FinancialData.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
         return this;
     }
 
     public FinancialData importschools(String filePatch) {
-        FileReader fr = null;
-        try {
-            fr = new FileReader(filePatch);
-            Scanner sc = new Scanner(fr);
+        try (var fr = new FileReader(filePatch);
+                Scanner sc = new Scanner(fr);) {
+
             //skip header
             sc.nextLine();
             while (sc.hasNext()) {
                 schoolToPaymentsMap.put(sc.nextInt(), nKlassesToPaymentMap.get(sc.nextInt()));
             }
-        } catch (FileNotFoundException ex) {
+        } catch (IOException ex) { //includes File Not Found Exception
             Logger.getLogger(FinancialData.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                fr.close();
-            } catch (IOException ex) {
-                Logger.getLogger(FinancialData.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
         return this;
     }

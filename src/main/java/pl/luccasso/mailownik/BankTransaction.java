@@ -51,35 +51,32 @@ public class BankTransaction {
      * @param tit String do analizowania
      */
     public BankTransaction(String tit) {
-        //System.out.println("--------Nowy-----------");
-        //System.out.println(tit);
-        
+              
         isDoomed = false;
         hasDubiousKlass = false;
         dubiousInfo = "";
-        Scanner sc = new Scanner(tit);
+        try (Scanner sc = new Scanner(tit)) {
 
-        //wczytaj datę - pierwsze pole pliku
-        sc.useDelimiter(";");
-        date = LocalDate.parse(sc.next());
-        //wczytaj pole z mięskiem - może zawierać ";", na szczęście wiem co jest w następnym polu, 
-        //więc jak to nie to to łączę 
-        title = sc.next();
-        String tmp = sc.next();
-        while (!tmp.contains("mBiznes konto pomocnicze 0711 ... 2221")) {
-            title = title + ", " + tmp;
-            tmp = sc.next();
-            //System.out.println(tit);
+            //wczytaj datę - pierwsze pole pliku
+            sc.useDelimiter(";");
+            date = LocalDate.parse(sc.next());
+            //wczytaj pole z mięskiem - może zawierać ";", na szczęście wiem co jest w następnym polu, 
+            //więc jak to nie to to łączę 
+            title = sc.next();
+            String tmp = sc.next();
+            while (!tmp.contains("mBiznes konto pomocnicze 0711 ... 2221")) {
+                title = new StringBuilder(title).append(", ").append(tmp).toString();
+                tmp = sc.next();
+            }
+            //pomija co trzeba i szuka jaka była wpłata
+            sc.next();
+            amStr = sc.next();
+            try {
+                amount = Integer.valueOf(amStr.substring(0, amStr.length() - 7));
+            } catch (NumberFormatException e) {
+                isDoomed = true;
+            }
         }
-        //pomija co trzeba i szuka jaka była wpłata
-        sc.next();
-        amStr = sc.next();
-        try {
-            amount = Integer.valueOf(amStr.substring(0, amStr.length() - 7));
-        } catch (NumberFormatException e) {
-            isDoomed = true;
-        }
-        
         /*w mięsku oddzielone wieloma spacjami są pewne subpola: Mięsko właściwe, Adres nadawcy, rodzaj przelewu, numer konta. Ekstracja*/
         syfTitle = title.split("\\s\\s+");
         account = syfTitle[syfTitle.length - 1];
@@ -88,7 +85,7 @@ public class BankTransaction {
         //Czasem na początku mięska jest powtórzone imię nadawcy. Wycinamy. TODO - czy naprawde tu jest problem z kartą? 
         try {
             if (!syfTitle[syfTitle.length - 2].contains("KARTY KREDYTOWEJ")) {
-                niceString = syfTitle[0].substring(syfTitle[0].indexOf(",")).toLowerCase();
+                niceString = syfTitle[0].substring(syfTitle[0].indexOf(',')).toLowerCase();
             } else {
                 niceString = syfTitle[0].toLowerCase();
             }
@@ -100,13 +97,12 @@ public class BankTransaction {
         
         //Jeśli dotąd nie było dużego błędu to staramy się dalej procedować
         if (!isDoomed) {
-            //checkForSiblings(amount);
-            
+                        
             if (!checkForKlass(niceString, forKlass)) {
                 checkForKlass(niceString, forKlass2);
             }
 
-            //TODO ogarnąć suspected Siblings;
+            //TODO ogarnąć suspected siblings;
             if (!checkForSchool(niceString, forSchool2)) {
                 checkForSchool(niceString, forSchool);
             }
@@ -195,7 +191,6 @@ public class BankTransaction {
         if (hit > 1) {
             matcher.reset();
             hasDubiousSchool = true;
-            //siblingsSuspected = true;
             while (matcher.find()) {
                 dubiousInfo += matcher.group() + " ";
             }
@@ -251,7 +246,6 @@ public class BankTransaction {
     }
 
     public void checkForSiblings() {
-        //System.out.println(BankFileParser.finData);
         if (BankFileParser.finData.isSiblingsValue(amount)) {
             siblingsSuspected = true;
         }
