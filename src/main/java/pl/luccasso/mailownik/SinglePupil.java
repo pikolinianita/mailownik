@@ -35,6 +35,8 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
         String [] timeSheet;
         Set <String> accountNrs;
         List <TransactionInfo> transactions;
+
+   
         int allPayments;
         boolean allYear;
         boolean oneSemester;
@@ -468,4 +470,7 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
         return timeSheet;
     }
     
+     public List<TransactionInfo> getTransactions() {
+        return transactions;
+    }
 }

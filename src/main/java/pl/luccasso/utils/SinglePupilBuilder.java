@@ -5,6 +5,7 @@
  */
 package pl.luccasso.utils;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -24,9 +25,9 @@ public class SinglePupilBuilder {
     private String nTel = "500000000";
     private String nTel2 = "400000000";
     private String eMail = "AdamByk@def.pl";
-    private java.lang.String[] timeSheet = null;
-    private Set<String> accountNrs = null;
-    private List<TransactionInfo> transactions = null;
+    private java.lang.String[] timeSheet = new String[20];
+    private Set<String> accountNrs = new HashSet<>();
+    private List<TransactionInfo> transactions = new LinkedList<>();
     private int allPayments = 0;
     private boolean allYear = false;
     private boolean oneSemester = false;
@@ -37,15 +38,41 @@ public class SinglePupilBuilder {
     private boolean shouldAddCounter = false;
     
     public SinglePupilBuilder() {
+       
         //Default constructor
     }
+   
+    public SinglePupilBuilder(SinglePupil template ) {
+        copyFrom(template);
+    }
     
-    
+        
     public SinglePupilBuilder setId(int id) {
         this.id = id;
         return this;
     }
 
+    public SinglePupilBuilder copyFrom(SinglePupil template){
+        this.id = id + count++;
+        this.skryptId = template.getSkryptId();
+        this.nb = template.getNb();
+        this.schoolNr = template.getSchoolNr();
+        this.fName = template.getFName();
+        this.lName = template.getLName();
+        this.klass = template.getKlass();
+        this.nTel = template.getNTel();
+        this.nTel2 = template.getNTel2();
+        this.eMail = template.getEMail();
+        this.timeSheet = template.getTimeSheet().clone();
+        this.accountNrs = new HashSet<>(template.getAccountNrs());
+        this.transactions = new LinkedList<>(template.getTransactions());
+        this.allPayments = 0;
+        this.allYear = false;
+        this.oneSemester = false;
+        this.isSibling = false;
+        return this;
+    }
+    
     public SinglePupilBuilder setSkryptId(String skryptId) {
         this.skryptId = skryptId;
         return this;
@@ -125,6 +152,12 @@ public class SinglePupilBuilder {
         this.isSibling = isSibling;
         return this;
     }
+    
+      public SinglePupilBuilder setCount (int newValue){
+          count = newValue;
+          return this;
+      }
+              
 
     public SinglePupil createSinglePupil() {
         System.out.println(fName + count);

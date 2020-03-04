@@ -43,8 +43,8 @@ public class SinglePupilBuilderTest {
     public void testCreateSinglePupil() {
         var p = new SinglePupilBuilder().createSinglePupil();
         assertEquals("Adam100",p.getFName());
-        assertEquals("Byk", p.getLName());
-        assertEquals("500000000", p.getNTel());
+        assertEquals("Byk100", p.getLName());
+        assertEquals("500000000100", p.getNTel());
     }
     
     

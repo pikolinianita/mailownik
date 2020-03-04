@@ -5,6 +5,7 @@
  */
 package pl.luccasso.mailownik;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +27,11 @@ public class Family implements Pupil{
 
     public Family() {
         this.siblings = new LinkedList<>();
+        accountNrs = new HashSet<>();
+        transactions = new LinkedList<>();
     }
+    
+    
     
     @Override
     public String getFileLine() {
@@ -141,6 +146,17 @@ public class Family implements Pupil{
     @Override
     public String[] getTimeSheet() {
         throw new SiblingsException("Unimplemented Family function called"); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    Family add(SinglePupil p1) {
+        siblings.add(p1);
+        accountNrs.addAll(p1.getAccountNrs());
+        transactions.addAll(p1.getTransactions()); //TODO Fix Addition - remove duplicates
+        return this;
+    }
+
+    int size() {
+       return siblings.size();
     }
     
 }
