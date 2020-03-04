@@ -110,7 +110,7 @@ public class Family implements Pupil{
 
     @Override
     public Set<String> getAccountNrs() {
-        throw new SiblingsException("Unimplemented Family function called"); //To change body of generated methods, choose Tools | Templates.
+        return accountNrs;
     }
 
     @Override
@@ -148,15 +148,19 @@ public class Family implements Pupil{
         throw new SiblingsException("Unimplemented Family function called"); //To change body of generated methods, choose Tools | Templates.
     }
 
-    Family add(SinglePupil p1) {
+    public Family add(SinglePupil p1) {
         siblings.add(p1);
         accountNrs.addAll(p1.getAccountNrs());
         transactions.addAll(p1.getTransactions()); //TODO Fix Addition - remove duplicates
         return this;
     }
 
-    int size() {
+    public int size() {
        return siblings.size();
     }
     
+    public Family addAccount(String accNo){
+        accountNrs.add(accNo);
+        return this;
+    }
 }

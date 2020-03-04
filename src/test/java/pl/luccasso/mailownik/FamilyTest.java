@@ -21,6 +21,9 @@ public class FamilyTest {
     
     public FamilyTest() {
     }
+    SinglePupil p1;
+    SinglePupil p2;
+    SinglePupilBuilder pBuilder;
     
     @BeforeAll
     public static void setUpClass() {
@@ -32,6 +35,10 @@ public class FamilyTest {
     
     @BeforeEach
     public void setUp() {
+         pBuilder = new SinglePupilBuilder();
+         p1 = pBuilder.setLName("Nowak").setEMail("NT@Gmail").setNTel("501100100").setNTel2("504200200").createSinglePupil();
+         p2 = pBuilder.setFName("Olga").setCount(100).createSinglePupil();
+        
     }
     
     @AfterEach
@@ -39,15 +46,20 @@ public class FamilyTest {
     }
 
     @Test
-    public void createFamilyOfTwo() {
-        var pBuilder = new SinglePupilBuilder();
-        var p1 = pBuilder.setLName("Nowak").setEMail("NT@Gmail").setNTel("501100100").setNTel2("504200200").createSinglePupil();
-        var p3 = pBuilder.setFName("Olga").setCount(100).createSinglePupil();
-                
-        var f = new Family().add(p1).add(p3);
+    public void testCreateFamilyOfTwo() {
+                      
+        var f = new Family().add(p1).add(p2);
         assertEquals(2,f.size());
-        
-        
+        }
+    
+    @Test
+    public void testAccountsMerge(){
+        p1.addAccount("mamy").addAccount("taty").addAccount("Fladry");
+        p2.addAccount("mamy").addAccount("taty").addAccount("Gacha");
+        var f = new Family().add(p1).add(p2);
+        assertEquals(4, f.getAccountNrs().size());
+        assertTrue(f.getAccountNrs().contains("Fladry"));
+        assertTrue(f.getAccountNrs().contains("Gacha"));
     }
     
 }

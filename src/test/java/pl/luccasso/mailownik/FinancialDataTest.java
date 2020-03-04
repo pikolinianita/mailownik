@@ -7,12 +7,15 @@ package pl.luccasso.mailownik;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.net.URL;
+import java.util.Scanner;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Disabled;
 
 /**
  *
@@ -42,13 +45,13 @@ public class FinancialDataTest {
     /**
      * Test of importPaymentPerKlasses method, of class FinancialData.
      */
+     @Disabled
     @Test
     public void testImportPaymentPerKlasses() {
         System.out.println("importPaymentPerKlasses");
         String filePatch = "e:/AsiowyTest/cenyvsnz.txt";
         FinancialData instance = new FinancialData();
-        
-        
+                
         instance.importPaymentPerKlasses(filePatch);
         FinancialData.SchoolPayments classes13 = instance.nKlassesToPaymentMap.get(13);
         
@@ -64,6 +67,7 @@ public class FinancialDataTest {
     /**
      * Test of importschools method, of class FinancialData.
      */
+    @Disabled
     @Test
     public void testImportschools() {
         System.out.println("importschools");
@@ -74,6 +78,7 @@ public class FinancialDataTest {
        
     }
     
+    @Disabled
     @Test
     public void testSibValues(){
        var finData = new FinancialData()
@@ -85,4 +90,35 @@ public class FinancialDataTest {
         System.out.println(finData.isSiblingsValue(99));
         System.out.println(finData.isSiblingsValue(931));
     }
+    
+    @Test
+    public void testImportFromRes(){
+        System.out.println("resourceTest");
+        var s = getClass().getClassLoader().getResourceAsStream("/cenywsz.txt");
+        System.out.println(s);
+        s = getClass().getClassLoader().getResourceAsStream("resources/cenywsz.txt");
+        System.out.println(s);
+        s = getClass().getClassLoader().getResourceAsStream("/resources/cenywsz.txt");
+        System.out.println(s);
+        s = getClass().getClassLoader().getResourceAsStream("cenywsz.txt");        
+        System.out.println(s);
+        var sc = new Scanner(s);
+        
+        s = getClass().getClassLoader().getResourceAsStream("resources/cenywsz.txt");
+        System.out.println(s);
+        s = getClass().getClassLoader().getResourceAsStream("/test/resources/cenywsz.txt");
+        System.out.println(s);
+        s = getClass().getClassLoader().getResourceAsStream("test/resources/cenywsz.txt");
+        System.out.println(s);
+        s = getClass().getClassLoader().getResourceAsStream("src/test/resources/cenywsz.txt");
+        System.out.println(s);
+        s = getClass().getClassLoader().getResourceAsStream("/src/test/resources/cenywsz.txt");
+        System.out.println(s);
+        
+        
+        while (sc.hasNext()){
+            System.out.println(sc.nextLine());
+        }
+    }
+    
 }

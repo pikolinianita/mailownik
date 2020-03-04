@@ -473,4 +473,9 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
      public List<TransactionInfo> getTransactions() {
         return transactions;
     }
+     
+     public SinglePupil addAccount(String accNo){
+        accountNrs.add(accNo);
+        return this;
+    }
 }

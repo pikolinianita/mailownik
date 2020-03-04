@@ -53,7 +53,5 @@ public class SinglePupilBuilderTest {
     public void testSizeOfPupilLists(int n){
         var lp = new SinglePupilBuilder().createSinglePupilList(n);
         assertEquals(n, lp.size());
-        System.out.println(lp);
-        System.out.println("");
-    }
+         }
 }
