@@ -1,0 +1,1 @@
+INFO	kicha	pl.luccasso.utils.PikaLoggerTest	testGetLogger
