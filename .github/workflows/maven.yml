@@ -25,7 +25,7 @@ jobs:
       run: mvn -B package --file pom.xml
       
     - name: Send Result to Sonar
-      run: mvn verify sonar:sonar -Dmaven.test.skip=true 
+      run: mvn verify sonar:sonar  
       env:
         GITHUB_TOKEN: ${{ github.token }} 
     

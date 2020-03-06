@@ -5,8 +5,10 @@
  */
 package pl.luccasso.mailownik;
 
+import java.io.FileNotFoundException;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Disabled;
 import pl.luccasso.mailownik.config.ConfigF;
 
 /**
@@ -19,8 +21,11 @@ public class BankFileParserTest {
     /**
      * Test of getListaTransakcji method, of class BankFileParser.
      */
+    @Disabled
     @Test
-    public void testGetListaTransakcji() {
+    public void testGetListaTransakcji() throws FileNotFoundException {
+        
+        ConfigF.restoreCleanTestConfiguration();
         System.out.println("------------------testGetListaTransakcji--------------");
         
         var bp = new BankFileParser(ConfigF.getBankPath());        
