@@ -22,7 +22,7 @@ jobs:
         restore-keys: ${{ runner.os }}-m2 
         
     - name: Build with Maven
-      run: mvn -B package --file pom.xml -Dmaven.test.skip=true
+      run: mvn -B package --file pom.xml
       
     - name: Send Result to Sonar
       run: mvn verify sonar:sonar -Dmaven.test.skip=true 
