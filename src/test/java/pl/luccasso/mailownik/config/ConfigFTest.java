@@ -7,6 +7,8 @@ package pl.luccasso.mailownik.config;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -84,5 +86,11 @@ public class ConfigFTest {
         
     }
 
+    @Test
+public void testPath(){
+        Path p = Paths.get("kicha/inexistent_file.txt");
+        System.out.println(p.toString());
+        System.out.println(p.toAbsolutePath());
         
+}    
 }

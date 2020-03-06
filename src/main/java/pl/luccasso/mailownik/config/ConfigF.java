@@ -37,7 +37,7 @@ public class ConfigF {
      
     static void saveToFile(String f) throws IOException{
        
-        try (java.io.BufferedWriter fw = new BufferedWriter(new FileWriter(f))) {
+       try (java.io.BufferedWriter fw = new BufferedWriter(new FileWriter(f))) {
             fw.write(pupPath);
             fw.newLine();
             fw.write(bankPath);
@@ -51,7 +51,9 @@ public class ConfigF {
             fw.write(ClassPerSchool);
             fw.newLine();
             fw.write(configPath);
-        }
+        } 
+       
+       
     }
     
    static void readConfigFromFile(String f) throws FileNotFoundException{

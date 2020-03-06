@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Disabled;
 import static pl.luccasso.mailownik.DoCompare.finData;
 import pl.luccasso.mailownik.config.ConfigF;
 
@@ -22,6 +23,7 @@ import pl.luccasso.mailownik.config.ConfigF;
  *
  * @author piko
  */
+@Disabled
 public class DoCompareTest {
     
     public DoCompareTest() {
