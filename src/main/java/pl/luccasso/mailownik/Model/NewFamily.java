@@ -7,7 +7,9 @@ package pl.luccasso.mailownik.Model;
 
 import java.util.LinkedList;
 import java.util.List;
+import lombok.Getter;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import pl.luccasso.mailownik.SinglePupil;
 
 
@@ -16,6 +18,8 @@ import pl.luccasso.mailownik.SinglePupil;
  * @author piko
  */
 @ToString
+@Accessors(fluent = true, chain = true)
+@Getter
 public class NewFamily {
 
     ContactData contacts;
