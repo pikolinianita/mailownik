@@ -45,11 +45,10 @@ public class FinancialDataTest {
     /**
      * Test of importPaymentPerKlasses method, of class FinancialData.
      */
-     @Disabled
-    @Test
+         @Test
     public void testImportPaymentPerKlasses() {
-        System.out.println("importPaymentPerKlasses");
-        String filePatch = "e:/AsiowyTest/cenyvsnz.txt";
+       
+        String filePatch = "testfiles/cenyvsnz.txt";
         FinancialData instance = new FinancialData();
                 
         instance.importPaymentPerKlasses(filePatch);
@@ -67,30 +66,31 @@ public class FinancialDataTest {
     /**
      * Test of importschools method, of class FinancialData.
      */
-    @Disabled
+    
     @Test
     public void testImportschools() {
-        System.out.println("importschools");
-        String filePatch = "e:/AsiowyTest/zajwszk.txt";
-        FinancialData instance = new FinancialData().importPaymentPerKlasses("e:/AsiowyTest/cenyvsnz.txt").importschools(filePatch);
         
-        
-       
+        String filePatch = "testfiles/zajwszk.txt";
+        FinancialData instance = new FinancialData()
+                .importPaymentPerKlasses("testfiles/cenyvsnz.txt")
+                .importschools(filePatch);
+    assertEquals(465,instance.schoolToPaymentsMap.get(50).allYear);
     }
     
-    @Disabled
+    
     @Test
     public void testSibValues(){
+        
        var finData = new FinancialData()
-                .importPaymentPerKlasses("e:/cenyvsnz.txt")
-                .importschools("e:/zajwszk.txt");
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        System.out.println(gson.toJson(finData));
-        System.out.println(finData.isSiblingsValue(33));
-        System.out.println(finData.isSiblingsValue(99));
-        System.out.println(finData.isSiblingsValue(931));
+                .importPaymentPerKlasses("testfiles/cenyvsnz.txt")
+                .importschools("testfiles/zajwszk.txt");
+        
+        assertTrue(finData.isSiblingsValue(33));
+        assertTrue(finData.isSiblingsValue(99));
+        assertTrue(finData.isSiblingsValue(931));
     }
     
+    @Disabled //jtak zebym pamietal
     @Test
     public void testImportFromRes(){
         System.out.println("resourceTest");
