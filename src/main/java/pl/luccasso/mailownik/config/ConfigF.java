@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -18,26 +20,28 @@ import java.util.Scanner;
  * @author piko
  */
 public class ConfigF {
-     static String pupPath = "e:/asiowytest/pupils14.txt";
-     static String bankPath = "e:/asiowytest/listatestowa14b.csv";
-     static String savedPath = "e:/asiowytest/outputtst.txt";
-     static String logFile = "e:/asiowytest/logs.txt";
-     static String payPerClass = "e:/asiowytest/cenyvsnz.txt"; 
-     static String ClassPerSchool  ="e:/asiowytest/zajwszk.txt";
-     static String configPath = "e:/asiowytest/config.txt";
-    
-     static ArrayList<String> commonAccounts ;
-     
-     //TODO dopisać że to z pliku;
-     static{
-         commonAccounts = new ArrayList<>();
-         commonAccounts.add("36124025971111000031744632");
-     }
-     
-     
-    static void saveToFile(String f) throws IOException{
-       
-       try (java.io.BufferedWriter fw = new BufferedWriter(new FileWriter(f))) {
+
+    static String pupPath = "e:/asiowytest/pupils14.txt";
+    static String bankPath = "e:/asiowytest/listatestowa14b.csv";
+    static String savedPath = "e:/asiowytest/outputtst.txt";
+    static String logFile = "e:/asiowytest/logs.txt";
+    static String payPerClass = "e:/asiowytest/cenyvsnz.txt";
+    static String ClassPerSchool = "e:/asiowytest/zajwszk.txt";
+    static String configPath = "e:/asiowytest/config.txt";
+
+    static ArrayList<String> commonAccounts;
+
+    //TODO dopisać że to z pliku;
+    static {
+        commonAccounts = new ArrayList<>();
+        commonAccounts.add("36124025971111000031744632");
+    }
+
+    static void saveToFile(String f) throws IOException {
+
+        Path p = Paths.get(f);
+
+        try (var fw = new BufferedWriter(new FileWriter(p.toFile()))) {
             fw.write(pupPath);
             fw.newLine();
             fw.write(bankPath);
@@ -51,32 +55,30 @@ public class ConfigF {
             fw.write(ClassPerSchool);
             fw.newLine();
             fw.write(configPath);
-        } 
-       
-       
+        }
+
     }
-    
-   static void readConfigFromFile(String f) throws FileNotFoundException{
-       
-        try (java.util.Scanner sc = new Scanner((new FileReader(f)))) {
+
+    static void readConfigFromFile(String f) throws FileNotFoundException {
+        var p = Paths.get(f);
+        System.out.println(p.toAbsolutePath());
+        try (Scanner sc = new Scanner((new FileReader(p.toFile())))) {
             pupPath = sc.next();
             bankPath = sc.next();
             savedPath = sc.next();
             logFile = sc.next();
             payPerClass = sc.next();
-            ClassPerSchool  =sc.next();
+            ClassPerSchool = sc.next();
             configPath = sc.next();
-            
+
         }
     }
 
-    
-    static public void restoreCleanTestConfiguration() throws FileNotFoundException{
-         readConfigFromFile("e:/asiowytest/config.txt");
-         
+    static public void restoreCleanTestConfiguration() throws FileNotFoundException {
+        readConfigFromFile("testfiles/config.txt");
+
     }
-    
-    
+
     //@Override
     static public String getPupilsConfigLong() {
         return "ConfigF{/n pupPath  = " + pupPath + '}';
@@ -137,10 +139,5 @@ public class ConfigF {
     public static void setConfigPath(String aConfigPath) {
         configPath = aConfigPath;
     }
-    
-    
-}
-    
-    
-    
 
+}

@@ -50,13 +50,13 @@ public class ConfigFTest {
     @Test
     public void testSaveToFile() throws Exception {
         System.out.println("saveToFile");
-        ConfigF.readConfigFromFile("e:/config.txt");
+        ConfigF.readConfigFromFile("testfiles/config.txt");
         
         
-        ConfigF.saveToFile("e:/test/UnitTestConfig.txt");
-        File f = new File("e:/test/UnitTestConfig.txt");
+        ConfigF.saveToFile("testfiles/UnitTestConfig.txt");
+        File f = new File("testfiles/UnitTestConfig.txt");
         assertEquals(true, f.isFile());
-        assertEquals(130, f.length());
+        assertEquals(167, f.length());
     }
 
     /**
@@ -67,8 +67,8 @@ public class ConfigFTest {
         System.out.println("readFromFile");
         
         ConfigF.bankPath = "";
-        ConfigF.readConfigFromFile("e:/config.txt");
-        assertEquals("e:/test/listatestowa.csv", ConfigF.bankPath);
+        ConfigF.readConfigFromFile("testfiles/config.txt");
+        assertEquals("testfiles/listatestowa14b.csv", ConfigF.bankPath);
         
     }
     @Test
@@ -82,15 +82,12 @@ public class ConfigFTest {
         ConfigF.restoreCleanTestConfiguration();
         
         //Then
-        assertTrue(ConfigF.logFile.toLowerCase().contains("asiowytest"));
+        assertTrue(ConfigF.logFile.toLowerCase().contains("testfiles"));
         
     }
 
     @Test
 public void testPath(){
-        Path p = Paths.get("kicha/inexistent_file.txt");
-        System.out.println(p.toString());
-        System.out.println(p.toAbsolutePath());
-        
+             
 }    
 }
