@@ -23,5 +23,5 @@ public class NewPupil {
    String fName;
    String lName;
    int school;
-   int id;   
+   IDs id;   
    }

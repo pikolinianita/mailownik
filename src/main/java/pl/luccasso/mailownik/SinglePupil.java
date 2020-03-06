@@ -61,6 +61,10 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
         this.oneSemester = oneSemester;
         this.isSibling = isSibling;
     }
+
+    public int getId() {
+        return id;
+    }
    
     
         
