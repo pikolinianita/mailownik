@@ -1,0 +1,7 @@
+testfiles/papils14.txt
+testfiles/listatestowa14b.csv
+testfiles/autputtst.txt
+testfiles/logs.txt
+testfiles/cenyvsnz.txt
+testfiles/zajwszk.txt
+testfiles/config.txt
