@@ -1,6 +1,6 @@
-testfiles/pupils14.txt
+testfiles/papils14.txt
 testfiles/listatestowa14b.csv
-testfiles/outputtst.txt
+testfiles/autputtst.txt
 testfiles/logs.txt
 testfiles/cenyvsnz.txt
 testfiles/zajwszk.txt
