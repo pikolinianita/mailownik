@@ -43,7 +43,7 @@ public class GAppsParserTest {
     public void testSomeMethod() {
         // TODO review the generated test code and remove the default call to fail.
         var list = new LinkedList<Pupil>();
-        GAppsParser gap = new GAppsParser("e:/asiowytest/convert.txt",list);
+        GAppsParser gap = new GAppsParser("testfiles/papils14.txt",list);
         var gson = new GsonBuilder().setPrettyPrinting().create();
         System.out.println(gson.toJson(gap.pupilsI));
         System.out.println("---------------faken----------------");

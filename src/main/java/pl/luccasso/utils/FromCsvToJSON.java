@@ -31,7 +31,7 @@ public class FromCsvToJSON {
     
     public static void main(String[] args) throws IOException {
       
-        String s = "e:/asiowytest/outputTst.txt";
+        String s = "e:/asiowytest/autputTst.txt";
         var pups = loadPreviousData(s);
         saveJson(pups);
     }

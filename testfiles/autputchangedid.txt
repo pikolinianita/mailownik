@@ -1,0 +1,16 @@
+Id	SkryptID	Szko³a	Imie	Nazwisko	Klasa	Tel Mamy	Tel Taty	Mail	Zaj 1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	obecny	Nieobecny	Usprawiedliwione	Suma wp³at	Winien	wp³aty	W sumie zaplaci	Ilosc zajec w szkole	DanePrzelewow	konta
+1000	99-001	50	julen	a	1b	100		julena@1b.pl	0	0	0																		0	3	0	0	105	Brak Wp³at	525	15	[]	[]
+1001	99-002	50	³ucja	b	1c	200		³ucjab@1c.pl	1	1	1																		3	0	0	218	218	Semestralna	436	15	[]	[]
+1002	99-003	50	gabriel	c	1c	300		gabrielc@1c.pl	1	1	1																		3	0	0	140	105	Miesieczna	525	15	[]	[]
+1003	99-007	50	aleksandra	d	2c	400		aleksandrad@2c.pl	1	1	1																		3	0	0	140	105	Miesieczna	525	15	[]	[]
+1004	99-008	50	amelka	e	3c	500		amelkae@3c.pl	1	1	1																		3	0	0	70	105	Miesieczna	525	15	[]	[]
+1005	99-009	50	amelia	f	2c	600		ameliaf@2c.pl	1	1	1																		3	0	0	140	105	Miesieczna	525	15	[]	[]
+1006	99-010	50	zuzia	g	3c	700		zuziag@3c.pl	1	1	1																		3	0	0	140	105	Miesieczna	525	15	[]	[]
+1007	99-011	50	basia	h	2c		800	basiah@2c.pl	1	1	1																		3	0	0	0	105	Brak Wp³at	525	15	[]	[]
+1008	99-012	50	zosia	i	3c	900		zosiai@3c.pl	1	1	1																		3	0	0	0	105	Brak Wp³at	525	15	[]	[]
+1009	99-013	50	helenka	j	2c	1 000		helenkaj@2c.pl	1	1	1																		3	0	0	140	105	Miesieczna	525	15	[]	[]
+1010	99-014	50	sophie	k	3c	1 100		sophiek@3c.pl	1	1	1																		3	0	0	0	105	Brak Wp³at	525	15	[]	[]
+1011	99-015	50	maja	l	2c		1 200	majal@2c.pl	1	1	1																		3	0	0	436	436	Roczna	436	15	[]	[]
+1012	99-016	50	janek	m	2a	1 300		janekm@2a.pl	1	1	1																		3	0	0	140	105	Miesieczna	525	15	[]	[]
+																																						
+																																						

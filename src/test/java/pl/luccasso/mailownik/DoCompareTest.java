@@ -23,7 +23,7 @@ import pl.luccasso.mailownik.config.ConfigF;
  *
  * @author piko
  */
-@Disabled
+
 public class DoCompareTest {
     
     public DoCompareTest() {
@@ -76,14 +76,14 @@ public class DoCompareTest {
         }
         assertEquals(15,pupilList.size());
     
-        pupilList = new DoCompare().loadPreviousData("e:/asiowytest/outputtstless.txt");
+        pupilList = new DoCompare().loadPreviousData("testfiles/autputtstless.txt");
         assertEquals(13,pupilList.size());
     }
     
     @Test
     public void testLoadSomeFromOutputAndSomeNewFromGoogle(){
         System.out.println("------------------testLoadSomeFromOutputAndSomeNewFromGoogle()--------------");
-        ConfigF.setSavedPath("e:/asiowytest/outputtstless.txt");
+        ConfigF.setSavedPath("testfiles/autputtstless.txt");
         
         var dc = new DoCompare();
         dc.loadStuff();
@@ -95,7 +95,7 @@ public class DoCompareTest {
     @Test
     public void testLoadSomeFromOutputAndSomeNewFromGoogle_WithOutputSchoolAltered(){
         System.out.println("------------------testLoadSomeFromOutputAndSomeNewFromGoogle_897()--------------");
-        ConfigF.setSavedPath("e:/asiowytest/output15SP897.txt");
+        ConfigF.setSavedPath("testfiles/autput897.txt");
         
         var dc = new DoCompare();
         dc.loadStuff();
@@ -108,12 +108,13 @@ public class DoCompareTest {
     @Test
     public void testLoadSomeFromOutputAndSomeNewFromGoogle_AllUnique(){
         System.out.println("------------------testLoadSomeFromOutputAndSomeNewFromGoogle_AllUnique()--------------");
-        ConfigF.setSavedPath("e:/asiowytest/output15SkrIdChanged.txt");
+        ConfigF.setSavedPath("testfiles/autputchangedid.txt");
         
         var dc = new DoCompare();
         dc.loadStuff();
         
         assertEquals(28,dc.pupilList.size());
+        System.out.println(dc);
     }
     
 }
