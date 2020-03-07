@@ -71,7 +71,7 @@ public class DoCompareTest {
          assertEquals(15,dc.pupilList.size());
     }
     
-    @Disabled
+    
     @Test
     public void testLoadPrevData(){
         System.out.println("------------------testLoadPrevData--------------");
