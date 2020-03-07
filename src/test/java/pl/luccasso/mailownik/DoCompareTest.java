@@ -39,6 +39,11 @@ public class DoCompareTest {
     
     @BeforeEach
     public void setUp() {
+        try {
+            ConfigF.restoreCleanTestConfiguration();
+        } catch (FileNotFoundException ex) {
+            System.out.println("Erron in ConfigF.restoreCleanTestConfiguration() klase doCompareTest");
+        }
     }
     
     @AfterEach
