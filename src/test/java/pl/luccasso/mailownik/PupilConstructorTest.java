@@ -47,7 +47,7 @@ public class PupilConstructorTest {
     @Test
     public void testLoadFromOutput(){
     
-    try(var sc = new Scanner(new BufferedReader(new FileReader("e:/Asiowytest/outputTst.txt")))){
+    try(var sc = new Scanner(new BufferedReader(new FileReader("testfiles/autputtst.txt")))){
             sc.nextLine();
             while (sc.hasNext()){
                 pupils.add(new SinglePupil(sc.nextLine()));
