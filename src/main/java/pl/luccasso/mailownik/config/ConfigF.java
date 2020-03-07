@@ -31,12 +31,16 @@ public class ConfigF {
 
     static ArrayList<String> commonAccounts;
 
-    //TODO dopisać że to z pliku;
+    //TODO dopisać że to z pliku
     static {
         commonAccounts = new ArrayList<>();
         commonAccounts.add("36124025971111000031744632");
     }
 
+    private ConfigF(){
+        
+    }
+    
     static void saveToFile(String f) throws IOException {
 
         Path p = Paths.get(f);
@@ -61,7 +65,6 @@ public class ConfigF {
 
     static void readConfigFromFile(String f) throws FileNotFoundException {
         var p = Paths.get(f);
-        System.out.println(p.toAbsolutePath());
         try (Scanner sc = new Scanner((new FileReader(p.toFile())))) {
             pupPath = sc.next();
             bankPath = sc.next();
@@ -74,7 +77,7 @@ public class ConfigF {
         }
     }
 
-    static public void restoreCleanTestConfiguration() throws FileNotFoundException {
+    public static void restoreCleanTestConfiguration() throws FileNotFoundException {
         readConfigFromFile("testfiles/config.txt");
 
     }

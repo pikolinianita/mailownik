@@ -427,12 +427,9 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         if (inpPath == null) {
             return null;
         }
-        FileReader fr = null;
-        Scanner sc = null;
+       
         List<Pupil> pupList = new LinkedList<>(); 
-        try {
-            fr = new FileReader(inpPath);
-            sc = new Scanner(fr);
+        try (var sc = new Scanner(new FileReader(inpPath))){
             sc.nextLine();
             while(sc.hasNext()){
                  pupList.add(new SinglePupil(sc.nextLine()));
@@ -441,16 +438,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
             return pupList;
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                if (sc != null) {
-                    sc.close();
-                }
-                fr.close();
-            } catch (IOException ex) {
-                Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        } 
     return null;
     }
 

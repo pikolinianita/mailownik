@@ -91,7 +91,7 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
     * @param line linijka z pliku csv
     */
    
-    SinglePupil(String line) {
+   public SinglePupil(String line) {
         var sc = new Scanner(line);
         sc.useDelimiter("\t");
         var gson = new Gson();

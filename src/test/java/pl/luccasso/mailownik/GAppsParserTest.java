@@ -6,6 +6,8 @@
 package pl.luccasso.mailownik;
 
 
+import com.google.gson.GsonBuilder;
+import java.util.LinkedList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +42,8 @@ public class GAppsParserTest {
     @Test
     public void testSomeMethod() {
         // TODO review the generated test code and remove the default call to fail.
-      /* gap = new GAppsParser("e:/pupils.txt");
+        var list = new LinkedList<Pupil>();
+        GAppsParser gap = new GAppsParser("e:/asiowytest/convert.txt",list);
         var gson = new GsonBuilder().setPrettyPrinting().create();
         System.out.println(gson.toJson(gap.pupilsI));
         System.out.println("---------------faken----------------");
@@ -50,6 +53,7 @@ public class GAppsParserTest {
         
         gap.fakenKlasses().forEach((e)-> 
                 System.out.println("SP " + e.schoolNr + " : " + e.klass + " - " + e.fName + " " + e.lName));
-    */}
+                */
+    }
     
 }
