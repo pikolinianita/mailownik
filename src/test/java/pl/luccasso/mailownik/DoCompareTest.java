@@ -29,13 +29,37 @@ public class DoCompareTest {
         List<Pupil> list = new LinkedList<>(new SinglePupilBuilder().createSinglePupilList(size));
         var dc = new DoCompare();
         
-        List<NewFamily> fam = dc.convertPupilListToFamilyList(list);
+        List<NewFamily> fams = dc.convertPupilListToFamilyList(list);
         
-        System.out.println(list.size());
-        softly.assertThat(fam.size())
+        softly.assertThat(list.size())
+                .as("Wielkosc oryg listy")
+                .isEqualTo( size);
+        
+        softly.assertThat(fams.size())
                 .as("Wielkosc listy")
                 .isEqualTo(size);
         
+        
+    }
+    
+    @Test
+    public void listOfDoubleSiblingsTest(SoftAssertions softly){
+         int size = 9;
+        List<Pupil> list = new LinkedList<>(new SinglePupilBuilder().createSinglePupilList(size));
+        list.addAll(new LinkedList<>(new SinglePupilBuilder().setFName("bob").createSinglePupilList(size)));
+        var dc = new DoCompare();
+        
+        List<NewFamily> fams = dc.convertPupilListToFamilyList(list); 
+        
+        softly.assertThat(list.size())
+                .as("Wielkosc oryg listy")
+                .isEqualTo(2* size);
+        
+        softly.assertThat(fams.size())
+                .as("Wielkosc listy")
+                .isEqualTo(size);
+        
+        System.out.println(fams);
     }
     
 }

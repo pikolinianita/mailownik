@@ -64,11 +64,11 @@ public class DoCompareFilesTest {
          dc.loadStuff();
         // System.out.println(dc.listaTransakcji);
         // System.out.println(dc.wrongLines);
-         System.out.println(dc.pupilList);
-         for (var p : dc.pupilList){
+         System.out.println(dc.dataBase.pupilList());
+         for (var p : dc.dataBase.pupilList()){
             System.out.println(p.getShortUniqueString());
     }
-         assertEquals(15,dc.pupilList.size());
+         assertEquals(15,dc.dataBase.pupilList().size());
     }
     
     
@@ -94,8 +94,8 @@ public class DoCompareFilesTest {
         var dc = new DoCompare();
         dc.loadStuff();
         
-        assertEquals(15,dc.pupilList.size());
-        assertEquals(15,new HashSet(dc.pupilList).size());
+        assertEquals(15,dc.dataBase.pupilList().size());
+        assertEquals(15,new HashSet(dc.dataBase.pupilList()).size());
     }
     
     @Test
@@ -106,7 +106,7 @@ public class DoCompareFilesTest {
         var dc = new DoCompare();
         dc.loadStuff();
         
-        long hasShoolNr897 = dc.pupilList.stream()
+        long hasShoolNr897 = dc.dataBase.pupilList().stream()
                 .filter( p-> p.isMySchool(897))
                 .count();
         assertEquals(13,hasShoolNr897);
@@ -119,7 +119,7 @@ public class DoCompareFilesTest {
         var dc = new DoCompare();
         dc.loadStuff();
         
-        assertEquals(28,dc.pupilList.size());
+        assertEquals(28,dc.dataBase.pupilList().size());
         System.out.println(dc);
     }
     

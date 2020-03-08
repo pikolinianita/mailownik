@@ -90,7 +90,7 @@ public class GAppsParser {
             }
         }
     }
-
+/*
     List<PupilImport> fakenNauczLudziKomentek() {
         var fakenEntries = new LinkedList<PupilImport>();
         for (var p : pupilsI) {
@@ -109,5 +109,5 @@ public class GAppsParser {
                 .filter( (ele) -> { return ! ele.klass.toLowerCase().matches("\\b\\d[a-z]\\b");  })
                 .collect(Collectors.toCollection(LinkedList::new));
         return fakenEntries;
-     }
+     }*/
 }

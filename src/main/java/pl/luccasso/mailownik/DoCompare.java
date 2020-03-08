@@ -19,61 +19,53 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.Scanner;
+import lombok.Getter;
+import lombok.Setter;
 import pl.luccasso.mailownik.config.ConfigF;
 import pl.luccasso.mailownik.model.NewFamily;
+import pl.luccasso.mailownik.persistence.DataBase;
 
 /**
  *
  * @author piko
  */
+
+@Getter
+@Setter
 public class DoCompare {
     static FinancialData finData;
-    List<BankTransaction> listaTransakcji;
-    List<Pupil> pupilList;
-    List <String> wrongLines;
-    // uporzadkowane dane z Obecności
-    Map<Integer, List<Pupil>> pupBySchoolMap;
-    Map<String, List<Pupil>> pupByKlassMap;
-    Map<String, List<Pupil>> pupByAccountMap;
-    //Wynikowe Dane
-    Map<Pupil, List<BankTransaction>> fittedData;
-    Map<BankTransaction, List<Pupil>> humanToDecide;
-    List<BankTransaction> leftOvers;
-    List<BankTransaction> siblings;
-    Map<Pupil, List<BankTransaction>> sibFitted;
+    DataBase dataBase;
 
-    public static void main(String[] args) {
-        var dc = new DoCompare();
-        dc.doWork();
-        dc.save();
-    }
     
     public Map<BankTransaction, List<Pupil>> getToBeDecidedMap(){
-        return humanToDecide;
+        return dataBase.humanToDecide;
     }
 
+   public DoCompare(){
+        dataBase = new DataBase();
+    }
     
     public void doWork() {        
         loadStuff();
         makeStructures();
-        writeMapsToSout(); //debug
+        //writeMapsToSout(); //debug
         searchForSiblings();
-        listaTransakcji.forEach(this::analyzeTransaction2);
-        writeListsToSout(); //debug
+        dataBase.listaTransakcji.forEach(this::analyzeTransaction2);
+       // writeListsToSout(); //debug
     }
     
 
     private void analyzeTransaction2(BankTransaction bt) {
         bt.note("===========Fakk==============");
         try {
-            if(pupByAccountMap.containsKey(bt.account)){
-                var pList = pupByAccountMap.get(bt.account);
+            if(dataBase.pupByAccountMap.containsKey(bt.account)){
+                var pList = dataBase.pupByAccountMap.get(bt.account);
                 if (pList.size()>1) {
-                    siblings.add(bt);
+                    dataBase.siblings.add(bt);
                     bt.note("siblings - fitted by account");
                     return;
                 }                
-                fittedData.merge(pList.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
+                dataBase.fittedData.merge(pList.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
                 bt.note("account");
                 return;
             }
@@ -81,20 +73,20 @@ public class DoCompare {
             
             bt.checkForSiblings();
             if (bt.siblingsSuspected) {
-                siblings.add(bt);
+                dataBase.siblings.add(bt);
                 bt.note("siblings");
                 return;
             }
             
             if(bt.isDoomed){
-                leftOvers.add(bt);
+                dataBase.leftOvers.add(bt);
                 bt.note("Doomed");
                 return;
             }
             
             List<Pupil> tmpList;
             if (!bt.hasDubiousSchool) {
-                tmpList = new LinkedList(pupBySchoolMap.get(Integer.valueOf(bt.school)));
+                tmpList = new LinkedList(dataBase.pupBySchoolMap.get(Integer.valueOf(bt.school)));
                 var listWithlNames = tryFitNames(bt,tmpList);
                 if (listWithlNames.size()==0){
                     if (!bt.hasDubiousKlass){                        
@@ -102,52 +94,52 @@ public class DoCompare {
                         var listWithfName = tryFitfName(bt,listWithKlass);                       
                         if (listWithfName.size()==0) {
                             if (listWithKlass.size() > 0) {
-                               humanToDecide.put(bt, listWithKlass);
+                               dataBase.humanToDecide.put(bt, listWithKlass);
                                bt.note("School+ fName+ lname- klass++ ");
                                return;
                             } else {
-                                leftOvers.add(bt);
+                                dataBase.leftOvers.add(bt);
                                 bt.note("School+ lName- klass+ fname- ");
                                 return;
                             }
                         } else if (listWithfName.size()==1){
-                            fittedData.merge(listWithfName.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
+                            dataBase.fittedData.merge(listWithfName.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
                             bt.note("School+ fname+ klass+ lName-");
                             return;
                         } else {
-                            leftOvers.add(bt);
+                            dataBase.leftOvers.add(bt);
                             bt.note("School+ fname++ klass+ lName- ");
                             return;
                         } 
                             
                     } else {
-                        leftOvers.add(bt);
+                        dataBase.leftOvers.add(bt);
                         bt.note("School+ lName- klass?");
                         return;
                     }
                 } else if (listWithlNames.size()==1){
                     
-                    fittedData.merge(listWithlNames.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
+                    dataBase.fittedData.merge(listWithlNames.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
                     bt.note("School+ lName+");
                     return;
                 } else {
                     if(bt.hasDubiousKlass){
-                    humanToDecide.put(bt, listWithlNames);
+                    dataBase.humanToDecide.put(bt, listWithlNames);
                     bt.note("School+ lname++ klass?");
                     return;
                     } else {
                         var listWithKlass = tryFitKlass(bt,tmpList);
                         if (listWithKlass.size()==0) {
-                            humanToDecide.put(bt, listWithlNames);
+                            dataBase.humanToDecide.put(bt, listWithlNames);
                             bt.note("School+ lname++ klass-");
                             return;
                         } else if (listWithKlass.size()==1) {
                             bt.note("School+ lName++ klass+");
-                            fittedData.merge(listWithKlass.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
+                            dataBase.fittedData.merge(listWithKlass.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
                             return;
                         } else {
                             bt.note("School+ lName++ klass++");
-                            humanToDecide.put(bt, listWithKlass);
+                            dataBase.humanToDecide.put(bt, listWithKlass);
                             return;
                         }
                             
@@ -157,41 +149,41 @@ public class DoCompare {
             }
             
             if (!bt.hasDubiousKlass) {
-                tmpList = new LinkedList(pupByKlassMap.get(bt.klass));
+                tmpList = new LinkedList(dataBase.pupByKlassMap.get(bt.klass));
                 var ListlName = tryFitNames(bt,tmpList);
                 var ListwSchool = tryFindSchool(bt,ListlName);
                 if (ListwSchool.size() > 1){
                     bt.note("School++ lName++ klass+");
-                    humanToDecide.put(bt, ListwSchool);
+                    dataBase.humanToDecide.put(bt, ListwSchool);
                     return;
                 } else if (ListwSchool.size() == 1){
                     bt.note("Klass+ school+ lname +");
-                    fittedData.merge(ListwSchool.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
+                    dataBase.fittedData.merge(ListwSchool.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
                     return;
                 } else {
                     if (ListlName.size()==0){
-                        leftOvers.add(bt);
+                        dataBase.leftOvers.add(bt);
                         bt.note("Klas+ lname- ");
                         return;
                     } else if (ListlName.size()==1){
                         bt.note("Klas+ lname+ school-");
-                        fittedData.merge(ListlName.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
+                        dataBase.fittedData.merge(ListlName.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
                         return;
                     } else{
                         bt.note("Klas+ lname++");
-                        humanToDecide.put(bt, ListlName);
+                        dataBase.humanToDecide.put(bt, ListlName);
                         return;
                     }       
                    
                 }
             }
             
-            tmpList = new LinkedList<>(pupilList);
-            leftOvers.add(bt);
+            tmpList = new LinkedList<>(dataBase.pupilList);
+            dataBase.leftOvers.add(bt);
             bt.note("School?");
             
         } catch (Exception e) {
-            leftOvers.add(bt);
+            dataBase.leftOvers.add(bt);
             bt.note("------Exception----------");
             System.out.println("anal2: -Ex- : " + bt.title);
        
@@ -234,31 +226,31 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
                 .importschools(ConfigF.getClassPerSchool());
         BankFileParser.finData=this.finData;
         var parser = new BankFileParser(ConfigF.getBankPath());
-        listaTransakcji = parser.getListaTransakcji();
-        wrongLines = parser.getWrongLines();
-        pupilList = loadPreviousData(ConfigF.getSavedPath());
-        pupilList = new GAppsParser(ConfigF.getPupPath(), pupilList).pupils;
-        var neuFamilyList = convertPupilListToFamilyList(pupilList);
+        dataBase.listaTransakcji = parser.getListaTransakcji();
+        dataBase.wrongLines = parser.getWrongLines();
+        dataBase.pupilList = loadPreviousData(ConfigF.getSavedPath());
+        dataBase.pupilList = new GAppsParser(ConfigF.getPupPath(), dataBase.pupilList).pupils;
+        var neuFamilyList = convertPupilListToFamilyList(dataBase.pupilList);
 
     }
     
     
     
     private void makeStructures() {
-        pupBySchoolMap = pupilList.stream().collect(Collectors.groupingBy(e -> e.getSchoolNr()));
-        pupByKlassMap = pupilList.stream().collect(Collectors.groupingBy(e -> e.getKlass()));
-        pupByAccountMap = new HashMap<>();
-        for (var p: pupilList){
+        dataBase.pupBySchoolMap = dataBase.pupilList.stream().collect(Collectors.groupingBy(e -> e.getSchoolNr()));
+        dataBase.pupByKlassMap = dataBase.pupilList.stream().collect(Collectors.groupingBy(e -> e.getKlass()));
+        dataBase.pupByAccountMap = new HashMap<>();
+        for (var p: dataBase.pupilList){
             for(var acc: p.getAccountNrs()) {
-                pupByAccountMap.merge(acc, new LinkedList(List.of(p)),(o,n)->{o.addAll(n);return o;});
+                dataBase.pupByAccountMap.merge(acc, new LinkedList(List.of(p)),(o,n)->{o.addAll(n);return o;});
             }
         }
         //
-        fittedData = new HashMap<>();
-        humanToDecide = new HashMap<>();
-        leftOvers = new LinkedList<>();
-        siblings = new LinkedList<>();
-        sibFitted = new HashMap<>();
+        dataBase.fittedData = new HashMap<>();
+        dataBase.humanToDecide = new HashMap<>();
+        dataBase.leftOvers = new LinkedList<>();
+        dataBase.siblings = new LinkedList<>();
+        dataBase.sibFitted = new HashMap<>();
     }
     
     List<NewFamily> convertPupilListToFamilyList(List<Pupil> list) {
@@ -269,8 +261,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
                 if (fam.isMyBrother(pup)){
                     fam.add((SinglePupil)pup);
                     break outer;
-                }
-            
+                }            
             }
             familyList.add(new NewFamily((SinglePupil) pup));
         }
@@ -286,15 +277,15 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     }
     
     public void addToFittedData(Pupil p, BankTransaction bt){
-        fittedData.merge(p, new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n);return o;});
+        dataBase.fittedData.merge(p, new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n);return o;});
     }
     
     public void removeFromHumanToDecide(BankTransaction bt){
-        humanToDecide.remove(bt);
+        dataBase.humanToDecide.remove(bt);
     } 
 
     public void addToLeftOvers(BankTransaction bt){
-        leftOvers.add(bt);
+        dataBase.leftOvers.add(bt);
     }
     
     public void save(){
@@ -302,17 +293,17 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         FileWriter fw = null;
         try {
             fw = new FileWriter("e:/leftovers.txt");
-            for (var p : leftOvers) {
+            for (var p : dataBase.leftOvers) {
                 fw.write(p.saveTransaction());
             }
             
-            for (var p : humanToDecide.keySet()) {
+            for (var p : dataBase.humanToDecide.keySet()) {
                 fw.write(p.saveTransaction());
             }            
             fw.close();
             
             fw = new FileWriter("e:/siblings_org.txt");
-            for (var p : siblings) {
+            for (var p : dataBase.siblings) {
                 fw.write(p.saveTransaction());
             }
             fw.close();
@@ -320,7 +311,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
            
             
             fw = new FileWriter("e:/syfy.txt");
-            for (var p : wrongLines){
+            for (var p : dataBase.wrongLines){
                 fw.write(p);
             }
             fw.close();
@@ -330,8 +321,8 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
             fw.write(String.join("\t", "Id","SkryptID","Szkoła","Imie","Nazwisko","Klasa","Tel Mamy","Tel Taty","Mail",
                 "Zaj 1","2","3","4","5","6","7","8","9","10","11","12", "13","14","15","16","17","18","19","20","obecny","Nieobecny","Usprawiedliwione",
                 "Suma wpłat","Winien","wpłaty","W sumie zaplaci","Ilosc zajec w szkole","DanePrzelewow","konta")+"\n");
-            for (var p :pupilList){
-                fw.write(p.processTransactions(fittedData.get(p)).getFileLine());
+            for (var p :dataBase.pupilList){
+                fw.write(p.processTransactions(dataBase.fittedData.get(p)).getFileLine());
             }
             fw.close();
             
@@ -339,8 +330,8 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
             fw.write(String.join("\t", "Id","SkryptID","Szkoła","Imie","Nazwisko","Klasa","Tel Mamy", "Tel Taty","Mail",
                 "Zaj 1","2","3","4","5","6","7","8","9","10","11","12", "13","14","15","16","17","18","19","20","obecny","Nieobecny","Usprawiedliwione",
                 "Suma wpłat","Winien","wpłaty","W sumie zaplaci","Ilosc zajec w szkole","DanePrzelewow","konta"+"\n"));
-            for (var p: sibFitted.keySet()){
-                fw.write(p.processTransactions(sibFitted.get(p)).getFileLine());
+            for (var p: dataBase.sibFitted.keySet()){
+                fw.write(p.processTransactions(dataBase.sibFitted.get(p)).getFileLine());
             }
             fw.close();
             
@@ -360,39 +351,39 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     
     public List<BankTransaction> getLeftOvers() {        
         System.out.println("Kurka - getLeftOvers");   
-        return leftOvers;
+        return dataBase.leftOvers;
     }
     
     public List<Pupil> getPupilList(){
-        return pupilList;
+        return dataBase.pupilList;
     }
     
     public Map<Integer, List<Pupil>> getPupBySchoolMap(){
-           return pupBySchoolMap;
+           return dataBase.pupBySchoolMap;
     }
 
     public List <String> getWrongLinesList() {
-         return wrongLines;
+         return dataBase.wrongLines;
     }
 
     public  List<BankTransaction> getSiblingsBTList() {
-        return siblings;
+        return dataBase.siblings;
     }
     
     public int getAmountOfFittedTransactions(){
-        return (int) fittedData.values().stream().flatMap(li->li.stream()).count();
+        return (int) dataBase.fittedData.values().stream().flatMap(li->li.stream()).count();
     }
 
     public void pushLinesToSiblings(BankTransaction bt, List<Pupil> chosenSiblings) {
         int nSiblings = chosenSiblings.size();
         System.out.println("Lista rodzenstwa to: " +  nSiblings);
-        System.out.println("sib Fitted: " + sibFitted.keySet().size());
+        System.out.println("sib Fitted: " + dataBase.sibFitted.keySet().size());
         for(var p: chosenSiblings){
             BankTransaction tmpTrans = bt.divideCashAndReturnNew(nSiblings);
-            sibFitted.merge(p, new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
+            dataBase.sibFitted.merge(p, new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
             
         }
-        siblings.remove(bt);
+        dataBase.siblings.remove(bt);
             
     }
 
@@ -437,7 +428,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         //TODO
     }
     
-     void writeListsToSout() {
+   /*  void writeListsToSout() {
         System.out.println("---------------sibli--------------");
         System.out.println(siblings.size());
         System.out.println(siblings);
@@ -482,6 +473,13 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         System.out.println(pupBySchoolMap.keySet());
     }
     
+    
+    
+    public static void main(String[] args) {
+        var dc = new DoCompare();
+        dc.doWork();
+        dc.save();
+    }*/
 }
 
 
