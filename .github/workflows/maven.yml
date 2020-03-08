@@ -19,16 +19,16 @@ jobs:
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2 
-        
-    - name: Build with Maven
-      run: mvn site -s $GITHUB_WORKSPACE/settings.xml
-      
-    - name: Send Result to Sonar
+        restore-keys: ${{ runner.os }}-m2  
+    
+    - name: Build and send Result to Sonar
       run: mvn verify sonar:sonar  
       env:
         GITHUB_TOKEN: ${{ github.token }} 
-    
+ 
+    - name: Report Maven
+      run: mvn site -s $GITHUB_WORKSPACE/settings.xml
+      
     - name: upload report
       uses: actions/upload-artifact@v1
       with:
