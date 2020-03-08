@@ -5,122 +5,37 @@
  */
 package pl.luccasso.mailownik;
 
-import java.io.FileNotFoundException;
-import java.util.HashSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
+import java.util.LinkedList;
+import java.util.List;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Disabled;
-import static pl.luccasso.mailownik.DoCompare.finData;
-import pl.luccasso.mailownik.config.ConfigF;
+import org.junit.jupiter.api.extension.ExtendWith;
+import pl.luccasso.mailownik.model.NewFamily;
+import pl.luccasso.utils.SinglePupilBuilder;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  *
  * @author piko
  */
-
+import static org.assertj.core.api.Assertions.assertThat;
+@ExtendWith(SoftAssertionsExtension.class)
 public class DoCompareTest {
     
-    public DoCompareTest() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-        try {
-            ConfigF.restoreCleanTestConfiguration();
-        } catch (FileNotFoundException ex) {
-            System.out.println("Erron in ConfigF.restoreCleanTestConfiguration() klase doCompareTest");
-        }
-    }
-    
-    @AfterEach
-    public void tearDown()  {
-        try {
-            ConfigF.restoreCleanTestConfiguration();
-        } catch (FileNotFoundException ex) {
-            System.out.println("Erron in ConfigF.restoreCleanTestConfiguration() klase doCompareTest");
-        }
-    }
-
-        
-
     @Test
-    public void testLoadStuff(){
-        System.out.println("------------------testLoadStuff--------------");
-         var dc = new DoCompare();
-         dc.loadStuff();
-        // System.out.println(dc.listaTransakcji);
-        // System.out.println(dc.wrongLines);
-         System.out.println(dc.pupilList);
-         for (var p : dc.pupilList){
-            System.out.println(p.getShortUniqueString());
-    }
-         assertEquals(15,dc.pupilList.size());
-    }
-    
-    
-    @Test
-    public void testLoadPrevData(){
-        System.out.println("------------------testLoadPrevData--------------");
+    public void listOfStrangersTest(SoftAssertions softly){
+        int size = 9;
+        List<Pupil> list = new LinkedList<>(new SinglePupilBuilder().createSinglePupilList(size));
         var dc = new DoCompare();
-        var pupilList = dc.loadPreviousData(ConfigF.getSavedPath());
-        for (var p : pupilList){
-            System.out.println(p.getShortUniqueString());
-        }
-        assertEquals(15,pupilList.size());
-    
-        pupilList = new DoCompare().loadPreviousData("testfiles/autputtstless.txt");
-        assertEquals(13,pupilList.size());
-    }
-    
-    @Test
-    public void testLoadSomeFromOutputAndSomeNewFromGoogle(){
-        System.out.println("------------------testLoadSomeFromOutputAndSomeNewFromGoogle()--------------");
-        ConfigF.setSavedPath("testfiles/autputtstless.txt");
         
-        var dc = new DoCompare();
-        dc.loadStuff();
+        List<NewFamily> fam = dc.convertPupilListToFamilyList(list);
         
-        assertEquals(15,dc.pupilList.size());
-        assertEquals(15,new HashSet(dc.pupilList).size());
-    }
-    
-    @Test
-    public void testLoadSomeFromOutputAndSomeNewFromGoogle_WithOutputSchoolAltered(){
-        System.out.println("------------------testLoadSomeFromOutputAndSomeNewFromGoogle_897()--------------");
-        ConfigF.setSavedPath("testfiles/autput897.txt");
+        System.out.println(list.size());
+        softly.assertThat(fam.size())
+                .as("Wielkosc listy")
+                .isEqualTo(size);
         
-        var dc = new DoCompare();
-        dc.loadStuff();
-        
-        long hasShoolNr897 = dc.pupilList.stream()
-                .filter( p-> p.isMySchool(897))
-                .count();
-        assertEquals(13,hasShoolNr897);
-    }
-    @Test
-    public void testLoadSomeFromOutputAndSomeNewFromGoogle_AllUnique(){
-        System.out.println("------------------testLoadSomeFromOutputAndSomeNewFromGoogle_AllUnique()--------------");
-        ConfigF.setSavedPath("testfiles/autputchangedid.txt");
-        
-        var dc = new DoCompare();
-        dc.loadStuff();
-        
-        assertEquals(28,dc.pupilList.size());
-        System.out.println(dc);
     }
     
 }

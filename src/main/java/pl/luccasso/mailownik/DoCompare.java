@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.Scanner;
 import pl.luccasso.mailownik.config.ConfigF;
+import pl.luccasso.mailownik.model.NewFamily;
 
 /**
  *
@@ -60,51 +61,7 @@ public class DoCompare {
         listaTransakcji.forEach(this::analyzeTransaction2);
         writeListsToSout(); //debug
     }
-
-    void writeListsToSout() {
-        System.out.println("---------------sibli--------------");
-        System.out.println(siblings.size());
-        System.out.println(siblings);
-        System.out.println("------------Left Overs------------");
-        System.out.println(leftOvers.size());
-        System.out.println(leftOvers);
-        System.out.println("------------Human To Decide---------");
-        System.out.println(humanToDecide.entrySet().size());
-        System.out.println(humanToDecide.entrySet());
-        System.out.println("------------fitted------------------");
-        System.out.println(fittedData.values().stream().flatMap(li->li.stream()).count());
-        System.out.println(fittedData.entrySet());
-        
-        var tmpList = new LinkedList<>(listaTransakcji);
-        tmpList.removeAll(siblings);
-        tmpList.removeAll(leftOvers);
-        tmpList.removeAll(humanToDecide.keySet());
-        fittedData.values().forEach(e -> {
-            tmpList.removeAll(e);
-        });
-        
-        System.out.println("------------F lost------------------");
-        System.out.println(tmpList.size());
-        System.out.println(tmpList);
-        System.out.println("--------- end ---------");
-        System.out.println("---------------org lista trans------");
-        System.out.println(listaTransakcji.size());
-        System.out.println("---------------org lista trans set------");
-        System.out.println(new HashSet(listaTransakcji).size());
-        System.out.println("---------------mapa----------------------");
-        Map tmpMap = listaTransakcji.stream().collect(Collectors.groupingBy((tr) -> tr.matchNotes));
-        System.out.println(tmpMap.entrySet().size());
-        System.out.println(tmpMap);
-    }
-
-    void writeMapsToSout() {
-        System.out.println("---------------org lista trans------");
-        System.out.println(listaTransakcji.size());
-        System.out.println("-------Set----------");
-        System.out.println(pupByKlassMap.keySet());
-        System.out.println("-------Set----------");
-        System.out.println(pupBySchoolMap.keySet());
-    }
+    
 
     private void analyzeTransaction2(BankTransaction bt) {
         bt.note("===========Fakk==============");
@@ -281,7 +238,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         wrongLines = parser.getWrongLines();
         pupilList = loadPreviousData(ConfigF.getSavedPath());
         pupilList = new GAppsParser(ConfigF.getPupPath(), pupilList).pupils;
-        
+        var neuFamilyList = convertPupilListToFamilyList(pupilList);
 
     }
     
@@ -302,6 +259,22 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         leftOvers = new LinkedList<>();
         siblings = new LinkedList<>();
         sibFitted = new HashMap<>();
+    }
+    
+    List<NewFamily> convertPupilListToFamilyList(List<Pupil> list) {
+        var familyList = new LinkedList<NewFamily>();
+        outer:
+        for (var pup : list) {
+            for (var fam : familyList) {
+                if (fam.isMyBrother(pup)){
+                    fam.add((SinglePupil)pup);
+                    break outer;
+                }
+            
+            }
+            familyList.add(new NewFamily((SinglePupil) pup));
+        }
+        return familyList;
     }
 
     public void setBankPath(String path){
@@ -463,6 +436,52 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     void searchForSiblings() {
         //TODO
     }
+    
+     void writeListsToSout() {
+        System.out.println("---------------sibli--------------");
+        System.out.println(siblings.size());
+        System.out.println(siblings);
+        System.out.println("------------Left Overs------------");
+        System.out.println(leftOvers.size());
+        System.out.println(leftOvers);
+        System.out.println("------------Human To Decide---------");
+        System.out.println(humanToDecide.entrySet().size());
+        System.out.println(humanToDecide.entrySet());
+        System.out.println("------------fitted------------------");
+        System.out.println(fittedData.values().stream().flatMap(li->li.stream()).count());
+        System.out.println(fittedData.entrySet());
+        
+        var tmpList = new LinkedList<>(listaTransakcji);
+        tmpList.removeAll(siblings);
+        tmpList.removeAll(leftOvers);
+        tmpList.removeAll(humanToDecide.keySet());
+        fittedData.values().forEach(e -> {
+            tmpList.removeAll(e);
+        });
+        
+        System.out.println("------------F lost------------------");
+        System.out.println(tmpList.size());
+        System.out.println(tmpList);
+        System.out.println("--------- end ---------");
+        System.out.println("---------------org lista trans------");
+        System.out.println(listaTransakcji.size());
+        System.out.println("---------------org lista trans set------");
+        System.out.println(new HashSet(listaTransakcji).size());
+        System.out.println("---------------mapa----------------------");
+        Map tmpMap = listaTransakcji.stream().collect(Collectors.groupingBy((tr) -> tr.matchNotes));
+        System.out.println(tmpMap.entrySet().size());
+        System.out.println(tmpMap);
+    }
+
+    void writeMapsToSout() {
+        System.out.println("---------------org lista trans------");
+        System.out.println(listaTransakcji.size());
+        System.out.println("-------Set----------");
+        System.out.println(pupByKlassMap.keySet());
+        System.out.println("-------Set----------");
+        System.out.println(pupBySchoolMap.keySet());
+    }
+    
 }
 
 

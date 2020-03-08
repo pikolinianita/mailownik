@@ -5,30 +5,35 @@
  */
 package pl.luccasso.mailownik.model;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import pl.luccasso.mailownik.SinglePupil;
-import pl.luccasso.mailownik.TransactionInfo;
 
 /**
  *
  * @author piko
  */
+
 @ToString
 @Accessors(fluent = true, chain = true)
 @Getter
 @Setter
 @NoArgsConstructor
-public class PaymentsData{
-     Set <String> accountNrs;
-     List <TransactionInfo> transactions;
+class Childrens {
 
-    void amend(SinglePupil sp) {
-        //TODO Do something with it
+    List<NewPupil> list = new LinkedList<>();
+    
+    Childrens add(NewPupil p){
+        list.add(p);
+        return this;
     }
- }
+
+    int size() {
+        return list.size();
+    }
+    
+}

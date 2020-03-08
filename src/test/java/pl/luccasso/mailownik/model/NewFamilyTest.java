@@ -22,8 +22,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @author piko
  */
 @ExtendWith(SoftAssertionsExtension.class)
-public class NewFamilyTest {
-    
+public class NewFamilyTest {   
     
     
     @Test
@@ -32,17 +31,44 @@ public class NewFamilyTest {
         
         var family = new NewFamily(sp.createSinglePupil());
         
-        softly.assertThat(family.childrens().get(0).fName())
+        softly.assertThat(family.childrens().list().get(0).fName())
                 .as("First Name")
                 .isEqualTo("Adam100");
-        softly.assertThat(family.childrens().get(0).lName())
+        softly.assertThat(family.childrens().list().get(0).lName())
                 .as("Last Name")
                 .isEqualTo("Byk100");
-        softly.assertThat(family.childrens().get(0).id().id()).as("Id").isEqualTo(500);
+        softly.assertThat(family.childrens().list().get(0).id().id()).as("Id").isEqualTo(500);
         softly.assertThat(family.contacts().nTel()).as("tel").isEqualTo("500000000100");
         softly.assertThat(family.contacts().eMail()).as("email").isEqualTo("AdamByk@def.pl100");
         
         System.out.println(family);
     }
     
+    @Test
+    public void testSiblings(SoftAssertions softly){
+        var spBuilder = new SinglePupilBuilder();
+        var sp1 = spBuilder.createSinglePupil();
+        var sp1a = new SinglePupilBuilder().createSinglePupil();
+        var sp2 = spBuilder.setCount(101).createSinglePupil();
+        var family = new NewFamily(sp1);
+        
+        System.out.println("sp1:" + sp1);
+        System.out.println("sp1a:" + sp1a);
+        System.out.println("sp2:" + sp2);
+        
+        softly.assertThat(family.isMyBrother(sp1a)).as("Should be brother").isTrue();
+        softly.assertThat(family.isMyBrother(sp2)).as("Should not be a brother").isFalse();
+    }
+    
+    @Test
+    public void testAddBrother(SoftAssertions softly){
+        var spBuilder = new SinglePupilBuilder();
+        var sp1 = spBuilder.setFName("Bob").createSinglePupil();
+        var sp1a = new SinglePupilBuilder().createSinglePupil();
+        
+        NewFamily family = new NewFamily(sp1).add(sp1a);
+        
+        softly.assertThat(family.size()).as("family size").isEqualTo(2);
+        softly.assertThat(family.childrens().list()).as("are good names").extracting("fName").contains("Bob100","Adam100");
+    }
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import pl.luccasso.mailownik.Pupil;
 import pl.luccasso.mailownik.SinglePupil;
 
 
@@ -26,7 +27,7 @@ public class NewFamily {
     
     PaymentsData payments;
     
-    List<NewPupil> childrens;
+    Childrens childrens;
 
     public NewFamily(SinglePupil sp) {
 
@@ -52,9 +53,40 @@ public class NewFamily {
                 .id(iDs)
                 .school(sp.getSchoolNr());
         
-        childrens = new LinkedList<>();
-        childrens.add(child);     
+        childrens = new Childrens().add(child);
+        
         
     }
 
+    public boolean isMyBrother(Pupil pup) {
+       return contacts.eMail().equalsIgnoreCase(pup.getEMail()) 
+               || contacts.nTel().equals(pup.getNTel())
+               || contacts.nTel2().equals(pup.getNTel2());
+    }
+
+    public NewFamily add(SinglePupil sp) {       
+        
+        var att = new Attendance()
+                .nb(sp.getNb())
+                .timeSheet(sp.getTimeSheet());
+        var iDs = new IDs()
+                .skryptId(sp.getSkryptId())
+                .id(sp.getId());
+        var child = new NewPupil()
+                .fName(sp.getFName())
+                .lName(sp.getLName())
+                .attendance(att)
+                .id(iDs)
+                .school(sp.getSchoolNr());
+        
+        childrens.add(child);
+        
+        payments.amend(sp);
+        return this;
+    }
+
+    public int size(){
+        return childrens.size();
+    }
+    
 }
