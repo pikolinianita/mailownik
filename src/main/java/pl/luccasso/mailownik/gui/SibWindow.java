@@ -5,7 +5,7 @@
  */
 package pl.luccasso.mailownik.gui;
 
-import java.awt.HeadlessException;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
@@ -25,11 +25,12 @@ import pl.luccasso.mailownik.DoCompare;
 public class SibWindow extends JFrame implements ActionListener {
     List<BankTransaction> btList;
     List<SibPanel> sibPanList;
-    JButton ok,cancel; 
+    JButton ok; 
+    JButton cancel; 
     DoCompare mainData;
     MainWindow handler;
     
-    public SibWindow(MainWindow mW, String title, DoCompare mD ) throws HeadlessException {
+    public SibWindow(MainWindow mW, String title, DoCompare mD ) {
         super(title);
         mainData = mD;
         handler = mW;
@@ -37,7 +38,6 @@ public class SibWindow extends JFrame implements ActionListener {
         btList = mainData.getSiblingsBTList();
         sibPanList = new LinkedList<>();
       
-        System.out.println("siblings");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
@@ -55,27 +55,25 @@ public class SibWindow extends JFrame implements ActionListener {
         }
         ok = new JButton("ok");
         ok.addActionListener(this);
-       // ok.addActionListener(handler);
+       
         cancel = new JButton("anuluj");
         cancel.addActionListener(this);
-        //cancel.addActionListener(handler);
+        
         contentPanel.add(ok);
         contentPanel.add(cancel);
         setSize(400, 300);
         pack();
         setVisible(true);
-        System.out.println(SiblingsInfo());
+        System.out.println(siblingsInfo());
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("/listener for sib");
+        
         if (e.getSource() == ok){
-            System.out.println(SiblingsInfo());
             for(var s:sibPanList){
                 if(s.isSet){
-                    System.out.println("cosik " + s.chosenSiblings.size());
-                    mainData.pushLinesToSiblings(s.bt, s.chosenSiblings);
+                   mainData.pushLinesToSiblings(s.bt, s.chosenSiblings);
                 }
             }
             handler.writeSummary();
@@ -88,7 +86,7 @@ public class SibWindow extends JFrame implements ActionListener {
        
     }
     
-    String SiblingsInfo(){
+    String siblingsInfo(){
         int i=0;
          for(var s:sibPanList){
               if(s.isSet){

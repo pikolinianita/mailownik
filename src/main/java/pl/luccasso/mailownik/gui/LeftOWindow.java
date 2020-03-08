@@ -5,7 +5,7 @@
  */
 package pl.luccasso.mailownik.gui;
 
-import java.awt.HeadlessException;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
@@ -26,11 +26,12 @@ import pl.luccasso.mailownik.DoCompare;
 class LeftOWindow extends JFrame implements ActionListener {
     List<BankTransaction> btList;
     List<LOPanel> lOPanList;
-    JButton ok,cancel; 
+    JButton ok; 
+    JButton cancel; 
     DoCompare mainData;
     MainWindow handler;
     
-    public LeftOWindow(MainWindow mW, String title, DoCompare mD ) throws HeadlessException {
+    public LeftOWindow(MainWindow mW, String title, DoCompare mD ) {
         super(title);
         mainData = mD;
         handler = mW;
@@ -38,7 +39,7 @@ class LeftOWindow extends JFrame implements ActionListener {
         btList = mainData.getLeftOvers();
         lOPanList = new LinkedList<>();
         ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
-        System.out.println("resztki");
+        
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
@@ -71,7 +72,7 @@ class LeftOWindow extends JFrame implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("/listener for low");
+        
         if (e.getSource() == ok){
             for(var l: lOPanList) {
                 if(l.isSet){
