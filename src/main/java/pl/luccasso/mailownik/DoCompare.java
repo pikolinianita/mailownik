@@ -11,7 +11,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -88,11 +87,11 @@ public class DoCompare {
             if (!bt.hasDubiousSchool) {
                 tmpList = new LinkedList(dataBase.pupBySchoolMap.get(Integer.valueOf(bt.school)));
                 var listWithlNames = tryFitNames(bt,tmpList);
-                if (listWithlNames.size()==0){
+                if (listWithlNames.isEmpty()){
                     if (!bt.hasDubiousKlass){                        
                         var listWithKlass = tryFitKlass(bt,tmpList);                        
                         var listWithfName = tryFitfName(bt,listWithKlass);                       
-                        if (listWithfName.size()==0) {
+                        if (listWithfName.isEmpty()) {
                             if (listWithKlass.size() > 0) {
                                dataBase.humanToDecide.put(bt, listWithKlass);
                                bt.note("School+ fName+ lname- klass++ ");
@@ -129,7 +128,7 @@ public class DoCompare {
                     return;
                     } else {
                         var listWithKlass = tryFitKlass(bt,tmpList);
-                        if (listWithKlass.size()==0) {
+                        if (listWithKlass.isEmpty()) {
                             dataBase.humanToDecide.put(bt, listWithlNames);
                             bt.note("School+ lname++ klass-");
                             return;
@@ -161,7 +160,7 @@ public class DoCompare {
                     dataBase.fittedData.merge(ListwSchool.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {o.addAll(n); return o; });
                     return;
                 } else {
-                    if (ListlName.size()==0){
+                    if (ListlName.isEmpty()){
                         dataBase.leftOvers.add(bt);
                         bt.note("Klas+ lname- ");
                         return;
@@ -178,7 +177,7 @@ public class DoCompare {
                 }
             }
             
-            tmpList = new LinkedList<>(dataBase.pupilList);
+            tmpList = new LinkedList<>(dataBase.pupilList());
             dataBase.leftOvers.add(bt);
             bt.note("School?");
             
@@ -192,32 +191,28 @@ public class DoCompare {
     }
 
 private List<Pupil> tryFitKlass(BankTransaction bt, List<Pupil> lList) {
-        List<Pupil> tmp = lList.stream()
+        return lList.stream()
                 .filter(p->p.isMyKlass(bt.klass))
                 .collect(Collectors.toCollection(LinkedList::new));
-        return tmp;
-    }    
+        }    
 
 private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
-        List<Pupil> tmp = lList.stream()
+        return lList.stream()
                 .filter(p->p.isMySchoolHere(bt.klass))
                 .collect(Collectors.toCollection(LinkedList::new));
-        return tmp;
-    } 
+        } 
 
     private List<Pupil> tryFitfName(BankTransaction bt, List<Pupil> lList) {
-        List<Pupil> tmp = lList.stream()
+        return lList.stream()
                 .filter(p->p.isMyfNameHere(bt.niceString))
                 .collect(Collectors.toCollection(LinkedList::new));
-        return tmp;
-    }
+        }
 
     private List<Pupil> tryFitNames(BankTransaction bt, List<Pupil> lList) {
-        List<Pupil> tmp = lList.stream()
+        return lList.stream()
                 .filter(p->p.isMylNameHere(bt.niceString))
                 .collect(Collectors.toCollection(LinkedList::new));
-        return tmp;
-    }    
+        }    
         
     void loadStuff() {
         
@@ -228,19 +223,19 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
         var parser = new BankFileParser(ConfigF.getBankPath());
         dataBase.listaTransakcji = parser.getListaTransakcji();
         dataBase.wrongLines = parser.getWrongLines();
-        dataBase.pupilList = loadPreviousData(ConfigF.getSavedPath());
-        dataBase.pupilList = new GAppsParser(ConfigF.getPupPath(), dataBase.pupilList).pupils;
-        var neuFamilyList = convertPupilListToFamilyList(dataBase.pupilList);
+        dataBase.pupilList(loadPreviousData(ConfigF.getSavedPath()));
+        dataBase.pupilList(new GAppsParser(ConfigF.getPupPath(), dataBase.pupilList()).pupils);
+        var neuFamilyList = convertPupilListToFamilyList(dataBase.pupilList());
 
     }
     
     
     
     private void makeStructures() {
-        dataBase.pupBySchoolMap = dataBase.pupilList.stream().collect(Collectors.groupingBy(e -> e.getSchoolNr()));
-        dataBase.pupByKlassMap = dataBase.pupilList.stream().collect(Collectors.groupingBy(e -> e.getKlass()));
+        dataBase.pupBySchoolMap = dataBase.pupilList().stream().collect(Collectors.groupingBy(e -> e.getSchoolNr()));
+        dataBase.pupByKlassMap = dataBase.pupilList().stream().collect(Collectors.groupingBy(e -> e.getKlass()));
         dataBase.pupByAccountMap = new HashMap<>();
-        for (var p: dataBase.pupilList){
+        for (var p: dataBase.pupilList()){
             for(var acc: p.getAccountNrs()) {
                 dataBase.pupByAccountMap.merge(acc, new LinkedList(List.of(p)),(o,n)->{o.addAll(n);return o;});
             }
@@ -321,7 +316,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
             fw.write(String.join("\t", "Id","SkryptID","Szkoła","Imie","Nazwisko","Klasa","Tel Mamy","Tel Taty","Mail",
                 "Zaj 1","2","3","4","5","6","7","8","9","10","11","12", "13","14","15","16","17","18","19","20","obecny","Nieobecny","Usprawiedliwione",
                 "Suma wpłat","Winien","wpłaty","W sumie zaplaci","Ilosc zajec w szkole","DanePrzelewow","konta")+"\n");
-            for (var p :dataBase.pupilList){
+            for (var p :dataBase.pupilList()){
                 fw.write(p.processTransactions(dataBase.fittedData.get(p)).getFileLine());
             }
             fw.close();
@@ -355,7 +350,7 @@ private List<Pupil> tryFindSchool(BankTransaction bt, List<Pupil> lList) {
     }
     
     public List<Pupil> getPupilList(){
-        return dataBase.pupilList;
+        return dataBase.pupilList();
     }
     
     public Map<Integer, List<Pupil>> getPupBySchoolMap(){

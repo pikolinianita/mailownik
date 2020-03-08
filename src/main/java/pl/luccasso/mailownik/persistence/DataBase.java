@@ -27,7 +27,7 @@ import pl.luccasso.mailownik.Pupil;
 @NoArgsConstructor
 public class DataBase {
 
-    public List<Pupil> pupilList;
+    private List<Pupil> pupilList;
     public List<BankTransaction> listaTransakcji;
     public List<BankTransaction> leftOvers;
     // uporzadkowane dane z Obecności
