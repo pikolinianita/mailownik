@@ -66,9 +66,6 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
         return id;
     }
    
-    
-        
-       
     /**
     * For testing Only
     * @param i
@@ -77,7 +74,6 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
     * @param kl 
     */     
    SinglePupil (int i, String fN, String lN, String kl){
-      // this();
        this.id = idCount++;
        this.schoolNr = i;
        this.fName = fN.strip().toLowerCase();
@@ -92,7 +88,7 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
     */
    
    public SinglePupil(String line) {
-        var sc = new Scanner(line);
+        try(var sc = new Scanner(line)){
         sc.useDelimiter("\t");
         var gson = new Gson();
         
@@ -121,17 +117,17 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
         TransactionInfo[] tr = gson.fromJson(sc.next(), TransactionInfo[].class);
         this.transactions = new LinkedList(Arrays.asList(tr));
         this.accountNrs = new HashSet<>(Arrays.asList(gson.fromJson(sc.next(), String[].class)));
-
+        }
     }
            
     SinglePupil(GAppsParser.PupilImport e) {
-       //this();
+       
        this.id = idCount++;
        this.schoolNr = e.schoolNr;
        this.fName = e.fName.strip().toLowerCase();
        this.lName = e.lName.strip().toLowerCase();
        this.klass = e.klass.toLowerCase().strip();
-       //String[] timeSheet;
+       
        this.nTel = e.fTel.length()>1 ? e.fTel : "" ; 
        this.nTel2 = e.mTel.length()>1 ? e.mTel : "";
        this.eMail = e.eMail;
@@ -172,8 +168,7 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
     }
     
  @Override
-    public String toString() {
-        //return "Uczeń: " + "schoolNr=" + schoolNr + ", fName=" + fName + ", lName=" + lName + ", klass=" + klass + " .";
+    public String toString() {        
         return lName + " " + fName + " ," + klass + " ," + schoolNr;
     }
     
@@ -289,7 +284,6 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
                 nbs++;
             }
         }
-        //this.nb+=nbs;
         String tr =  gson.toJson(transactions);
         String acc = gson.toJson(accountNrs);
         String paymentType;
@@ -339,21 +333,8 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
             paymentType = "Brak Wpłat";
         }
         
-        /*String paymentType = allYear ? "Roczna" : (oneSemester ? "semestr" : "Miesieczna");
-        int toPay = 0;
-        if (allYear) {
-            toPay = DoCompare.finData.schoolToPaymentsMap.get(schoolNr).allYear;
-        } else if (oneSemester ) {
-            toPay = DoCompare.finData.schoolToPaymentsMap.get(schoolNr).oneSemester;
-        } else {
-            toPay = (zeroes + ones - this.nb)*35;
-        }*/
-        
         this.nb+=nbs;
-        //ob.
-        /*String.join("\t", "Id","Szkoła","Imie","Nazwisko","Klasa","Telefon","Mail",
-                "Zaj 1","2","3","4","5","6","7","8","9","10","11","12", "13","14","15","16","17","18","19","20",
-                "Suma wpłat","wpłaty","DanePrzelewow","konta"); */
+       
         return String.join("\t",String.valueOf(id),skryptId, String.valueOf(schoolNr),
                         fName,lName,klass, nTel2, nTel,eMail, 
                         ob, String.valueOf(ones), String.valueOf(zeroes), String.valueOf(nb), String.valueOf(allPayments), String.valueOf(toPay), paymentType,String.valueOf(toPayTotal), String.valueOf(nZajec),tr, acc )+"\n";
