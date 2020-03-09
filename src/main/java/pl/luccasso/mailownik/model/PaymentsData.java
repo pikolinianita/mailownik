@@ -7,6 +7,7 @@ package pl.luccasso.mailownik.model;
 
 import java.util.List;
 import java.util.Set;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,8 +22,8 @@ import pl.luccasso.mailownik.TransactionInfo;
  */
 @ToString
 @Accessors(fluent = true, chain = true)
-@Getter
-@Setter
+@Getter(AccessLevel.PROTECTED)
+@Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor
 public class PaymentsData{
      Set <String> accountNrs;
@@ -30,5 +31,11 @@ public class PaymentsData{
 
     void amend(SinglePupil sp) {
         //TODO Do something with it
+    }
+
+    int toalPayments() {
+        return transactions.stream()
+                .mapToInt(t->t.amount())
+                .sum();
     }
  }

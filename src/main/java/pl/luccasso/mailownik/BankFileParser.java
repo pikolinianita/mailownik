@@ -47,7 +47,7 @@ public class BankFileParser {
         //parser.listaTransakcji.stream().filter(e->e.hasDubiousKlass).forEach(System.out::println);
     }
 
-    BankFileParser(String fileName) {
+    public BankFileParser(String fileName) {
         listaTransakcji = new LinkedList<>();
         wrongLines = new LinkedList<>();
         try (var sc = new Scanner(new FileReader(fileName))) {

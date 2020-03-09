@@ -77,7 +77,7 @@ public class BankFileParserTest {
    
     @Test
     public void singleLineTest(SoftAssertions softly){
-        var parser = new BankFileParser("testfiles/emptyfile.txt");
+        var parser = new BankFileParser("testfiles/emptyfile.txt"); //no Bank Config
         
         parser.analizeLine("Kicha", false);
         
@@ -88,7 +88,7 @@ public class BankFileParserTest {
     
     @Test
     public void singleGeneratedLineTest(SoftAssertions softly){
-        var parser = new BankFileParser("testfiles/emptyfile.txt");
+        var parser = new BankFileParser("testfiles/emptyfile.txt"); //no Bank Config
         String line = new TransactionStringBuilder().create();
         var gson = new GsonBuilder().setPrettyPrinting().create();
         

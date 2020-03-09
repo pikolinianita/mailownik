@@ -7,6 +7,7 @@ package pl.luccasso.mailownik.model;
 
 import java.util.LinkedList;
 import java.util.List;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,8 +21,8 @@ import lombok.experimental.Accessors;
 
 @ToString
 @Accessors(fluent = true, chain = true)
-@Getter
-@Setter
+@Getter(AccessLevel.PROTECTED)
+@Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor
 class Childrens {
 

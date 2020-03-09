@@ -5,6 +5,7 @@
  */
 package pl.luccasso.mailownik.model;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,8 +18,8 @@ import lombok.experimental.Accessors;
  */
 @ToString
 @Accessors(fluent = true, chain = true)
-@Getter
-@Setter
+@Getter(AccessLevel.PROTECTED)
+@Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor
 public class NewPupil {
    Attendance attendance;

@@ -35,6 +35,12 @@ public class DoCompare {
     static FinancialData finData;
     DataBase dataBase;
 
+    static{
+        finData = new FinancialData()
+                .importPaymentPerKlasses(ConfigF.getPayPerClass()) //"e:/cenyvsnz.txt
+                .importschools(ConfigF.getClassPerSchool());
+    }
+    
     
     public Map<BankTransaction, List<Pupil>> getToBeDecidedMap(){
         return dataBase.humanToDecide;
@@ -42,6 +48,7 @@ public class DoCompare {
 
    public DoCompare(){
         dataBase = new DataBase();
+        
     }
     
     public void doWork() {        

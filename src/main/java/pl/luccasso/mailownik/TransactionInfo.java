@@ -7,11 +7,16 @@ package pl.luccasso.mailownik;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 
 /**
  *
  * @author piko
  */
+
+@Accessors(fluent = true, chain = true)
+@Getter
 public class TransactionInfo {
     
                //pole z mięskiem do dalszej analizy
