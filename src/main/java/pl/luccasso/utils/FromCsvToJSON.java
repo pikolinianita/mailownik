@@ -38,7 +38,7 @@ public class FromCsvToJSON {
     
       static List<Pupil> loadPreviousData(String inpPath) {
         if (inpPath == null) {
-            return null;
+            return new LinkedList<Pupil>();
         }
        
         List<Pupil> pupList = new LinkedList<>(); 
@@ -49,21 +49,21 @@ public class FromCsvToJSON {
                 var s = new SinglePupil(nl);
                 pupList.add(s);
             }
-            sc.close();
             return pupList;
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
         } 
-    return null;
+    return new LinkedList<Pupil>();
     }
 
     private static void saveJson(List<Pupil> pups) throws IOException {
         Gson gson = new GsonBuilder().create();
         String s = gson.toJson(pups);
         System.out.println(s);
-        var f = new BufferedWriter (new FileWriter(new File("e:/asiowytest/convert.txt")));
+        try(var f = new BufferedWriter (new FileWriter(new File("e:/asiowytest/convert.txt")))){
         f.write(s);
-        f.flush();
-        f.close();
+        } catch (IOException ex){
+            Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

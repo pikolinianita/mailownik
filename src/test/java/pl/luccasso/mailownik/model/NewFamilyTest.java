@@ -102,7 +102,7 @@ public class NewFamilyTest {
          var transaction = new BankTransaction(new TransactionStringBuilder().create());         
          var list = List.of(transaction);
          var pupil = sp.createSinglePupil();
-         var dc = new DoCompare();
+         //var dc = new DoCompare();
          pupil.processTransactions(list);
          
          NewFamily family = new NewFamily(pupil);
