@@ -31,6 +31,8 @@ public class PaymentsData{
 
     void amend(SinglePupil sp) {
         //TODO Do something with it
+        accountNrs().addAll(sp.getAccountNrs());
+        //add only single transactions
     }
 
     int toalPayments() {

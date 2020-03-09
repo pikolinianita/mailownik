@@ -98,16 +98,21 @@ public class NewFamilyTest {
     @Test
     public void testAddTransactionInfo(SoftAssertions softly){
          SinglePupilBuilder sp = new SinglePupilBuilder();
-         //var parser = new BankFileParser("testfiles/emptyfile.txt");
          var transaction = new BankTransaction(new TransactionStringBuilder().create());         
          var list = List.of(transaction);
          var pupil = sp.createSinglePupil();
-         //var dc = new DoCompare();
          pupil.processTransactions(list);
          
          NewFamily family = new NewFamily(pupil);
          
          softly.assertThat(family.totalPayments()).as("Total payments").isEqualTo(70);
          softly.assertThat(family.allAccounts()).as("accounts list").contains("1234567890");
+    }
+    
+    @Disabled
+    @Test
+    public void testAddTransactionInfoBrother(SoftAssertions softly){
+        
+        
     }
 }

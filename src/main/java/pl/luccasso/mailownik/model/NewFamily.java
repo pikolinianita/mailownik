@@ -54,8 +54,6 @@ public class NewFamily {
                 .school(sp.getSchoolNr());
         
         childrens = new Childrens().add(child);
-        
-        
     }
 
     public boolean isMyBrother(Pupil pup) {
@@ -79,9 +77,9 @@ public class NewFamily {
                 .id(iDs)
                 .school(sp.getSchoolNr());
         
-        childrens.add(child);
-        
+        childrens.add(child);        
         payments.amend(sp);
+        
         return this;
     }
 

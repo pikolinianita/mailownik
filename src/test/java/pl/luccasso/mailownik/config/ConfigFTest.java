@@ -46,6 +46,7 @@ public class ConfigFTest {
 
     /**
      * Test of saveToFile method, of class ConfigF.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSaveToFile() throws Exception {
