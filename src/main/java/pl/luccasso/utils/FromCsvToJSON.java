@@ -38,7 +38,7 @@ public class FromCsvToJSON {
     
       static List<Pupil> loadPreviousData(String inpPath) {
         if (inpPath == null) {
-            return new LinkedList<Pupil>();
+            return new LinkedList<>();
         }
        
         List<Pupil> pupList = new LinkedList<>(); 
@@ -53,7 +53,7 @@ public class FromCsvToJSON {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
         } 
-    return new LinkedList<Pupil>();
+    return new LinkedList<>();
     }
 
     private static void saveJson(List<Pupil> pups) throws IOException {

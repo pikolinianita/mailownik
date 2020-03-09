@@ -5,9 +5,7 @@
  */
 package pl.luccasso.mailownik.model;
 
-import java.math.BigDecimal;
-import java.util.LinkedList;
-import java.util.List;
+
 import java.util.Set;
 import lombok.Getter;
 import lombok.ToString;

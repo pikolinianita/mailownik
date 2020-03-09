@@ -148,7 +148,7 @@ public class MainWindow extends JPanel implements ActionListener {
         writeSummary();
     }
 
-    private void chooseGoogleDataFile() throws HeadlessException {
+    private void chooseGoogleDataFile() {
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
         int returnValue = jfc.showOpenDialog(null);
@@ -162,7 +162,7 @@ public class MainWindow extends JPanel implements ActionListener {
         }
     }
 
-    private void chooseBankFile() throws HeadlessException {
+    private void chooseBankFile() {
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
         int returnValue = jfc.showOpenDialog(null);
@@ -175,7 +175,7 @@ public class MainWindow extends JPanel implements ActionListener {
         }
     }
 
-    private void choosePreviousDataFile() throws HeadlessException {
+    private void choosePreviousDataFile() {
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
         int returnValue = jfc.showOpenDialog(null);
