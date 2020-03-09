@@ -27,14 +27,13 @@ public class BankFileParser {
     List<BankTransaction> listaTransakcji;
     static public FinancialData finData;
     List<String> wrongLines;
-    
+
     public List<BankTransaction> getListaTransakcji() {
         return listaTransakcji;
     }
-    
 
     public static void main(String[] args) {
-        
+
         BankFileParser.finData = new FinancialData()
                 .importPaymentPerKlasses("e:/cenyvsnz.txt")
                 .importschools("e:/zajwszk.txt");
@@ -48,42 +47,38 @@ public class BankFileParser {
         //parser.listaTransakcji.stream().filter(e->e.hasDubiousKlass).forEach(System.out::println);
     }
 
-     BankFileParser(String fileName) {
+    BankFileParser(String fileName) {
         listaTransakcji = new LinkedList<>();
         wrongLines = new LinkedList<>();
-        String tmp;
-        try (var sc = new Scanner(new FileReader(fileName) )){
+        try (var sc = new Scanner(new FileReader(fileName))) {
             boolean isFirst = true;
             while (sc.hasNext()) {
-                tmp = sc.nextLine();
-                //System.out.println(tmp);
-                if (tmp.contains("mBiznes konto pomocnicze 0711 ... 2221;") && tmp.contains("Wpływy - inne")) {
-                    listaTransakcji.add(new BankTransaction(tmp));
-                    isFirst = false;
-                } else {
-                    if (!isFirst) {
-                        wrongLines.add(tmp);
-                        //System.out.println("Bląd!!! : " + tmp);
-                    }
-                }
+                analizeLine(sc.nextLine(), isFirst);
             }
         } catch (FileNotFoundException ex) {
-            //Logger.getLogger(BankFileParser.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("FileNotFoundException");
             throw new RuntimeException("Nie ma pliku Bankowego z przelewami", ex);
-        } finally {
-            //System.out.println("WL: " + wrongLines);
-                
+        } 
+    }
+
+    void analizeLine(String line, boolean isFirst) {
+
+        if (line.contains("mBiznes konto pomocnicze 0711 ... 2221;") && line.contains("Wpływy - inne")) {
+            listaTransakcji.add(new BankTransaction(line));
+            isFirst = false;
+        } else {
+            if (!isFirst) {
+                wrongLines.add(line);
+            }
         }
     }
 
     private static void saveToFile(String patch, String message) {
-        
+
         try (var fw = new FileWriter(patch);) {
             fw.write(message);
         } catch (IOException ex) {
             Logger.getLogger(BankFileParser.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
     }
 
     public List<String> getWrongLines() {

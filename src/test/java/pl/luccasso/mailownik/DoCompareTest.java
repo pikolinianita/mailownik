@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author piko
  */
-import static org.assertj.core.api.Assertions.assertThat;
+
 @ExtendWith(SoftAssertionsExtension.class)
 public class DoCompareTest {
     

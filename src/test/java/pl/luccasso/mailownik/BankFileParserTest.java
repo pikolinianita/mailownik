@@ -5,16 +5,24 @@
  */
 package pl.luccasso.mailownik;
 
+import com.google.gson.GsonBuilder;
 import java.io.FileNotFoundException;
+import static org.assertj.core.api.Assertions.*;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.extension.ExtendWith;
 import pl.luccasso.mailownik.config.ConfigF;
+import pl.luccasso.utils.TransactionStringBuilder;
 
 /**
  *
  * @author piko
  */
+
+@ExtendWith(SoftAssertionsExtension.class)
 public class BankFileParserTest {
     
     
@@ -67,5 +75,47 @@ public class BankFileParserTest {
      * @param s
      */
    
+    @Test
+    public void singleLineTest(SoftAssertions softly){
+        var parser = new BankFileParser("testfiles/emptyfile.txt");
+        
+        parser.analizeLine("Kicha", false);
+        
+        softly.assertThat(parser.wrongLines.size()).as("One Wrong Line").isEqualTo(1);
+        softly.assertThat(parser.listaTransakcji.size()).as("One Wrong Line").isEqualTo(0);
+    }
     
+    
+    @Test
+    public void singleGeneratedLineTest(SoftAssertions softly){
+        var parser = new BankFileParser("testfiles/emptyfile.txt");
+        String line = new TransactionStringBuilder().create();
+        var gson = new GsonBuilder().setPrettyPrinting().create();
+        
+        parser.analizeLine(line , false);
+        
+        softly.assertThat(parser.wrongLines.size()).as("One Wrong Line").isEqualTo(0);
+        softly.assertThat(parser.listaTransakcji.size()).as("One Wrong Line").isEqualTo(1);
+        
+        var transaction = parser.listaTransakcji.get(0);
+        
+        softly.assertThat(transaction.amount).as("amount").isEqualTo(70);
+        softly.assertThat(transaction.school).as("school number").isEqualTo("888");
+        softly.assertThat(transaction.klass).as("klass number").isEqualTo("2c");
+        softly.assertThat(transaction.account).as("account number").isEqualTo("1234567890");
+        softly.assertThat(transaction.niceString).as("nice ma imie").containsSequence("heniek kurek");
+    }
+    
+    
+   /* @Test
+    public void singleGeneratedLineTest(SoftAssertions softly){
+        var parser = new BankFileParser("testfiles/emptyfile.txt");
+        
+        
+        parser.analizeLine(new TransactionStringBuilder().create(), false);
+        
+        System.out.println(parser.listaTransakcji); 
+        softly.assertThat(parser.wrongLines.size()).as("One Wrong Line").isEqualTo(1);
+        softly.assertThat(parser.listaTransakcji.size()).as("One Wrong Line").isEqualTo(0);
+               } */
 }
