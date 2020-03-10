@@ -21,6 +21,10 @@ public class FamilyTransactionMatcher {
     
     DataBase dataBase;
 
+    public FamilyTransactionMatcher(DataBase dataBase) {
+        this.dataBase = dataBase;
+    }
+    
     void analyzeTransaction3(BankTransaction bt, DataBase db) {
         bt.note("===========Fakk==============");
         this.dataBase = db;
@@ -40,7 +44,7 @@ public class FamilyTransactionMatcher {
                 bt.note("Doomed");
                 return;
             }
-            List<Pupil> tmpList;
+           // List<NewFamily> tmpList;
             if (!bt.hasDubiousSchool()) {
                 schoolInTransactionIsOK(bt);
                 return;
@@ -51,7 +55,7 @@ public class FamilyTransactionMatcher {
             }
             
             //Catch Wrong Klass and school 
-            tmpList = new LinkedList<>(dataBase.pupilList());
+            //tmpList = new LinkedList<>(dataBase.pupilList());
             dataBase.leftOvers.add(bt);
             bt.note("Wrong Klass and School");            
             
@@ -65,34 +69,34 @@ public class FamilyTransactionMatcher {
     void klassIsOKButSchoolIsNot(BankTransaction bt) {
         List<NewFamily> tmpList;
         tmpList = new LinkedList(dataBase.pupByKlassMap.get(bt.klass()));
-        List<NewFamily> ListlName = tryFitNames(bt, tmpList);
-        List<NewFamily> ListwSchool = tryFindSchool(bt, ListlName);
-        if (ListwSchool.size() > 1) {
+        List<NewFamily> listlName = tryFitNames(bt, tmpList);
+        List<NewFamily> listwSchool = tryFindSchool(bt, listlName);
+        if (listwSchool.size() > 1) {
             bt.note("School++ lName++ klass+");
-            dataBase.humanFamilyToDecide().put(bt, ListwSchool);
+            dataBase.humanFamilyToDecide().put(bt, listwSchool);
             return;
-        } else if (ListwSchool.size() == 1) {
+        } else if (listwSchool.size() == 1) {
             bt.note("Klass+ school+ lname +");
-            dataBase.famFittedData().merge(ListwSchool.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {
+            dataBase.famFittedData().merge(listwSchool.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {
                 o.addAll(n);
                 return o;
             });
             return;
         } else {
-            if (ListlName.isEmpty()) {
+            if (listlName.isEmpty()) {
                 dataBase.leftOvers.add(bt);
                 bt.note("Klas+ lname- ");
                 return;
-            } else if (ListlName.size() == 1) {
+            } else if (listlName.size() == 1) {
                 bt.note("Klas+ lname+ school-");
-                dataBase.famFittedData().merge(ListlName.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {
+                dataBase.famFittedData().merge(listlName.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {
                     o.addAll(n);
                     return o;
                 });
                 return;
             } else {
                 bt.note("Klas+ lname++");
-                dataBase.humanFamilyToDecide().put(bt, ListlName);
+                dataBase.humanFamilyToDecide().put(bt, listlName);
                 return;
             }
         }

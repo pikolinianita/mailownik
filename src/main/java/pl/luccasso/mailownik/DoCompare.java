@@ -57,7 +57,7 @@ public class DoCompare {
         // writeListsToSout(); //debug
     }
     
-    void loadStuff() {
+    public void loadStuff() {
         finData = new FinancialData()
                 .importPaymentPerKlasses(ConfigF.getPayPerClass()) //"e:/cenyvsnz.txt
                 .importschools(ConfigF.getClassPerSchool());
@@ -403,6 +403,9 @@ public class DoCompare {
     void searchForSiblings() {
         //TODO
     }
+    
+    
+}
 
     /*
      * void writeListsToSout() {
@@ -447,4 +450,4 @@ public class DoCompare {
      * dc.doWork(); dc.save();
     }
      */
-}
+//

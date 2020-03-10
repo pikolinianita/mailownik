@@ -5,12 +5,17 @@
  */
 package pl.luccasso.mailownik;
 
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import pl.luccasso.mailownik.calculations.FamilyTransactionMatcherTest;
+import pl.luccasso.mailownik.config.ConfigF;
 import pl.luccasso.mailownik.model.NewFamily;
 import pl.luccasso.utils.SinglePupilBuilder;
 
@@ -33,7 +38,7 @@ public class DoCompareTest {
         
         softly.assertThat(list.size())
                 .as("Wielkosc oryg listy")
-                .isEqualTo( size);
+                .isEqualTo(size);
         
         softly.assertThat(fams.size())
                 .as("Wielkosc listy")
@@ -62,4 +67,21 @@ public class DoCompareTest {
         System.out.println(fams);
     }
     
+    @Test
+    public void listFromFileTest(SoftAssertions softly){
+        try {
+            ConfigF.restoreCleanTestConfiguration();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FamilyTransactionMatcherTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       var dc = new DoCompare();
+       dc.loadStuff();
+       var db = dc.getDataBase();
+       db.makeStructures();
+       
+        System.out.println(db.pupilList().size());
+        db.convertPupilListToFamilyList(db.pupilList());
+        System.out.println(db.neuFamilyList().size());
+    }
 }
+
