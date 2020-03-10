@@ -30,7 +30,7 @@ jobs:
       run: mvn site -s $GITHUB_WORKSPACE/settings.xml
       
     - name: Codacy
-      run: mvn com.gavinmogan:codacy-maven-plugin:coverage -DcoverageReportFile=target/site/jacoco/jacoco.xml -DprojectToken=${env.CODACY_PROJECT_TOKEN} -DapiToken=${env.CODACY_API_TOKEN}
+      run: mvn com.gavinmogan:codacy-maven-plugin:coverage -DcoverageReportFile=target/site/jacoco/jacoco.xml -DprojectToken=${{env.CODACY_PROJECT_TOKEN}} -DapiToken=${{env.CODACY_API_TOKEN}}
       
     - name: upload report
       uses: actions/upload-artifact@v1
