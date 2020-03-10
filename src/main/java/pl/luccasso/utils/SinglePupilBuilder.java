@@ -16,25 +16,43 @@ import pl.luccasso.mailownik.TransactionInfo;
 public class SinglePupilBuilder {
 
     private int id = 400;
+    
     private String skryptId = "s-300";
+    
     private int nb = 0;
+    
     private int schoolNr = 50;
+    
     private String fName = "Adam";
+    
     private String lName = "Byk";
+    
     private String klass = "1a";
+    
     private String nTel = "500000000";
+    
     private String nTel2 = "400000000";
+    
     private String eMail = "AdamByk@def.pl";
+    
     private java.lang.String[] timeSheet = new String[20];
+    
     private Set<String> accountNrs = new HashSet<>();
+    
     private List<TransactionInfo> transactions = new LinkedList<>();
+    
     private int allPayments = 0;
+    
     private boolean allYear = false;
+    
     private boolean oneSemester = false;
+    
     private boolean isSibling = false;
 
     private int count = 100;
+    
     private boolean isThisFirst = true;
+    
     private boolean shouldAddCounter = false;
     
     public SinglePupilBuilder() {
@@ -118,7 +136,7 @@ public class SinglePupilBuilder {
         return this;
     }
 
-    public SinglePupilBuilder setTimeSheet(java.lang.String[] timeSheet) {
+    public SinglePupilBuilder setTimeSheet(String[] timeSheet) {
         this.timeSheet = timeSheet;
         return this;
     }

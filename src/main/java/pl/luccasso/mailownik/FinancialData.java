@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package pl.luccasso.mailownik;
 
-import java.io.FileNotFoundException;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,15 +23,32 @@ import java.util.logging.Logger;
  */
 public class FinancialData {
 
+    
+    int oneKlass = 35;
+    
+    int oneKlassWhenSibling = 33;
+    
+    //w tej szkole tyle trzeba płacić;
+    Map<Integer, SchoolPayments> schoolToPaymentsMap;
+    
+    //Przy tylu zajęciach tyle tzreba płacić 
+    Map<Integer, SchoolPayments> nKlassesToPaymentMap;
+    
+    List<Integer> siblingsValues;
+    
     /**
      * Klasa zbierająca roczne i półroczne opłaty dla szkoły.
      */
     class SchoolPayments {
 
         int allYear;
+        
         int oneSemester;
+        
         int allYearWithSibling;
+        
         int oneSemesterWithSibling;
+        
         int nZajec;
 
         public SchoolPayments(int nZajec, int allYear, int oneSemester, int allYearWithSibling, int oneSemesterWithSibling) {
@@ -42,15 +60,7 @@ public class FinancialData {
         }
 
     }
-
-    int oneKlass = 35;
-    int oneKlassWhenSibling = 33;
-    //w tej szkole tyle trzeba płacić;
-    Map<Integer, SchoolPayments> schoolToPaymentsMap;
-    //Przy tylu zajęciach tyle tzreba płacić 
-    Map<Integer, SchoolPayments> nKlassesToPaymentMap;
-    List<Integer> siblingsValues;
-
+  
     public FinancialData() {
         schoolToPaymentsMap = new HashMap<>();
         nKlassesToPaymentMap = new HashMap<>();

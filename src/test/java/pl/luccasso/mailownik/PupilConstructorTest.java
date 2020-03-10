@@ -55,9 +55,9 @@ public class PupilConstructorTest {
             }
         
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(PupilTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PupilConstructorTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(PupilTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PupilConstructorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println(pupils);
     

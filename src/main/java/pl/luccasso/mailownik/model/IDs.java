@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package pl.luccasso.mailownik.model;
 
 import lombok.AccessLevel;
@@ -22,6 +23,8 @@ import lombok.experimental.Accessors;
 @Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor
 public class IDs{
+    
     int id;
+    
     String skryptId;
 }

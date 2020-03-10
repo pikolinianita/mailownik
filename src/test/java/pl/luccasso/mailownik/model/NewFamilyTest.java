@@ -3,30 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package pl.luccasso.mailownik.model;
 
 import java.io.FileNotFoundException;
-import java.util.LinkedList;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.jupiter.api.Test;
-//import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
-import org.assertj.core.api.JUnitSoftAssertions;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import pl.luccasso.utils.SinglePupilBuilder;
 import org.junit.jupiter.api.extension.ExtendWith;
-import pl.luccasso.mailownik.BankFileParser;
 import pl.luccasso.mailownik.BankTransaction;
-import pl.luccasso.mailownik.DoCompare;
 import pl.luccasso.mailownik.config.ConfigF;
 import pl.luccasso.utils.TransactionStringBuilder;
-
-
 
 
 /**

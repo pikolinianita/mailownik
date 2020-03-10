@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package pl.luccasso.mailownik.model;
 
 import lombok.AccessLevel;
@@ -23,6 +24,8 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 public class ContactData{
     String nTel;
+    
     String nTel2;
+    
     String eMail;
 }

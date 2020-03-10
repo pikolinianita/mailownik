@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package pl.luccasso.mailownik.model;
 
 import java.util.List;
@@ -26,7 +27,9 @@ import pl.luccasso.mailownik.TransactionInfo;
 @Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor
 public class PaymentsData{
+    
      Set <String> accountNrs;
+     
      List <TransactionInfo> transactions;
 
     void amend(SinglePupil sp) {

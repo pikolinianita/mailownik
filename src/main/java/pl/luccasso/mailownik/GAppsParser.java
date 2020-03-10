@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package pl.luccasso.mailownik;
 
 import com.google.gson.Gson;
@@ -24,29 +25,36 @@ import java.util.stream.Collectors;
 public class GAppsParser {
 
     List<Pupil> pupils;
+    
     List<PupilImport> pupilsI;
 
     class PupilImport {
 
         int schoolNr;
+        
         String tmpData;
+        
         String fName;
+        
         String lName;
+        
         String klass;
+        
         String[] timeSheet;
+        
         String mTel;
+        
         String fTel;
+        
         String eMail;
+        
         String skryptID;
+        
         String nb; 
+        
 
-        private boolean isNice() {
-            //In case mamy nulla
-            try {
-                return !(fName.equals("") || lName.equals(""));
-            } catch (Exception e) {
-                return false;
-            }
+        private boolean isNice() {                   
+                return !("".equals(lName) || "".equals(fName));
         }
 
         private void toLowerCase() {

@@ -28,17 +28,27 @@ import pl.luccasso.mailownik.Pupil;
 public class DataBase {
 
     private List<Pupil> pupilList;
+    
     public List<BankTransaction> listaTransakcji;
+    
     public List<BankTransaction> leftOvers;
+    
     // uporzadkowane dane z Obecności
     public Map<Integer, List<Pupil>> pupBySchoolMap;
+    
     public Map<String, List<Pupil>> pupByKlassMap;
+    
     public Map<String, List<Pupil>> pupByAccountMap;
+    
     public Map<BankTransaction, List<Pupil>> humanToDecide;
+    
     //Wynikowe Dane
     public Map<Pupil, List<BankTransaction>> fittedData;
+    
     public Map<Pupil, List<BankTransaction>> sibFitted;
+    
     public List<BankTransaction> siblings;
+    
     public List<String> wrongLines;    
     
 }
