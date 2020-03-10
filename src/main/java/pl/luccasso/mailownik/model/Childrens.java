@@ -48,5 +48,49 @@ class Childrens {
        }
        return goodResult ? list.get(0).school() :  -1;
     }
+
+    boolean isMySchoolHere(String school) {
+        var result = false;
+        for (var np: list){
+            if(np.isMySchoolHere(school)){
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
+    boolean isMyKlass(String klass) {
+        var result = false;
+        for (var np: list){
+            if(np.isMyKlassHere(klass)){
+                result = true;
+                break;
+            }
+        }
+        return result;    
+    }
+
+    boolean isMylNameHere(String niceString) {
+        var result = false;
+        for (var np: list){
+            if(np.isMylNameHere(niceString)){
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
+    boolean isMyfNameHere(String niceString) {
+       var result = false;
+        for (var np: list){
+            if(np.isMyfNameHere(niceString)){
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
     
 }

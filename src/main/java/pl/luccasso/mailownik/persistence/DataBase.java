@@ -66,7 +66,7 @@ public class DataBase {
     
     private Map<NewFamily, List<BankTransaction>> famFittedData;
     
-     public Map<BankTransaction, List<Pupil>> humanFamilyToDecide;
+     public Map<BankTransaction, List<NewFamily>> humanFamilyToDecide;
 
     public void makeStructures() {
         pupBySchoolMap = pupilList().stream().collect(Collectors.groupingBy((e) -> e.getSchoolNr()));

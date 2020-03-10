@@ -86,7 +86,9 @@ public class NewFamilyTest {
         NewFamily family = new NewFamily(sp1).add(sp1a);
         
         softly.assertThat(family.size()).as("family size").isEqualTo(2);
-        softly.assertThat(family.childrens().list()).as("are good names").extracting("fName").contains("Bob100","Adam100");
+        softly.assertThat(family.childrens().list()).as("are good names")
+                .extracting("fName")
+                .contains("Bob100","Adam100");
     }
     
    

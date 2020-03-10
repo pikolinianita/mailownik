@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collector;
+import java.util.stream.Stream;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -77,6 +78,7 @@ public class NewFamily {
         var child = new NewPupil()
                 .fName(sp.getFName())
                 .lName(sp.getLName())
+                .klass(sp.getKlass())
                 .attendance(att)
                 .id(iDs)
                 .school(sp.getSchoolNr());
@@ -105,6 +107,22 @@ public class NewFamily {
 
     public Iterable<String> getAccountNrs() {
         return payments().accountNrs();
+    }
+
+    public boolean isMyKlass(String klass) {
+        return childrens.isMyKlass(klass);
+    }
+
+    public boolean isMySchoolHere(String school) {
+        return childrens.isMySchoolHere(school);
+    }
+
+    public boolean isMyfNameHere(String niceString) {
+        return childrens.isMyfNameHere(niceString); 
+    }
+
+    public boolean isMylNameHere(String niceString)  {
+        return childrens.isMylNameHere(niceString);
     }
     
 }

@@ -32,6 +32,51 @@ public class NewPupil {
    
    int school;
    
-   IDs id;   
+   String klass;
    
+   IDs id;   
+
+    public boolean isMySchoolHere(String q){
+    return q.contains(String.valueOf(school));
+    }
+            
+    
+   
+    public boolean isMyKlassHere(String q){
+        var ql = q.toLowerCase();
+        if (ql.contains(klass)) {
+            return true;
+        }
+        if (ql.contains(klass.charAt(0)+" " + klass.charAt(1))) {
+            return true;
+        }
+        String roman;
+        switch(klass.charAt(0)){
+            case '1': roman = "i"; break;
+            case '2': roman = "ii"; break;
+            case '3': roman = "iii"; break;
+            case '4': roman = "iv"; break;
+            case '5': roman = "v"; break;
+            case '6': roman = "vi";break;
+            default : roman = "vii";break;
+        }
+        if (ql.contains(roman+klass.charAt(1))) {
+            return true;
+        }
+        if (ql.contains(roman+" "+klass.charAt(1))) {
+            return true;
+        }
+        return false;
+    }
+
+    
+    public boolean isMyfNameHere(String q){
+        return q.toLowerCase().contains(fName.toLowerCase());
+    }
+    
+    
+    public boolean isMylNameHere(String q){
+        return q.toLowerCase().contains(lName.toLowerCase());
+        //TODO - mak trafi w makowski...
+    }
    }
