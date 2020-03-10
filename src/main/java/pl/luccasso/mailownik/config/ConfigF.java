@@ -34,7 +34,7 @@ public class ConfigF {
     //TODO dopisać że to z pliku
     static {
         commonAccounts = new ArrayList<>();
-        commonAccounts.add("36124025971111000031744632");
+        commonAccounts.add("55114020040000340278370553");
     }
 
     private ConfigF(){

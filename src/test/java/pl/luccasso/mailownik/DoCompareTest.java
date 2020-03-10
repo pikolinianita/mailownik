@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import pl.luccasso.mailownik.model.NewFamily;
 import pl.luccasso.utils.SinglePupilBuilder;
-import static org.assertj.core.api.Assertions.*;
+
 
 /**
  *
@@ -29,7 +29,7 @@ public class DoCompareTest {
         List<Pupil> list = new LinkedList<>(new SinglePupilBuilder().createSinglePupilList(size));
         var dc = new DoCompare();
         
-        List<NewFamily> fams = dc.convertPupilListToFamilyList(list);
+        List<NewFamily> fams = dc.dataBase.convertPupilListToFamilyList(list);
         
         softly.assertThat(list.size())
                 .as("Wielkosc oryg listy")
@@ -49,7 +49,7 @@ public class DoCompareTest {
         list.addAll(new LinkedList<>(new SinglePupilBuilder().setFName("bob").createSinglePupilList(size)));
         var dc = new DoCompare();
         
-        List<NewFamily> fams = dc.convertPupilListToFamilyList(list); 
+        List<NewFamily> fams = dc.dataBase.convertPupilListToFamilyList(list); 
         
         softly.assertThat(list.size())
                 .as("Wielkosc oryg listy")

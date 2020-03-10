@@ -37,5 +37,16 @@ class Childrens {
     int size() {
         return list.size();
     }
+
+    int getSchoolNr() {
+       
+       boolean goodResult = true;
+       for (int i = 0; i<list.size(); i++){
+           if (list.get(i).school()!=list.get(0).school()){
+               goodResult = false;
+           }
+       }
+       return goodResult ? list.get(0).school() :  -1;
+    }
     
 }

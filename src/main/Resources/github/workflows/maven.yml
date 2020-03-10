@@ -1,0 +1,41 @@
+name: Java CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 12
+      uses: actions/setup-java@v1
+      with:
+        java-version: 12
+      
+    - name: Cache Maven packages
+      uses: actions/cache@v1
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2  
+    
+    - name: Build and send Result to Sonar
+      run: mvn verify sonar:sonar  
+      env:
+        GITHUB_TOKEN: ${{ github.token }} 
+ 
+    - name: Report Maven
+      run: mvn site -s $GITHUB_WORKSPACE/settings.xml
+      
+    - name: Codacy
+      run: mvn com.gavinmogan:codacy-maven-plugin:coverage -DcoverageReportFile=target/site/jacoco/jacoco.xml -DprojectToken=${{env.CODACY_PROJECT_TOKEN}} -DapiToken=${{env.CODACY_API_TOKEN}}
+      ontinue-on-error: true 
+      
+    - name: upload report
+      uses: actions/upload-artifact@v1
+      with:
+        name: Tests Results
+        path: target/site/
+      continue-on-error: true 

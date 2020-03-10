@@ -7,7 +7,10 @@
 package pl.luccasso.mailownik.model;
 
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collector;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -94,6 +97,14 @@ public class NewFamily {
 
     Set<String> allAccounts() {
         return payments.accountNrs();
+    }
+
+    public int getSchoolNr() {
+        return childrens().getSchoolNr();
+    }
+
+    public Iterable<String> getAccountNrs() {
+        return payments().accountNrs();
     }
     
 }

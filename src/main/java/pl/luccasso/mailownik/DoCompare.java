@@ -50,11 +50,24 @@ public class DoCompare {
 
     public void doWork() {
         loadStuff();
-        makeStructures();
+        dataBase.makeStructures();
         //writeMapsToSout(); //debug
         searchForSiblings();
         dataBase.listaTransakcji.forEach(this::analyzeTransaction2);
         // writeListsToSout(); //debug
+    }
+    
+    void loadStuff() {
+        finData = new FinancialData()
+                .importPaymentPerKlasses(ConfigF.getPayPerClass()) //"e:/cenyvsnz.txt
+                .importschools(ConfigF.getClassPerSchool());
+        BankFileParser.finData = this.finData;
+        var parser = new BankFileParser(ConfigF.getBankPath());
+        dataBase.listaTransakcji = parser.getListaTransakcji();
+        dataBase.wrongLines = parser.getWrongLines();
+        dataBase.pupilList(loadPreviousData(ConfigF.getSavedPath()));
+        dataBase.pupilList(new GAppsParser(ConfigF.getPupPath(), dataBase.pupilList()).pupils);
+        dataBase.neuFamilyList(dataBase.convertPupilListToFamilyList(dataBase.pupilList()));
     }
 
     private void analyzeTransaction2(BankTransaction bt) {
@@ -208,7 +221,8 @@ public class DoCompare {
 
         }
     }
-
+    
+    
     private List<Pupil> tryFitKlass(BankTransaction bt, List<Pupil> lList) {
         return lList.stream()
                 .filter(p -> p.isMyKlass(bt.klass))
@@ -233,53 +247,6 @@ public class DoCompare {
                 .collect(Collectors.toCollection(LinkedList::new));
     }
 
-    void loadStuff() {
-        finData = new FinancialData()
-                .importPaymentPerKlasses(ConfigF.getPayPerClass()) //"e:/cenyvsnz.txt
-                .importschools(ConfigF.getClassPerSchool());
-        BankFileParser.finData = this.finData;
-        var parser = new BankFileParser(ConfigF.getBankPath());
-        dataBase.listaTransakcji = parser.getListaTransakcji();
-        dataBase.wrongLines = parser.getWrongLines();
-        dataBase.pupilList(loadPreviousData(ConfigF.getSavedPath()));
-        dataBase.pupilList(new GAppsParser(ConfigF.getPupPath(), dataBase.pupilList()).pupils);
-        var neuFamilyList = convertPupilListToFamilyList(dataBase.pupilList());
-    }
-
-    private void makeStructures() {
-        dataBase.pupBySchoolMap = dataBase.pupilList().stream().collect(Collectors.groupingBy(e -> e.getSchoolNr()));
-        dataBase.pupByKlassMap = dataBase.pupilList().stream().collect(Collectors.groupingBy(e -> e.getKlass()));
-        dataBase.pupByAccountMap = new HashMap<>();
-        for (var p : dataBase.pupilList()) {
-            for (var acc : p.getAccountNrs()) {
-                dataBase.pupByAccountMap.merge(acc, new LinkedList(List.of(p)), (o, n) -> {
-                    o.addAll(n);
-                    return o;
-                });
-            }
-        }
-        
-        dataBase.fittedData = new HashMap<>();
-        dataBase.humanToDecide = new HashMap<>();
-        dataBase.leftOvers = new LinkedList<>();
-        dataBase.siblings = new LinkedList<>();
-        dataBase.sibFitted = new HashMap<>();
-    }
-
-    List<NewFamily> convertPupilListToFamilyList(List<Pupil> list) {
-        var familyList = new LinkedList<NewFamily>();
-        outer:
-        for (var pup : list) {
-            for (var fam : familyList) {
-                if (fam.isMyBrother(pup)) {
-                    fam.add((SinglePupil) pup);
-                    break outer;
-                }
-            }
-            familyList.add(new NewFamily((SinglePupil) pup));
-        }
-        return familyList;
-    }
 
     public void setBankPath(String path) {
         ConfigF.setBankPath(path); //TODO remove this Function

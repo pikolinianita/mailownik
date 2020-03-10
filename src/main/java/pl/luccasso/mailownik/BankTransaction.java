@@ -9,11 +9,17 @@ import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 
 /**
  *
  * @author piko
  */
+
+@Accessors(fluent = true, chain = true)
+@Getter
 public class BankTransaction {
 
     String title;           //pole z mięskiem do dalszej analizy
@@ -263,4 +269,7 @@ public class BankTransaction {
         return new BankTransaction(this, nSiblings);
     }
     
+    public String title(){
+        return title;
+    }
 }
