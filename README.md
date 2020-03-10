@@ -17,5 +17,4 @@
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=keyMailownik&metric=security_rating)](https://sonarcloud.io/dashboard?id=keyMailownik)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=keyMailownik&metric=sqale_index)](https://sonarcloud.io/dashboard?id=keyMailownik)
 
-
 projekt do kolorowo naukowo
