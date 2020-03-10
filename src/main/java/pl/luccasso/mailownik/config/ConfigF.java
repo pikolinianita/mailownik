@@ -41,7 +41,7 @@ public class ConfigF {
         
     }
     
-    static void saveToFile(String f) throws IOException {
+    public static void saveToFile(String f) throws IOException {
 
         Path p = Paths.get(f);
 
@@ -63,7 +63,7 @@ public class ConfigF {
 
     }
 
-    static void readConfigFromFile(String f) throws FileNotFoundException {
+    public static void readConfigFromFile(String f) throws FileNotFoundException {
         var p = Paths.get(f);
         try (Scanner sc = new Scanner((new FileReader(p.toFile())))) {
             pupPath = sc.next();

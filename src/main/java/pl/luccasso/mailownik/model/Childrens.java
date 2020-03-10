@@ -93,4 +93,8 @@ class Childrens {
         return result;
     }
     
+    public void writeNames(){
+       list.forEach(np ->  System.out.println(np.fName()));
+    }
+    
 }

@@ -23,7 +23,7 @@ import pl.luccasso.mailownik.config.ConfigF;
  *
  * @author piko
  */
-
+@Disabled
 public class DoCompareFilesTest {
     
     public DoCompareFilesTest() {

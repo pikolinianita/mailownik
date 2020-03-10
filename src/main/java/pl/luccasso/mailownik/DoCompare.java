@@ -46,6 +46,11 @@ public class DoCompare {
 
     public DoCompare() {
         dataBase = new DataBase();
+        try {
+            ConfigF.readConfigFromFile("e:/asiowytest/config.txt");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void doWork() {

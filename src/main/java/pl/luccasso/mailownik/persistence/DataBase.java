@@ -107,14 +107,18 @@ public class DataBase {
     public List<NewFamily> convertPupilListToFamilyList(List<Pupil> list) {
         LinkedList<NewFamily> familyList = new LinkedList<NewFamily>();
         outer:
-       for (Pupil pup : list) {
+        for (Pupil pup : list) {
+            boolean changed = false;
             for (NewFamily fam : familyList) {
                 if (fam.isMyBrother(pup)) {
                     fam.add((SinglePupil) pup);
+                    changed = true;
                     break;
                 }
             }
-            familyList.add(new NewFamily((SinglePupil) pup));
+            if (!changed) {
+                familyList.add(new NewFamily((SinglePupil) pup));
+            }
         }
         return familyList;
     }

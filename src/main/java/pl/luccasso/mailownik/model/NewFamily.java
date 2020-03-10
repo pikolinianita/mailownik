@@ -63,8 +63,8 @@ public class NewFamily {
 
     public boolean isMyBrother(Pupil pup) {
        return contacts.eMail().equalsIgnoreCase(pup.getEMail()) 
-               || contacts.nTel().equals(pup.getNTel())
-               || contacts.nTel2().equals(pup.getNTel2());
+               || (!"".equals(contacts.nTel())&&contacts.nTel().equals(pup.getNTel()))
+               ||(!"".equals(contacts.nTel2())&&contacts.nTel2().equals(pup.getNTel2()));
     }
 
     public NewFamily add(SinglePupil sp) {       
@@ -125,4 +125,7 @@ public class NewFamily {
         return childrens.isMylNameHere(niceString);
     }
     
+    public void writeNames(){
+        childrens.writeNames();
+    }
 }

@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import pl.luccasso.mailownik.calculations.FamilyTransactionMatcherTest;
@@ -24,7 +25,7 @@ import pl.luccasso.utils.SinglePupilBuilder;
  *
  * @author piko
  */
-
+@Disabled
 @ExtendWith(SoftAssertionsExtension.class)
 public class DoCompareTest {
     
@@ -71,9 +72,11 @@ public class DoCompareTest {
     public void listFromFileTest(SoftAssertions softly){
         try {
             ConfigF.restoreCleanTestConfiguration();
+            ConfigF.readConfigFromFile("e:/asiowytest/config.txt");
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FamilyTransactionMatcherTest.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
        var dc = new DoCompare();
        dc.loadStuff();
        var db = dc.getDataBase();
@@ -82,6 +85,11 @@ public class DoCompareTest {
         System.out.println(db.pupilList().size());
         db.convertPupilListToFamilyList(db.pupilList());
         System.out.println(db.neuFamilyList().size());
+        for(var nf: db.neuFamilyList()){
+            System.out.println("Oto Rodzina:");
+           nf.writeNames();
+        }
+            
     }
 }
 
