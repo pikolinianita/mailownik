@@ -6,7 +6,6 @@
 package pl.luccasso.mailownik.gui;
 
 import java.awt.FlowLayout;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedHashMap;
@@ -20,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import pl.luccasso.mailownik.*;
+import pl.luccasso.mailownik.model.NewFamily;
 
 /**
  *
@@ -30,11 +30,11 @@ public class TBDWindow extends JFrame implements ActionListener {
     JPanel mainPanel;
     JPanel bottomRow;
     JButton ok, exit;
-    LinkedHashMap<BankTransaction, List<Pupil>> humanToDecide;
+    LinkedHashMap<BankTransaction, List<NewFamily>> humanToDecide;
     int counter;
     List<TBDTuple> lTuples;
 
-    public TBDWindow(MainWindow mW, String title, Map<BankTransaction, List<Pupil>> hTD) throws HeadlessException {
+    public TBDWindow(MainWindow mW, String title, Map<BankTransaction, List<NewFamily>> hTD) {
         super(title);
         handler = mW;
         counter = 0;
@@ -90,13 +90,13 @@ public class TBDWindow extends JFrame implements ActionListener {
         System.out.println("Listener for tbd");
         if (e.getSource() == ok) {
             for (var t : lTuples) {
-                Pupil pup = t.getPupilOrNull();
+                NewFamily pup = t.getFamilyOrNull();
                 if (pup != null) {
-                    MainWindow.mainData.addToFittedData(pup, t.getTransaction());
-                    MainWindow.mainData.removeFromHumanToDecide(t.getTransaction());
+                    MainWindow.doCompare.addToFittedData(pup, t.getTransaction());
+                    MainWindow.doCompare.removeFromHumanToDecide(t.getTransaction());
                 } else {
-                    MainWindow.mainData.addToLeftOvers(t.getTransaction());
-                    MainWindow.mainData.removeFromHumanToDecide(t.getTransaction());
+                    MainWindow.doCompare.addToLeftOvers(t.getTransaction());
+                    MainWindow.doCompare.removeFromHumanToDecide(t.getTransaction());
                 }
                     
             }

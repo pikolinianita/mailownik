@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
+import pl.luccasso.mailownik.config.ConfigF;
 
 /**
  *
@@ -27,7 +28,7 @@ import javax.swing.filechooser.FileSystemView;
  */
 public class MainWindow extends JPanel implements ActionListener {
 
-    static DoCompare mainData;
+    static DoCompare doCompare;
 
     JButton bankButton;
     JButton pupButton;
@@ -41,14 +42,14 @@ public class MainWindow extends JPanel implements ActionListener {
     JButton tbdButton;
 
     JLabel bankLabel;
-    JLabel pupilLabel;
+    JLabel familyPupLabel;
     JLabel dBLabel;
     JLabel summary;
     JLabel header;
 
-    String bankPath;
-    String pupPath;
-    String dBPath;
+  //  String bankPath;
+  //  String pupPath;
+  //  String dBPath;
 
     TBDWindow tbdWindow;
     LeftOWindow leftOWindow;
@@ -57,18 +58,18 @@ public class MainWindow extends JPanel implements ActionListener {
     public MainWindow() {
         super();
 
-        pupPath = "e:/pupils.txt";
-        bankPath = "e:/listatestowa.csv";
-        dBPath = null;
+       //pupPath = "e:/pupils.txt";
+       // bankPath = "e:/listatestowa.csv";
+       // dBPath = null;
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
     private MainWindow createComponents() {
         header = new JLabel("Wybierz pliki");
-        dBLabel = new JLabel("Plik z istniejącą bazą Danych to: " + dBPath);
-        bankLabel = new JLabel("Wybierz plik z banku. Teraz to: " + bankPath);
-        pupilLabel = new JLabel("wybierz plik z danymi uczniów. Teraz to" + pupPath);
+        dBLabel = new JLabel("Plik z istniejącą bazą Danych to: " + ConfigF.getSavedPath());
+        bankLabel = new JLabel("Wybierz plik z banku. Teraz to: " + ConfigF.getBankPath());
+        familyPupLabel = new JLabel("wybierz plik z danymi uczniów. Teraz to" + ConfigF.getPupPath());
         loadDB = new JButton("Otwórz");
         bankButton = new JButton("Otwórz");
         pupButton = new JButton("Otworz");
@@ -100,7 +101,7 @@ public class MainWindow extends JPanel implements ActionListener {
         add(loadDB);
         add(bankLabel);
         add(bankButton);
-        add(pupilLabel);
+        add(familyPupLabel);
         add(pupButton);
         add(fireButton);
         add(leftOButton);
@@ -127,23 +128,23 @@ public class MainWindow extends JPanel implements ActionListener {
         }
 
         if (e.getSource() == fireButton) {
-            MainWindow.mainData.doWork();
+            MainWindow.doCompare.doWork();
         }
 
         if (e.getSource() == tbdButton) {
-            tbdWindow = new TBDWindow(this, "Niepewni", mainData.getToBeDecidedMap());
+            tbdWindow = new TBDWindow(this, "Niepewni", doCompare.getToBeDecidedMap());
         }
 
         if (e.getSource() == saveButton) {
-            MainWindow.mainData.save();
+            MainWindow.doCompare.save();
         }
 
         if (e.getSource() == leftOButton) {
-            leftOWindow = new LeftOWindow(this, "Resztkowka", mainData);
+            leftOWindow = new LeftOWindow(this, "Resztkowka", doCompare);
         }
 
         if (e.getSource() == siblingsButton) {
-            sibWindow = new SibWindow(this, "Rodzenstwa", mainData);
+            sibWindow = new SibWindow(this, "Rodzenstwa", doCompare);
         }
 
         writeSummary();
@@ -156,10 +157,10 @@ public class MainWindow extends JPanel implements ActionListener {
 
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = jfc.getSelectedFile();
-            pupPath = selectedFile.getAbsolutePath();
-            MainWindow.mainData.setPupPath(pupPath);
+            ConfigF.setPupPath(selectedFile.getAbsolutePath());
+            //MainWindow.doCompare.setPupPath(pupPath);
             System.out.println(selectedFile.getAbsolutePath());
-            pupilLabel.setText("wybierz plik z danymi uczniów. Teraz to" + pupPath);
+            familyPupLabel.setText("wybierz plik z danymi uczniów. Teraz to" + ConfigF.getPupPath());
         }
     }
 
@@ -169,10 +170,10 @@ public class MainWindow extends JPanel implements ActionListener {
         int returnValue = jfc.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = jfc.getSelectedFile();
-            bankPath = selectedFile.getAbsolutePath();
-            MainWindow.mainData.setBankPath(bankPath);
+           ConfigF.setBankPath(selectedFile.getAbsolutePath());
+            //MainWindow.doCompare.setBankPath(bankPath);
             System.out.println(selectedFile.getAbsolutePath());
-            bankLabel.setText("Wybierz plik z banku. Teraz to:" + bankPath);
+            bankLabel.setText("Wybierz plik z banku. Teraz to:" + ConfigF.getBankPath());
         }
     }
 
@@ -183,23 +184,23 @@ public class MainWindow extends JPanel implements ActionListener {
 
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = jfc.getSelectedFile();
-            dBPath = selectedFile.getAbsolutePath();
-            MainWindow.mainData.setDBPath(dBPath);
+            ConfigF.setSavedPath(selectedFile.getAbsolutePath());
+            //MainWindow.doCompare.setDBPath(dBPath);
             System.out.println(selectedFile.getAbsolutePath());
-            dBLabel.setText("Plik z istniejącą bazą Danych to: " + dBPath);
+            dBLabel.setText("Plik z istniejącą bazą Danych to: " + ConfigF.getSavedPath());
         }
     }
 
     void writeSummary() {
 
-        if (mainData.getLeftOvers() == null) {
+        if (doCompare.getLeftOvers() == null) {
             summary.setText("<html>Niepoliczone<br><br><br><br><br><br><br><br></html>");
         } else {
-            int fitted = mainData.getAmountOfFittedTransactions();
-            int leftOvers = mainData.getLeftOvers().size();
-            int toDecide = mainData.getToBeDecidedMap().keySet().size();
-            int siblings = mainData.getSiblingsBTList().size();
-            int rubbish = mainData.getWrongLinesList().size();
+            int fitted = doCompare.getAmountOfFamFittedTransactions();
+            int leftOvers = doCompare.getLeftOvers().size();
+            int toDecide = doCompare.getToBeDecidedMap().keySet().size();
+            int siblings = doCompare.getSiblingsBTList().size();
+            int rubbish = doCompare.getWrongLinesList().size();
             int sum = fitted + leftOvers + toDecide + siblings + rubbish;
 
             summary.setText("<html>Rekordów: " + sum + " <br>Dopasowane: " + fitted + " <br>Do decyzji: " + toDecide + "<br>Niedopasowane: " + leftOvers
@@ -225,7 +226,7 @@ public class MainWindow extends JPanel implements ActionListener {
     }
 
     public static void main(String[] args) {
-        mainData = new DoCompare();
+        doCompare = new DoCompare();
 
         javax.swing.SwingUtilities.invokeLater(() -> MainWindow.createAndShowGUI());
     }

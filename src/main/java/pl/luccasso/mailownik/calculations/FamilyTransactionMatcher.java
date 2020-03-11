@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import pl.luccasso.mailownik.BankTransaction;
-import pl.luccasso.mailownik.Pupil;
 import pl.luccasso.mailownik.model.NewFamily;
 import pl.luccasso.mailownik.persistence.DataBase;
 
@@ -25,9 +24,9 @@ public class FamilyTransactionMatcher {
         this.dataBase = dataBase;
     }
     
-    void analyzeTransaction3(BankTransaction bt, DataBase db) {
+    public void analyzeTransaction3(BankTransaction bt) {
         bt.note("===========Fakk==============");
-        this.dataBase = db;
+       // this.dataBase = db;
         try {
             if (dataBase.famByAccountMap().containsKey(bt.account())) {
                 accountAlreadyMatched(bt);
@@ -62,13 +61,14 @@ public class FamilyTransactionMatcher {
         } catch (Exception e) {
             dataBase.leftOvers.add(bt);
             bt.note("------Exception----------" + e.getMessage());
-            System.out.println("anal2: -Ex- : " + bt.title());
+            System.out.println("anal2: -Ex- : " + bt.title() + "\n" );
+            e.printStackTrace();
         }
     }
 
     void klassIsOKButSchoolIsNot(BankTransaction bt) {
         List<NewFamily> tmpList;
-        tmpList = new LinkedList(dataBase.pupByKlassMap.get(bt.klass()));
+        tmpList = new LinkedList(dataBase.famByKlassMap().get(bt.klass()));
         List<NewFamily> listlName = tryFitNames(bt, tmpList);
         List<NewFamily> listwSchool = tryFindSchool(bt, listlName);
         if (listwSchool.size() > 1) {
@@ -104,7 +104,7 @@ public class FamilyTransactionMatcher {
 
     void schoolInTransactionIsOK(BankTransaction bt) throws NumberFormatException {
         List<NewFamily> tmpList;
-        tmpList = new LinkedList(dataBase.pupBySchoolMap.get(Integer.valueOf(bt.school())));
+        tmpList = new LinkedList(dataBase.famBySchoolMap().get(Integer.valueOf(bt.school())));
         List<NewFamily> listWithlNames = tryFitNames(bt, tmpList);
         if (listWithlNames.isEmpty()) {
             if (!bt.hasDubiousKlass()) {
@@ -197,9 +197,11 @@ public class FamilyTransactionMatcher {
     
     
    private List<NewFamily> tryFitKlass(BankTransaction bt, List<NewFamily> lList) {
-        return lList.stream()
+        var x = lList.stream()
                 .filter(p -> p.isMyKlass(bt.klass()))
                 .collect(Collectors.toCollection(LinkedList::new));
+        return x;
+        
     }
 
     private List<NewFamily> tryFindSchool(BankTransaction bt, List<NewFamily> lList) {

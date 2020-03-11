@@ -21,7 +21,7 @@ import java.util.Set;
  */
 public class SinglePupil implements Pupil //implements Comparable<Pupil>
 {
-        static int idCount = 1000;
+        static int idCount = 5000;
         int id;
         String skryptId;
         int nb;

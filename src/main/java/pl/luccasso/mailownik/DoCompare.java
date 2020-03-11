@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import java.util.Scanner;
 import lombok.Getter;
 import lombok.Setter;
+import pl.luccasso.mailownik.calculations.FamilyTransactionMatcher;
 import pl.luccasso.mailownik.config.ConfigF;
 import pl.luccasso.mailownik.model.NewFamily;
 import pl.luccasso.mailownik.persistence.DataBase;
@@ -40,8 +41,8 @@ public class DoCompare {
                 .importschools(ConfigF.getClassPerSchool());
     }
 
-    public Map<BankTransaction, List<Pupil>> getToBeDecidedMap() {
-        return dataBase.humanToDecide;
+    public Map<BankTransaction, List<NewFamily>> getToBeDecidedMap() {
+        return dataBase.humanFamilyToDecide();
     }
 
     public DoCompare() {
@@ -58,7 +59,9 @@ public class DoCompare {
         dataBase.makeStructures();
         //writeMapsToSout(); //debug
         searchForSiblings();
-        dataBase.listaTransakcji.forEach(this::analyzeTransaction2);
+        //dataBase.listaTransakcji.forEach(this::analyzeTransaction2);
+        var ftm = new FamilyTransactionMatcher(dataBase);
+        dataBase.listaTransakcji.forEach(ftm::analyzeTransaction3);
         // writeListsToSout(); //debug
     }
     
@@ -261,15 +264,15 @@ public class DoCompare {
         ConfigF.setPupPath(path); //TODO remove this Function
     }
 
-    public void addToFittedData(Pupil p, BankTransaction bt) {
-        dataBase.fittedData.merge(p, new LinkedList<>(List.of(bt)), (o, n) -> {
+    public void addToFittedData(NewFamily p, BankTransaction bt) {
+        dataBase.famFittedData().merge(p, new LinkedList<>(List.of(bt)), (o, n) -> {
             o.addAll(n);
             return o;
         });
     }
 
     public void removeFromHumanToDecide(BankTransaction bt) {
-        dataBase.humanToDecide.remove(bt);
+        dataBase.humanFamilyToDecide.remove(bt);
     }
 
     public void addToLeftOvers(BankTransaction bt) {
@@ -330,15 +333,15 @@ public class DoCompare {
 
     public List<BankTransaction> getLeftOvers() {
         System.out.println("Kurka - getLeftOvers");
-        return dataBase.leftOvers;
+        return dataBase.leftOvers();
     }
 
-    public List<Pupil> getPupilList() {
-        return dataBase.pupilList();
+    public List<NewFamily> getNeuFamilyList() {
+        return dataBase.neuFamilyList();
     }
 
-    public Map<Integer, List<Pupil>> getPupBySchoolMap() {
-        return dataBase.pupBySchoolMap;
+    public Map<Integer, List<NewFamily>> getFamBySchoolMap() {
+        return dataBase.famBySchoolMap();
     }
 
     public List<String> getWrongLinesList() {
@@ -349,8 +352,8 @@ public class DoCompare {
         return dataBase.siblings;
     }
 
-    public int getAmountOfFittedTransactions() {
-        return (int) dataBase.fittedData.values().stream().flatMap(li -> li.stream()).count();
+    public int getAmountOfFamFittedTransactions() {
+        return (int) dataBase.famFittedData().values().stream().flatMap(li -> li.stream()).count();
     }
 
     public void pushLinesToSiblings(BankTransaction bt, List<Pupil> chosenSiblings) {

@@ -47,6 +47,11 @@ public class NewPupil {
         if (ql.contains(klass)) {
             return true;
         }
+        
+        if (klass.length()<2){
+            return false;
+        }
+        
         if (ql.contains(klass.charAt(0)+" " + klass.charAt(1))) {
             return true;
         }

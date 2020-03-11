@@ -18,7 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import pl.luccasso.mailownik.BankTransaction;
-import pl.luccasso.mailownik.Pupil;
+import pl.luccasso.mailownik.model.NewFamily;
 
 /**
  *
@@ -27,19 +27,19 @@ import pl.luccasso.mailownik.Pupil;
 public class SibPanel  extends JPanel implements ActionListener{
 
     BankTransaction bt;
-    List<Pupil> pupList;
-    Map<Integer, List<Pupil>> pupBySchoolMap;
+    List<NewFamily> FamList;
+    Map<Integer, List<NewFamily>> famBySchoolMap;
     JLabel transaction, output;
-    List<Pupil> chosenSiblings;
-    List <JComboBox> pupCombos;
+    List<NewFamily> chosenSiblings;
+    List <JComboBox> famCombos;
     boolean isSet;
     
-    SibPanel(BankTransaction bt, List<Pupil> pupilList, Map<Integer, List<Pupil>> pupBySchoolMap) {
+    SibPanel(BankTransaction bt, List<NewFamily> famlList, Map<Integer, List<NewFamily>> pupBySchoolMap) {
         this.bt = bt;
-        pupList = pupilList;
-        this.pupBySchoolMap = pupBySchoolMap;
+        FamList = famlList;
+        this.famBySchoolMap = pupBySchoolMap;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        pupCombos = new LinkedList<>();
+        famCombos = new LinkedList<>();
         chosenSiblings = new LinkedList<>();
         isSet = false;
         
@@ -50,7 +50,7 @@ public class SibPanel  extends JPanel implements ActionListener{
         var level = new JPanel();
         level.setLayout(new BoxLayout(level, BoxLayout.Y_AXIS));
         for (int i = 0; i < nSiblings; i++) {
-            var pupArray = pupList.toArray(new Pupil[pupList.size()]);
+            var pupArray = FamList.toArray(new NewFamily[FamList.size()]);
             Arrays.sort(pupArray);
             var patternList = new JComboBox(pupArray);
             patternList.setEditable(false);
@@ -61,13 +61,13 @@ public class SibPanel  extends JPanel implements ActionListener{
             AutoCompleteDecorator.decorate(patternList);
 
             level.add(patternList);
-            pupCombos.add(patternList);
+            famCombos.add(patternList);
         }
 
         output = new JLabel("<html>------<br><br></html>");
 
         add(transaction);
-        /*for(var c: pupCombos){
+        /*for(var c: famCombos){
             add(c);
         }*/
         add(level);
@@ -79,13 +79,13 @@ public class SibPanel  extends JPanel implements ActionListener{
         
         if (e.getActionCommand().equals("comboBoxEdited")){
             JComboBox cb = (JComboBox)e.getSource();
-            if (pupCombos.contains(cb)){
-            Pupil petName = (Pupil) cb.getSelectedItem();
+            if (famCombos.contains(cb)){
+            NewFamily petName = (NewFamily) cb.getSelectedItem();
             if (petName != null){
                 //output.setText("<html>" + petName.getShortUniqueString()+"<br><br></html>");
                 chosenSiblings.add(petName);
                 isSet=true;
-                System.out.println("Action Event from sibPanel: " + petName.getShortUniqueString());
+                System.out.println("Action Event from sibPanel: " + petName.toString()); //TOOO byl short unique line
                 System.out.println(e.getActionCommand());
                 System.out.println(e.paramString());
                 //System.out.println();
@@ -97,10 +97,10 @@ public class SibPanel  extends JPanel implements ActionListener{
             }
             
         String message = "<html>";
-        for (var c:pupCombos){
-            Pupil petName = (Pupil) c.getSelectedItem();
+        for (var c:famCombos){
+            NewFamily petName = (NewFamily) c.getSelectedItem();
             if (petName != null) {
-                message += petName.getShortUniqueString()+"<br>";
+                message += petName.toString()+"<br>";   //ToDo getShortUniqueString()
              }
         }
         if (message.equals("<html>") ) {

@@ -21,7 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import pl.luccasso.mailownik.BankTransaction;
-import pl.luccasso.mailownik.Pupil;
+import pl.luccasso.mailownik.model.NewFamily;
 
 
 /*class MyComboBoxRenderer extends JLabel implements ListCellRenderer {
@@ -50,10 +50,10 @@ import pl.luccasso.mailownik.Pupil;
  */
 public class LOPanel extends JPanel implements ActionListener{
     //static DoCompare mainData;
-    Pupil pu;
+    NewFamily pu;
     BankTransaction bt;
-    List<Pupil> pupList;
-    Map<Integer, List<Pupil>> pupBySchoolMap;
+    List<NewFamily> famList;
+    Map<Integer, List<NewFamily>> famBySchoolMap;
     JLabel transaction;
     Random generator;
     String[] pupilStr;
@@ -62,17 +62,17 @@ public class LOPanel extends JPanel implements ActionListener{
     JComboBox schoolSelect;
     boolean isSet;
     
-    public LOPanel(BankTransaction bt, List<Pupil> pl, Map<Integer, List<Pupil>> pBSM) {
+    public LOPanel(BankTransaction bt, List<NewFamily> pl, Map<Integer, List<NewFamily>> pBSM) {
         super();
         //mainData.doWork();
         this.bt = bt;
-        pupList = pl;
-        pupBySchoolMap = pBSM;
+        famList = pl;
+        famBySchoolMap = pBSM;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         /*int i=0;
-        pupilStr = new String[pupList.size()];
+        pupilStr = new String[famList.size()];
         
-        for(var p:pupList){
+        for(var p:famList){
             pupilStr[i] = p.getShortUniqueString();
             i++;
         }
@@ -88,7 +88,7 @@ public class LOPanel extends JPanel implements ActionListener{
         transaction.setToolTipText("<html><p width=\"500\">" + bt.saveTransaction()+"</p></html>");
          //"<html><p width=\"500\">" +value+"</p></html>"
         //patternList = new JComboBox(pupilStr);
-        var pupArray = pupList.toArray(new Pupil[pupList.size()]);
+        var pupArray = famList.toArray(new NewFamily[famList.size()]);
         Arrays.sort(pupArray);
         patternList = new JComboBox(pupArray);
         patternList.setSelectedIndex(-1);
@@ -97,7 +97,7 @@ public class LOPanel extends JPanel implements ActionListener{
         patternList.setMaximumSize(new Dimension(400, 100));
 //        patternList.setRenderer(new MyComboBoxRenderer());
         AutoCompleteDecorator.decorate(patternList);
-        var schoolArray = pupBySchoolMap.keySet().toArray();
+        var schoolArray = famBySchoolMap.keySet().toArray();
         Arrays.sort(schoolArray);
         schoolSelect = new JComboBox(schoolArray);
         schoolSelect.setMaximumSize(new Dimension(400, 100));
@@ -140,9 +140,9 @@ public class LOPanel extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == patternList){
             JComboBox cb = (JComboBox)e.getSource();
-            Pupil petName = (Pupil) cb.getSelectedItem();
+            NewFamily petName = (NewFamily) cb.getSelectedItem();
             if (petName != null){
-                output.setText("<html>" + petName.getShortUniqueString()+"<br><br></html>");
+                output.setText("<html>" + petName.toString()+ "<br><br></html>");//TODO getShortUniqueString()+
                 pu = petName;
                 isSet=true;
             } else {
@@ -163,8 +163,8 @@ public class LOPanel extends JPanel implements ActionListener{
             */
            DefaultComboBoxModel model = (DefaultComboBoxModel) patternList.getModel();
            model.removeAllElements();
-           var list = pupBySchoolMap.get(school);
-           list.sort(Comparator.comparing(Pupil::toString));
+           var list = famBySchoolMap.get(school);
+           list.sort(Comparator.comparing(NewFamily::toString));
            model.addAll(list);
         }
     }

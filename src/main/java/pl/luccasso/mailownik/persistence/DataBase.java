@@ -90,7 +90,7 @@ public class DataBase {
 
     private void makeFamilyStructures() {
         famBySchoolMap = neuFamilyList().stream().collect(Collectors.groupingBy((e) -> e.getSchoolNr()));
-        //famByKlassMap = neuFamilyList().stream().collect(Collectors.groupingBy((e) -> e.getKlass()));
+        famByKlassMap = neuFamilyList().stream().collect(Collectors.groupingBy((e) -> e.getKlass()));
         famByAccountMap = new HashMap<>();
         for (NewFamily p : neuFamilyList()) {
             for (String acc : p.getAccountNrs()) {

@@ -49,7 +49,7 @@ public class SibWindow extends JFrame implements ActionListener {
         int nItems = btList.size()>50? 50 : btList.size();
         
         for (int i = 0; i < nItems;i++){
-            var sip = new SibPanel(btList.get(i), mainData.getPupilList(), mainData.getPupBySchoolMap());
+            var sip = new SibPanel(btList.get(i), mainData.getNeuFamilyList(), mainData.getFamBySchoolMap());
             sibPanList.add(sip);
             contentPanel.add(sip);
         }
@@ -73,7 +73,8 @@ public class SibWindow extends JFrame implements ActionListener {
         if (e.getSource() == ok){
             for(var s:sibPanList){
                 if(s.isSet){
-                   mainData.pushLinesToSiblings(s.bt, s.chosenSiblings);
+                 //  mainData.pushLinesToSiblings(s.bt, s.chosenSiblings);
+                 throw  new RuntimeException("Nie do siblingsow");
                 }
             }
             handler.writeSummary();
