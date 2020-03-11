@@ -99,7 +99,7 @@ class Childrens {
     
     String getFamilyId(){
         StringBuilder sb = new StringBuilder();
-        list.forEach(np -> sb.append(np.id().skryptId()));
+        list.forEach(np -> sb.append(np.id().skryptId()).append(' '));
         return sb.toString();
     }
     

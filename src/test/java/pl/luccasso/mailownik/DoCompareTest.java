@@ -6,6 +6,7 @@
 package pl.luccasso.mailownik;
 
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -87,7 +88,7 @@ public class DoCompareTest {
         System.out.println(db.neuFamilyList().size());
         for(var nf: db.neuFamilyList()){
             System.out.println("Oto Rodzina:");
-           nf.writeNames();
+            System.out.println(Arrays.toString(nf.getFileLines()));
         }
             
     }

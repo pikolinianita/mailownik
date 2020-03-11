@@ -132,7 +132,7 @@ public class NewFamily {
         String[] response = new String[size];
         int i = 0;
         for (var np : childrens.list()) {
-
+            np.attendance().AbsenceCalculation();
             response[i] = String.join("\t", String.valueOf(np.id().id()),
                      String.valueOf(np.id().skryptId()),
                      String.valueOf(np.school()),
