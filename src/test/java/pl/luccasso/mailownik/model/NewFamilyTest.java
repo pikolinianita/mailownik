@@ -7,6 +7,7 @@
 package pl.luccasso.mailownik.model;
 
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -89,6 +90,7 @@ public class NewFamilyTest {
         softly.assertThat(family.childrens().list()).as("are good names")
                 .extracting("fName")
                 .contains("Bob100","Adam100");
+          System.out.println(Arrays.toString(family.getFileLines()));
     }
     
    
@@ -104,6 +106,7 @@ public class NewFamilyTest {
          
          softly.assertThat(family.totalPayments()).as("Total payments").isEqualTo(70);
          softly.assertThat(family.allAccounts()).as("accounts list").contains("1234567890");
+         System.out.println(Arrays.toString(family.getFileLines()));
     }
     
     @Disabled

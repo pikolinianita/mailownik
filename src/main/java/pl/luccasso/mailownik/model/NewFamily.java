@@ -3,9 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package pl.luccasso.mailownik.model;
-
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +16,6 @@ import lombok.experimental.Accessors;
 import pl.luccasso.mailownik.Pupil;
 import pl.luccasso.mailownik.SinglePupil;
 
-
 /**
  *
  * @author piko
@@ -29,9 +26,9 @@ import pl.luccasso.mailownik.SinglePupil;
 public class NewFamily {
 
     ContactData contacts;
-    
+
     PaymentsData payments;
-    
+
     Childrens childrens;
 
     public NewFamily(SinglePupil sp) {
@@ -54,21 +51,22 @@ public class NewFamily {
         var child = new NewPupil()
                 .fName(sp.getFName())
                 .lName(sp.getLName())
+                .klass(sp.getKlass())
                 .attendance(att)
                 .id(iDs)
                 .school(sp.getSchoolNr());
-        
+
         childrens = new Childrens().add(child);
     }
 
     public boolean isMyBrother(Pupil pup) {
-       return contacts.eMail().equalsIgnoreCase(pup.getEMail()) 
-               || (!"".equals(contacts.nTel())&&contacts.nTel().equals(pup.getNTel()))
-               ||(!"".equals(contacts.nTel2())&&contacts.nTel2().equals(pup.getNTel2()));
+        return contacts.eMail().equalsIgnoreCase(pup.getEMail())
+                || (!"".equals(contacts.nTel()) && contacts.nTel().equals(pup.getNTel()))
+                || (!"".equals(contacts.nTel2()) && contacts.nTel2().equals(pup.getNTel2()));
     }
 
-    public NewFamily add(SinglePupil sp) {       
-        
+    public NewFamily add(SinglePupil sp) {
+
         var att = new Attendance()
                 .nb(sp.getNb())
                 .timeSheet(sp.getTimeSheet());
@@ -82,14 +80,14 @@ public class NewFamily {
                 .attendance(att)
                 .id(iDs)
                 .school(sp.getSchoolNr());
-        
-        childrens.add(child);        
+
+        childrens.add(child);
         payments.amend(sp);
-        
+
         return this;
     }
 
-    public int size(){
+    public int size() {
         return childrens.size();
     }
 
@@ -118,14 +116,55 @@ public class NewFamily {
     }
 
     public boolean isMyfNameHere(String niceString) {
-        return childrens.isMyfNameHere(niceString); 
+        return childrens.isMyfNameHere(niceString);
     }
 
-    public boolean isMylNameHere(String niceString)  {
+    public boolean isMylNameHere(String niceString) {
         return childrens.isMylNameHere(niceString);
     }
-    
-    public void writeNames(){
+
+    public void writeNames() {
         childrens.writeNames();
     }
+
+    public String[] getFileLines() {
+        int size = childrens.list().size();
+        String[] response = new String[size];
+        int i = 0;
+        for (var np : childrens.list()) {
+
+            response[i] = String.join("\t", String.valueOf(np.id().id()),
+                     String.valueOf(np.id().skryptId()),
+                     String.valueOf(np.school()),
+                     np.fName(),
+                     np.lName(),
+                     np.klass(),
+                     contacts().nTel2(),
+                     contacts().nTel(),
+                     contacts().eMail(),
+                     np.attendance().getTimeSheetString(),
+                     String.valueOf(np.attendance().ones()),
+                     String.valueOf(np.attendance().zeroes()),
+                     String.valueOf(np.attendance().eMs()),
+                     childrens.getFamilyId(),
+                     "All Payments",
+                     "to Pay",
+                     "PaymentType",
+                     "toPayTotal",
+                     "nZajec",
+                     "tr",
+                     "acc" + "\n"
+            );
+            i++;
+        }
+
+        return response;
+    }
 }
+/*String.join("\t",String.valueOf(id),skryptId, String.valueOf(schoolNr),
+                        fName,lName,klass, nTel2, nTel,eMail, 
+                        ob, String.valueOf(ones), String.valueOf(zeroes), 
+                        String.valueOf(nb), String.valueOf(allPayments), 
+                        String.valueOf(toPay), paymentType,String.valueOf(toPayTotal),
+                        String.valueOf(nZajec),tr, acc )+"\n"
+                        */

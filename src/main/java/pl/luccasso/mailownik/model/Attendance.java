@@ -28,4 +28,37 @@ public class Attendance{
     String [] timeSheet;
     
     int nb;
+    
+    int zeroes;
+    
+    int ones;
+    
+    int eMs;
+            
+    int AbsenceCalculation(){
+        zeroes = 0;
+        ones = 0;
+        eMs = 0;
+        String ob = getTimeSheetString();
+        for(char c: ob.toCharArray()){
+            switch (c) {
+                case '0':
+                    zeroes++;
+                    break;
+                case '1':
+                    ones++;
+                    break;
+                case 'M':
+                    eMs++;
+                    break;
+                default:
+                    break;
+            }
+        }
+        return  ones + zeroes;
+    }
+           
+    String getTimeSheetString(){
+        return String.join("\t", timeSheet);
+    }
 }

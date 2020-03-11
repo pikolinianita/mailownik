@@ -97,4 +97,10 @@ class Childrens {
        list.forEach(np ->  System.out.println(np.fName()));
     }
     
+    String getFamilyId(){
+        StringBuilder sb = new StringBuilder();
+        list.forEach(np -> sb.append(np.id().skryptId()));
+        return sb.toString();
+    }
+    
 }
