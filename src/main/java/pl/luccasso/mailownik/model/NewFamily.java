@@ -60,9 +60,14 @@ public class NewFamily {
     }
 
     public boolean isMyBrother(Pupil pup) {
+         
         return contacts.eMail().equalsIgnoreCase(pup.getEMail())
-                || (!"".equals(contacts.nTel()) && contacts.nTel().equals(pup.getNTel()))
-                || (!"".equals(contacts.nTel2()) && contacts.nTel2().equals(pup.getNTel2()));
+                && contacts.nTel().equals(pup.getNTel())
+                && contacts.nTel2().equals(pup.getNTel2());
+        
+        /*return contacts.eMail().equalsIgnoreCase(pup.getEMail())
+                && (!"".equals(contacts.nTel()) && contacts.nTel().equals(pup.getNTel()))
+                && (!"".equals(contacts.nTel2()) && contacts.nTel2().equals(pup.getNTel2()));*/
     }
 
     public NewFamily add(SinglePupil sp) {
@@ -159,6 +164,10 @@ public class NewFamily {
         }
 
         return response;
+    }
+
+    public String getKlass() {
+        return childrens().list().get(0).klass();
     }
 }
 /*String.join("\t",String.valueOf(id),skryptId, String.valueOf(schoolNr),

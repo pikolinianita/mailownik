@@ -16,7 +16,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import pl.luccasso.mailownik.BankTransaction;
-import pl.luccasso.mailownik.Pupil;
+import pl.luccasso.mailownik.model.NewFamily;
 
 /**
  *
@@ -24,10 +24,10 @@ import pl.luccasso.mailownik.Pupil;
  */
 public class TBDTuple extends JPanel {
     BankTransaction bt;
-    List<Pupil> guys;
+    List<NewFamily> guys;
     List<JCheckBox> lCheckbox;
     
-    TBDTuple(TBDWindow handle, BankTransaction key, List<Pupil> value) {
+    TBDTuple(TBDWindow handle, BankTransaction key, List<NewFamily> value) {
         super();
         lCheckbox = new LinkedList<>();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -52,7 +52,7 @@ public class TBDTuple extends JPanel {
         return bt;
     }
     
-    public Pupil getPupilOrNull(){
+    public NewFamily getFamilyOrNull(){
         for(int i=0;i<lCheckbox.size();i++){
             if (lCheckbox.get(i).isSelected()){
                 System.out.println(guys.get(i).toString());

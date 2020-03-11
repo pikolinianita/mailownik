@@ -61,5 +61,7 @@ public class FamilyTest {
         assertTrue(f.getAccountNrs().contains("Fladry"));
         assertTrue(f.getAccountNrs().contains("Gacha"));
     }
-    
+    @Test void testAccountsMargeTransactions(){
+        
+    }
 }

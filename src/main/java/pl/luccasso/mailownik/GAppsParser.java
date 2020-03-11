@@ -80,6 +80,7 @@ public class GAppsParser {
             }            
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GAppsParser.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("GAppsParser File Not Found");
         } 
         parseToPupils(pupilsI);
     }

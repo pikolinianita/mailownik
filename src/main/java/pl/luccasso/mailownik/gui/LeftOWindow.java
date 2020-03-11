@@ -50,7 +50,7 @@ class LeftOWindow extends JFrame implements ActionListener {
         int nItems = btList.size()>50? 50 : btList.size();
         
         for (int i = 0; i < nItems;i++){
-            var lop = new LOPanel(btList.get(i), mainData.getPupilList(), mainData.getPupBySchoolMap());
+            var lop = new LOPanel(btList.get(i), mainData.getNeuFamilyList(), mainData.getFamBySchoolMap());
             lOPanList.add(lop);
             contentPanel.add(lop);
         }
