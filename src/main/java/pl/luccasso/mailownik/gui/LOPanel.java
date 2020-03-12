@@ -81,7 +81,7 @@ public class LOPanel extends JPanel implements ActionListener{
         int number = generator.nextInt(10);
         */
         if (bt.niceString == null || bt.niceString.length()<5){
-            transaction = new JLabel(bt.saveTransaction());
+            transaction = new JLabel("<html><p width=\"800\">" + bt.saveTransaction()+"</p></html>");
         } else {
             transaction = new JLabel(bt.niceString);
         }
@@ -89,7 +89,7 @@ public class LOPanel extends JPanel implements ActionListener{
          //"<html><p width=\"500\">" +value+"</p></html>"
         //patternList = new JComboBox(pupilStr);
         var pupArray = famList.toArray(new NewFamily[famList.size()]);
-        Arrays.sort(pupArray);
+        //Arrays.sort(pupArray);
         patternList = new JComboBox(pupArray);
         patternList.setSelectedIndex(-1);
         patternList.setEditable(false);

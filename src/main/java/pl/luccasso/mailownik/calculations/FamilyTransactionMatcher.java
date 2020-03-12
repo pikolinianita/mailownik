@@ -68,7 +68,7 @@ public class FamilyTransactionMatcher {
 
     void klassIsOKButSchoolIsNot(BankTransaction bt) {
         List<NewFamily> tmpList;
-        tmpList = new LinkedList(dataBase.famByKlassMap().get(bt.klass()));
+        tmpList = new LinkedList(dataBase.famByKlassMap().get(bt.klass())); //TODO Throws Exception when Wrong School
         List<NewFamily> listlName = tryFitNames(bt, tmpList);
         List<NewFamily> listwSchool = tryFindSchool(bt, listlName);
         if (listwSchool.size() > 1) {

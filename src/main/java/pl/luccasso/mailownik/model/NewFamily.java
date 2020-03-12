@@ -21,7 +21,7 @@ import pl.luccasso.mailownik.SinglePupil;
  *
  * @author piko
  */
-@ToString
+
 @Accessors(fluent = true, chain = true)
 @Getter
 public class NewFamily implements Comparable<NewFamily>{
@@ -61,6 +61,13 @@ public class NewFamily implements Comparable<NewFamily>{
     }
 
     public boolean isMyBrother(Pupil pup) {
+        
+        //In case all contact data is empty
+        if("".equals(contacts.eMail()) 
+                && "".equals(contacts.nTel()) 
+                && "".equals(contacts.nTel2()) ){
+            return false;
+        }
          
         return contacts.eMail().equalsIgnoreCase(pup.getEMail())
                 && contacts.nTel().equals(pup.getNTel())
@@ -181,6 +188,18 @@ public class NewFamily implements Comparable<NewFamily>{
     public String getShortUniqueString(){
         return this.childrens().getShortUniqueString();             
     }
+
+    @Override
+    public String toString() {
+        return getShortUniqueString();
+    }
+
+    
+    public String toString(int fake) {
+        return "NewFamily{" + ", childrens=" + childrens + "contacts=" + contacts + ", payments=" + payments + '}';
+    }
+    
+    
 
     
 }
