@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -373,7 +374,7 @@ public class DoCompare {
 
     List<Pupil> loadPreviousData(String inpPath) {
         if (inpPath == null) {
-            return null;
+            return new LinkedList<>();
         }
 
         List<Pupil> pupList = new LinkedList<>();
@@ -382,12 +383,11 @@ public class DoCompare {
             while (sc.hasNext()) {
                 pupList.add(new SinglePupil(sc.nextLine()));
             }
-            sc.close();
             return pupList;
-        } catch (FileNotFoundException ex) {
+        } catch (NoSuchElementException | FileNotFoundException ex) {
             Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return new LinkedList<>();
     }
 
     public void setDBPath(String dBPath) {

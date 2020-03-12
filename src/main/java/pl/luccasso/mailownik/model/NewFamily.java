@@ -5,6 +5,7 @@
  */
 package pl.luccasso.mailownik.model;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,7 +24,7 @@ import pl.luccasso.mailownik.SinglePupil;
 @ToString
 @Accessors(fluent = true, chain = true)
 @Getter
-public class NewFamily {
+public class NewFamily implements Comparable<NewFamily>{
 
     ContactData contacts;
 
@@ -31,7 +32,7 @@ public class NewFamily {
 
     Childrens childrens;
 
-    public NewFamily(SinglePupil sp) {
+    public NewFamily(SinglePupil sp)  {
 
         contacts = new ContactData()
                 .eMail(sp.getEMail())
@@ -169,6 +170,19 @@ public class NewFamily {
     public String getKlass() {
         return childrens().list().get(0).klass();
     }
+
+    
+    @Override
+    public int compareTo(NewFamily other) {
+        return this.childrens().list().get(0).lName
+                .compareToIgnoreCase(other.childrens().list().get(0).lName);
+    }
+    
+    public String getShortUniqueString(){
+        return this.childrens().getShortUniqueString();             
+    }
+
+    
 }
 /*String.join("\t",String.valueOf(id),skryptId, String.valueOf(schoolNr),
                         fName,lName,klass, nTel2, nTel,eMail, 
