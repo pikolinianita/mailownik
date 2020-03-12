@@ -56,13 +56,8 @@ public class MainWindow extends JPanel implements ActionListener {
     SibWindow sibWindow;
 
     public MainWindow() {
-        super();
-
-       //pupPath = "e:/pupils.txt";
-       // bankPath = "e:/listatestowa.csv";
-       // dBPath = null;
-
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+       super();
+       this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
     private MainWindow createComponents() {
@@ -227,6 +222,7 @@ public class MainWindow extends JPanel implements ActionListener {
 
     public static void main(String[] args) {
         doCompare = new DoCompare();
+        
 
         javax.swing.SwingUtilities.invokeLater(() -> MainWindow.createAndShowGUI());
     }

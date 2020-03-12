@@ -58,12 +58,12 @@ public class DoCompare {
     public void doWork() {
         loadStuff();
         dataBase.makeStructures();
-        //writeMapsToSout(); //debug
         searchForSiblings();
         //dataBase.listaTransakcji.forEach(this::analyzeTransaction2);
         var ftm = new FamilyTransactionMatcher(dataBase);
         dataBase.listaTransakcji.forEach(ftm::analyzeTransaction3);
-        // writeListsToSout(); //debug
+        dataBase.sort();
+      
     }
     
     public void loadStuff() {

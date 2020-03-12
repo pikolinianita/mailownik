@@ -142,7 +142,7 @@ public class LOPanel extends JPanel implements ActionListener{
             JComboBox cb = (JComboBox)e.getSource();
             NewFamily petName = (NewFamily) cb.getSelectedItem();
             if (petName != null){
-                output.setText("<html>" + petName.toString()+ "<br><br></html>");//TODO getShortUniqueString()+
+                output.setText("<html>" + petName.getShortUniqueString()+ "<br><br></html>");
                 pu = petName;
                 isSet=true;
             } else {

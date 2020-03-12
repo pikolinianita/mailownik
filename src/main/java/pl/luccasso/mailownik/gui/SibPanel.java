@@ -82,10 +82,9 @@ public class SibPanel  extends JPanel implements ActionListener{
             if (famCombos.contains(cb)){
             NewFamily petName = (NewFamily) cb.getSelectedItem();
             if (petName != null){
-                //output.setText("<html>" + petName.getShortUniqueString()+"<br><br></html>");
                 chosenSiblings.add(petName);
                 isSet=true;
-                System.out.println("Action Event from sibPanel: " + petName.toString()); //TOOO byl short unique line
+                System.out.println("Action Event from sibPanel: " + petName.getShortUniqueString()); 
                 System.out.println(e.getActionCommand());
                 System.out.println(e.paramString());
                 //System.out.println();
@@ -100,7 +99,7 @@ public class SibPanel  extends JPanel implements ActionListener{
         for (var c:famCombos){
             NewFamily petName = (NewFamily) c.getSelectedItem();
             if (petName != null) {
-                message += petName.toString()+"<br>";   //ToDo getShortUniqueString()
+                message += petName.getShortUniqueString()+"<br>";   
              }
         }
         if (message.equals("<html>") ) {
