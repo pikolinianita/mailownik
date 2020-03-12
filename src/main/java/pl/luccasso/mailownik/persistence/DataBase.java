@@ -123,4 +123,19 @@ public class DataBase {
         return familyList;
     }
     
+    public DataBase sort(){
+        
+       mapSort(humanFamilyToDecide);
+       mapSort(famBySchoolMap);
+       mapSort(famByKlassMap);
+       
+       neuFamilyList.sort(null); //natural ordering
+        
+       return this;
+    }
+
+    <T,K> void  mapSort(Map <T, List<K>> map) {
+       map.values().forEach(e->e.sort(null)); //natural ordering
+    }
+    
 }
