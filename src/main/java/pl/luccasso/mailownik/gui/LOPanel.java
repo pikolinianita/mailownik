@@ -50,10 +50,10 @@ import pl.luccasso.mailownik.model.NewFamily;
  */
 public class LOPanel extends JPanel implements ActionListener{
     //static DoCompare mainData;
-    NewFamily pu;
-    BankTransaction bt;
-    List<NewFamily> famList;
-    Map<Integer, List<NewFamily>> famBySchoolMap;
+    transient NewFamily family;
+    transient BankTransaction bt;
+    transient List<NewFamily> famList;
+    transient Map<Integer, List<NewFamily>> famBySchoolMap;
     JLabel transaction;
     Random generator;
     String[] pupilStr;
@@ -143,11 +143,11 @@ public class LOPanel extends JPanel implements ActionListener{
             NewFamily petName = (NewFamily) cb.getSelectedItem();
             if (petName != null){
                 output.setText("<html>" + petName.getShortUniqueString()+ "<br><br></html>");
-                pu = petName;
+                family = petName;
                 isSet=true;
             } else {
                 output.setText("<html>------<br><br></html>");
-                pu=null;
+                family=null;
                 isSet=false;
             }
             

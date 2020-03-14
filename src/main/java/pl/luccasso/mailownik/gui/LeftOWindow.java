@@ -24,11 +24,11 @@ import pl.luccasso.mailownik.DoCompare;
  * @author piko
  */
 class LeftOWindow extends JFrame implements ActionListener {
-    List<BankTransaction> btList;
-    List<LOPanel> lOPanList;
+    transient List<BankTransaction> btList;
+    transient List<LOPanel> lOPanList;
     JButton ok; 
     JButton cancel; 
-    DoCompare mainData;
+    transient DoCompare mainData;
     MainWindow handler;
     
     public LeftOWindow(MainWindow mW, String title, DoCompare mD ) {
@@ -74,7 +74,7 @@ class LeftOWindow extends JFrame implements ActionListener {
         if (e.getSource() == ok){
             for(var l: lOPanList) {
                 if(l.isSet){
-                    mainData.addToFittedData(l.pu, l.bt);
+                    mainData.addToFittedData(l.family, l.bt);
                     btList.remove(l.bt);
                 }
             }

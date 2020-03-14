@@ -30,9 +30,9 @@ public class TBDWindow extends JFrame implements ActionListener {
     JPanel mainPanel;
     JPanel bottomRow;
     JButton ok, exit;
-    LinkedHashMap<BankTransaction, List<NewFamily>> humanToDecide;
+    transient LinkedHashMap<BankTransaction, List<NewFamily>> humanToDecide;
     int counter;
-    List<TBDTuple> lTuples;
+    transient List<TBDTuple> lTuples;
 
     public TBDWindow(MainWindow mW, String title, Map<BankTransaction, List<NewFamily>> hTD) {
         super(title);

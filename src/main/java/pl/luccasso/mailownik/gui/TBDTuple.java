@@ -23,9 +23,9 @@ import pl.luccasso.mailownik.model.NewFamily;
  * @author piko
  */
 public class TBDTuple extends JPanel {
-    BankTransaction bt;
-    List<NewFamily> guys;
-    List<JCheckBox> lCheckbox;
+    transient BankTransaction bt;
+    transient List<NewFamily> guys;
+    transient List<JCheckBox> lCheckbox;
     
     TBDTuple(TBDWindow handle, BankTransaction key, List<NewFamily> value) {
         super();

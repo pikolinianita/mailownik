@@ -26,12 +26,12 @@ import pl.luccasso.mailownik.model.NewFamily;
  */
 public class SibPanel  extends JPanel implements ActionListener{
 
-    BankTransaction bt;
-    List<NewFamily> FamList;
-    Map<Integer, List<NewFamily>> famBySchoolMap;
+    transient BankTransaction bt;
+    transient List<NewFamily> FamList;
+    transient Map<Integer, List<NewFamily>> famBySchoolMap;
     JLabel transaction, output;
-    List<NewFamily> chosenSiblings;
-    List <JComboBox> famCombos;
+    transient List<NewFamily> chosenSiblings;
+    transient List <JComboBox> famCombos;
     boolean isSet;
     
     SibPanel(BankTransaction bt, List<NewFamily> famlList, Map<Integer, List<NewFamily>> pupBySchoolMap) {

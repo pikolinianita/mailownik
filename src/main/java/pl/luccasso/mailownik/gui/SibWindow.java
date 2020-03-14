@@ -23,12 +23,12 @@ import pl.luccasso.mailownik.DoCompare;
  * @author piko
  */
 public class SibWindow extends JFrame implements ActionListener {
-    List<BankTransaction> btList;
-    List<SibPanel> sibPanList;
+    transient List<BankTransaction> btList;
+    transient List<SibPanel> sibPanList;
     JButton ok; 
     JButton cancel; 
-    DoCompare mainData;
-    MainWindow handler;
+    transient DoCompare mainData;
+    transient MainWindow handler;
     
     public SibWindow(MainWindow mW, String title, DoCompare mD ) {
         super(title);
