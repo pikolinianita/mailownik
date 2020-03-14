@@ -29,9 +29,6 @@ jobs:
     - name: Report Maven
       run: mvn site -s $GITHUB_WORKSPACE/settings.xml
       
-    - name: Report Coveralis
-      run: mvn clean test jacoco:report coveralls:report
-    
     - name: upload report
       uses: actions/upload-artifact@v1
       with:
