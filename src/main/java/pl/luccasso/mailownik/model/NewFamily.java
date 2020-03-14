@@ -147,6 +147,7 @@ public class NewFamily implements Comparable<NewFamily>{
         int i = 0;
         for (var np : childrens.list()) {
             np.attendance().AbsenceCalculation();
+            //np.
             response[i] = String.join("\t", String.valueOf(np.id().id()),
                      String.valueOf(np.id().skryptId()),
                      String.valueOf(np.school()),

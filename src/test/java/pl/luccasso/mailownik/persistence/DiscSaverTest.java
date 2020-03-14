@@ -45,10 +45,10 @@ public class DiscSaverTest {
     public void testMakeDirsIfFileInputed() {
         ds = new DiscSaver(new DataBase());
 
-        ds.dirPath = Path.of("e:/asiowytest/config.txt");
+        ds.dirPath = Path.of("testfiles/UnitTestConfig.txt");
         ds.prepareDirectory();
         
-        assertThat(ds.dirPath.endsWith("asiowytest")).as("Test with File").isTrue();
+        assertThat(ds.dirPath.endsWith("testfiles")).as("Test with File").isTrue();
 
     }
 

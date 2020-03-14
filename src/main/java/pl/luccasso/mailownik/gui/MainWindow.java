@@ -131,7 +131,7 @@ public class MainWindow extends JPanel implements ActionListener {
         }
 
         if (e.getSource() == saveButton) {
-            MainWindow.doCompare.save();
+            MainWindow.doCompare.save(); //TODO connect to Saver
         }
 
         if (e.getSource() == leftOButton) {
