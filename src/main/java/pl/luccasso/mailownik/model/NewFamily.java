@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import pl.luccasso.mailownik.BankTransaction;
 import pl.luccasso.mailownik.Pupil;
 import pl.luccasso.mailownik.SinglePupil;
 
@@ -197,6 +198,11 @@ public class NewFamily implements Comparable<NewFamily>{
     
     public String toString(int fake) {
         return "NewFamily{" + ", childrens=" + childrens + "contacts=" + contacts + ", payments=" + payments + '}';
+    }
+
+    public void convertTransactionsToTrInfo(List<BankTransaction> btList) {
+        btList.forEach(payments::addTransaction);
+                
     }
     
     

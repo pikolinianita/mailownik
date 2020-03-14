@@ -351,6 +351,7 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
         return String.join(", ", lName, fName, String.valueOf(schoolNr), klass );
     }
 
+        @Override
     public Pupil processTransactions(List<BankTransaction> lisT) {
         if (lisT != null) {
             new_transaction:

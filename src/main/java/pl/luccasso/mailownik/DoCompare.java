@@ -264,8 +264,8 @@ public class DoCompare {
         ConfigF.setPupPath(path); //TODO remove this Function
     }
 
-    public void addToFittedData(NewFamily p, BankTransaction bt) {
-        dataBase.famFittedData().merge(p, new LinkedList<>(List.of(bt)), (o, n) -> {
+    public void addToFittedData(NewFamily nf, BankTransaction bt) {
+        dataBase.famFittedData().merge(nf, new LinkedList<>(List.of(bt)), (o, n) -> {
             o.addAll(n);
             return o;
         });

@@ -141,4 +141,8 @@ public class DataBase {
     void saveToDisc(){
         new DiscSaver(this).saveAllToDisc();
     }
+
+    List<BankTransaction> getTransactionListFor(NewFamily family) {
+       return famFittedData.get(family);
+    }
 }

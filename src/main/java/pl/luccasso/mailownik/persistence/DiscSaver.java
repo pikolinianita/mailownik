@@ -6,10 +6,16 @@
 package pl.luccasso.mailownik.persistence;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lombok.Getter;
 import lombok.Setter;
+import pl.luccasso.mailownik.model.NewFamily;
+
 
 /**
  *
@@ -44,52 +50,87 @@ public class DiscSaver {
 
     void saveStructures() {
         saveLeftOvers();
-        saveToDecide();
         saveWrongLines();
         saveOutput();
     }
 
     private void saveLeftOvers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try (var fw = new FileWriter("e:/leftovers.txt")) { // TODO path
+            for (var transaction : dataBase.leftOvers) {
+                fw.write(transaction.saveTransaction());
+            }
+            for (var transaction : dataBase.humanFamilyToDecide().keySet()) {
+                fw.write(transaction.saveTransaction());
+            }
+        } catch (IOException exc) {
+            Logger.getLogger(DiscSaver.class.getName()).log(Level.SEVERE, null, exc);
+        }
     }
 
-    private void saveToDecide() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 
     private void saveWrongLines() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      try (var fw = new FileWriter("e:/syfy.txt")) {  //TODO path
+            for (var p : dataBase.wrongLines) {
+                fw.write(p);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(DiscSaver.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void saveOutput() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       try (var fw = new FileWriter("e:/output.txt")) {  //TODO path
+            writeCSVFileHeader(fw);
+            for (var family : dataBase.neuFamilyList()) {
+                family.convertTransactionsToTrInfo( dataBase.getTransactionListFor(family));
+                writeFamilyMembersToFile(family, fw);
+                //Old, to delete    fw.write(family.processTransactions(dataBase.famFittedData().get(family)).getFileLine());
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(DiscSaver.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    //TODO Update dla wczytywania i zapisywania pliku - rodzenstwa ID
+    void writeCSVFileHeader(final FileWriter fw) throws IOException {
+        fw.write(String.join("\t", "Id", "SkryptID", "Szkoła", "Imie", "Nazwisko", "Klasa", "Tel Mamy", "Tel Taty", "Mail",
+                "Zaj 1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "obecny", "Nieobecny", "Usprawiedliwione",
+                "Suma wpłat", "Winien", "wpłaty", "W sumie zaplaci", "Ilosc zajec w szkole", "DanePrzelewow", "konta") + "\n");
+    }
+
+    private void writeFamilyMembersToFile(NewFamily family, FileWriter fw) throws IOException {
+        String[] linesForWrite = family.getFileLines();
+        for(var singleLine:linesForWrite){
+            fw.write(singleLine);
+        }
     }
     
 }
 /*public void save() {
 
         try (var fw = new FileWriter("e:/leftovers.txt")) {
-            for (var p : dataBase.leftOvers) {
-                fw.write(p.saveTransaction());
+            for (var family : dataBase.leftOvers) {
+                fw.write(family.saveTransaction());
             }
-            for (var p : dataBase.humanToDecide.keySet()) {
-                fw.write(p.saveTransaction());
+            for (var family : dataBase.humanToDecide.keySet()) {
+                fw.write(family.saveTransaction());
             }
         } catch (IOException exc) {
             Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, exc);
         }
 
         try (var fw = new FileWriter("e:/siblings_org.txt")) {
-            for (var p : dataBase.siblings) {
-                fw.write(p.saveTransaction());
+            for (var family : dataBase.siblings) {
+                fw.write(family.saveTransaction());
             }
         } catch (IOException ex) {
             Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try (var fw = new FileWriter("e:/syfy.txt")) {
-            for (var p : dataBase.wrongLines) {
-                fw.write(p);
+            for (var family : dataBase.wrongLines) {
+                fw.write(family);
             }
         } catch (IOException ex) {
             Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
@@ -99,8 +140,8 @@ public class DiscSaver {
             fw.write(String.join("\t", "Id", "SkryptID", "Szkoła", "Imie", "Nazwisko", "Klasa", "Tel Mamy", "Tel Taty", "Mail",
                     "Zaj 1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "obecny", "Nieobecny", "Usprawiedliwione",
                     "Suma wpłat", "Winien", "wpłaty", "W sumie zaplaci", "Ilosc zajec w szkole", "DanePrzelewow", "konta") + "\n");
-            for (var p : dataBase.pupilList()) {
-                fw.write(p.processTransactions(dataBase.fittedData.get(p)).getFileLine());
+            for (var family : dataBase.pupilList()) {
+                fw.write(family.processTransactions(dataBase.fittedData.get(family)).getFileLine());
             }
         } catch (IOException ex) {
             Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
@@ -110,8 +151,8 @@ public class DiscSaver {
             fw.write(String.join("\t", "Id", "SkryptID", "Szkoła", "Imie", "Nazwisko", "Klasa", "Tel Mamy", "Tel Taty", "Mail",
                     "Zaj 1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "obecny", "Nieobecny", "Usprawiedliwione",
                     "Suma wpłat", "Winien", "wpłaty", "W sumie zaplaci", "Ilosc zajec w szkole", "DanePrzelewow", "konta" + "\n"));
-            for (var p : dataBase.sibFitted.keySet()) {
-                fw.write(p.processTransactions(dataBase.sibFitted.get(p)).getFileLine());
+            for (var family : dataBase.sibFitted.keySet()) {
+                fw.write(family.processTransactions(dataBase.sibFitted.get(family)).getFileLine());
             }
         } catch (IOException ex) {
             Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);

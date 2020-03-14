@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import pl.luccasso.mailownik.BankTransaction;
 import pl.luccasso.mailownik.SinglePupil;
 import pl.luccasso.mailownik.TransactionInfo;
 
@@ -42,5 +43,11 @@ public class PaymentsData{
         return transactions.stream()
                 .mapToInt(t->t.amount())
                 .sum();
+    }
+
+    void addTransaction(BankTransaction bt) {
+        accountNrs.add(bt.account());
+        transactions.add(new TransactionInfo(bt));
+      
     }
  }

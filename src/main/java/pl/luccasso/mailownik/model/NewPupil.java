@@ -82,6 +82,6 @@ public class NewPupil {
     
     public boolean isMylNameHere(String q){
         return q.toLowerCase().contains(lName.toLowerCase());
-        //TODO - mak trafi w makowski...
+        //TODO - mak trafi w makowski... trzreba potem sprawdzic czy makowski equals mak...
     }
    }
