@@ -5,14 +5,10 @@
  */
 package pl.luccasso.mailownik.model;
 
-import java.util.Comparator;
+import com.google.gson.Gson;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collector;
-import java.util.stream.Stream;
 import lombok.Getter;
-import lombok.ToString;
 import lombok.experimental.Accessors;
 import pl.luccasso.mailownik.BankTransaction;
 import pl.luccasso.mailownik.Pupil;
@@ -72,11 +68,7 @@ public class NewFamily implements Comparable<NewFamily>{
          
         return contacts.eMail().equalsIgnoreCase(pup.getEMail())
                 && contacts.nTel().equals(pup.getNTel())
-                && contacts.nTel2().equals(pup.getNTel2());
-        
-        /*return contacts.eMail().equalsIgnoreCase(pup.getEMail())
-                && (!"".equals(contacts.nTel()) && contacts.nTel().equals(pup.getNTel()))
-                && (!"".equals(contacts.nTel2()) && contacts.nTel2().equals(pup.getNTel2()));*/
+                && contacts.nTel2().equals(pup.getNTel2());   
     }
 
     public NewFamily add(SinglePupil sp) {
@@ -140,42 +132,7 @@ public class NewFamily implements Comparable<NewFamily>{
     public void writeNames() {
         childrens.writeNames();
     }
-
-    public String[] getFileLines() {
-        int size = childrens.list().size();
-        String[] response = new String[size];
-        int i = 0;
-        for (var np : childrens.list()) {
-            np.attendance().AbsenceCalculation();
-            //np.
-            response[i] = String.join("\t", String.valueOf(np.id().id()),
-                     String.valueOf(np.id().skryptId()),
-                     String.valueOf(np.school()),
-                     np.fName(),
-                     np.lName(),
-                     np.klass(),
-                     contacts().nTel2(),
-                     contacts().nTel(),
-                     contacts().eMail(),
-                     np.attendance().getTimeSheetString(),
-                     String.valueOf(np.attendance().ones()),
-                     String.valueOf(np.attendance().zeroes()),
-                     String.valueOf(np.attendance().eMs()),
-                     childrens.getFamilyId(),
-                     "All Payments",
-                     "to Pay",
-                     "PaymentType",
-                     "toPayTotal",
-                     "nZajec",
-                     "tr",
-                     "acc" + "\n"
-            );
-            i++;
-        }
-
-        return response;
-    }
-
+   
     public String getKlass() {
         return childrens().list().get(0).klass();
     }
@@ -195,7 +152,6 @@ public class NewFamily implements Comparable<NewFamily>{
     public String toString() {
         return getShortUniqueString();
     }
-
     
     public String toString(int fake) {
         return "NewFamily{" + ", childrens=" + childrens + "contacts=" + contacts + ", payments=" + payments + '}';
@@ -205,15 +161,40 @@ public class NewFamily implements Comparable<NewFamily>{
         btList.forEach(payments::addTransaction);
                 
     }
-    
-    
 
-    
+     public String[] getFileLines() {
+        int size = childrens.list().size();
+        String[] response = new String[size];
+        int i = 0;
+         Gson gson = new Gson();
+        for (var child : childrens.list()) {
+            child.attendance().AbsenceCalculation();
+            PaymentsResolver.PaymentDTO paymentInfo = new PaymentsResolver(this).moneyResolve();
+            response[i] = String.join("\t", String.valueOf(child.id().id()),
+                     String.valueOf(child.id().skryptId()),
+                     String.valueOf(child.school()),
+                     child.fName(),
+                     child.lName(),
+                     child.klass(),
+                     contacts().nTel2(),
+                     contacts().nTel(),
+                     contacts().eMail(),
+                     child.attendance().getTimeSheetString(),
+                     String.valueOf(child.attendance().ones()),
+                     String.valueOf(child.attendance().zeroes()),
+                     String.valueOf(child.attendance().eMs()),
+                     childrens.getFamilyId(),
+                     String.valueOf(paymentInfo.totalPaidAmount()),
+                     String.valueOf(paymentInfo.needToPay()),
+                     paymentInfo.description(),
+                     String.valueOf(paymentInfo.toPayForAllYearAmount()),
+                     String.valueOf(paymentInfo.nZajec()),
+                     gson.toJson(payments.transactions()),
+                     gson.toJson(payments.accountNrs()) + "\n"
+            );
+            i++;
+        }
+        return response;
+    }
 }
-/*String.join("\t",String.valueOf(id),skryptId, String.valueOf(schoolNr),
-                        fName,lName,klass, nTel2, nTel,eMail, 
-                        ob, String.valueOf(ones), String.valueOf(zeroes), 
-                        String.valueOf(nb), String.valueOf(allPayments), 
-                        String.valueOf(toPay), paymentType,String.valueOf(toPayTotal),
-                        String.valueOf(nZajec),tr, acc )+"\n"
-                        */
+

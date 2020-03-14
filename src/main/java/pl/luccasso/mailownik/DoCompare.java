@@ -58,11 +58,9 @@ public class DoCompare {
         loadStuff();
         dataBase.makeStructures();
         searchForSiblings();
-        //dataBase.listaTransakcji.forEach(this::analyzeTransaction2);
         var ftm = new FamilyTransactionMatcher(dataBase);
-        dataBase.listaTransakcji.forEach(ftm::analyzeTransaction3);
-        dataBase.sort();
-      
+        dataBase.listaTransakcji().forEach(ftm::analyzeTransaction3);
+        dataBase.sort();      
     }
     
     public void loadStuff() {
@@ -71,14 +69,14 @@ public class DoCompare {
                 .importschools(ConfigF.getClassPerSchool());
         BankFileParser.finData = this.finData;
         var parser = new BankFileParser(ConfigF.getBankPath());
-        dataBase.listaTransakcji = parser.getListaTransakcji();
-        dataBase.wrongLines = parser.getWrongLines();
+        dataBase.listaTransakcji(parser.getListaTransakcji());
+        dataBase.wrongLines(parser.getWrongLines());
         dataBase.pupilList(loadPreviousData(ConfigF.getSavedPath()));
         dataBase.pupilList(new GAppsParser(ConfigF.getPupPath(), dataBase.pupilList()).pupils);
         dataBase.neuFamilyList(dataBase.convertPupilListToFamilyList(dataBase.pupilList()));
     }
 
-    private void analyzeTransaction2(BankTransaction bt) {
+  /*  private void analyzeTransaction2(BankTransaction bt) {
         bt.note("===========Fakk==============");
         try {
             if (dataBase.pupByAccountMap.containsKey(bt.account)) {
@@ -188,30 +186,30 @@ public class DoCompare {
                 var ListwSchool = tryFindSchool(bt, ListlName);
                 if (ListwSchool.size() > 1) {
                     bt.note("School++ lName++ klass+");
-                    dataBase.humanToDecide.put(bt, ListwSchool);
+                    dataBase.humanToDecide().put(bt, ListwSchool);
                     return;
                 } else if (ListwSchool.size() == 1) {
                     bt.note("Klass+ school+ lname +");
-                    dataBase.fittedData.merge(ListwSchool.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {
+                    dataBase.fittedData().merge(ListwSchool.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {
                         o.addAll(n);
                         return o;
                     });
                     return;
                 } else {
                     if (ListlName.isEmpty()) {
-                        dataBase.leftOvers.add(bt);
+                        dataBase.leftOvers().add(bt);
                         bt.note("Klas+ lname- ");
                         return;
                     } else if (ListlName.size() == 1) {
                         bt.note("Klas+ lname+ school-");
-                        dataBase.fittedData.merge(ListlName.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {
+                        dataBase.fittedData().merge(ListlName.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {
                             o.addAll(n);
                             return o;
                         });
                         return;
                     } else {
                         bt.note("Klas+ lname++");
-                        dataBase.humanToDecide.put(bt, ListlName);
+                        dataBase.humanToDecide().put(bt, ListlName);
                         return;
                     }
 
@@ -219,17 +217,17 @@ public class DoCompare {
             }
 
             tmpList = new LinkedList<>(dataBase.pupilList());
-            dataBase.leftOvers.add(bt);
+            dataBase.leftOvers().add(bt);
             bt.note("School?");
 
         } catch (Exception e) {
-            dataBase.leftOvers.add(bt);
+            dataBase.leftOvers().add(bt);
             bt.note("------Exception----------");
             System.out.println("anal2: -Ex- : " + bt.title);
 
         }
     }
-    
+    */
     
     private List<Pupil> tryFitKlass(BankTransaction bt, List<Pupil> lList) {
         return lList.stream()
@@ -272,20 +270,20 @@ public class DoCompare {
     }
 
     public void removeFromHumanToDecide(BankTransaction bt) {
-        dataBase.humanFamilyToDecide.remove(bt);
+        dataBase.humanFamilyToDecide().remove(bt);
     }
 
     public void addToLeftOvers(BankTransaction bt) {
-        dataBase.leftOvers.add(bt);
+        dataBase.leftOvers().add(bt);
     }
 
     public void save() {
 
         try (var fw = new FileWriter("e:/leftovers.txt")) {
-            for (var p : dataBase.leftOvers) {
+            for (var p : dataBase.leftOvers()) {
                 fw.write(p.saveTransaction());
             }
-            for (var p : dataBase.humanToDecide.keySet()) {
+            for (var p : dataBase.humanToDecide().keySet()) {
                 fw.write(p.saveTransaction());
             }
         } catch (IOException exc) {
@@ -293,7 +291,7 @@ public class DoCompare {
         }
 
         try (var fw = new FileWriter("e:/siblings_org.txt")) {
-            for (var p : dataBase.siblings) {
+            for (var p : dataBase.siblings()) {
                 fw.write(p.saveTransaction());
             }
         } catch (IOException ex) {
@@ -301,7 +299,7 @@ public class DoCompare {
         }
 
         try (var fw = new FileWriter("e:/syfy.txt")) {
-            for (var p : dataBase.wrongLines) {
+            for (var p : dataBase.wrongLines()) {
                 fw.write(p);
             }
         } catch (IOException ex) {
@@ -313,7 +311,7 @@ public class DoCompare {
                     "Zaj 1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "obecny", "Nieobecny", "Usprawiedliwione",
                     "Suma wpłat", "Winien", "wpłaty", "W sumie zaplaci", "Ilosc zajec w szkole", "DanePrzelewow", "konta") + "\n");
             for (var p : dataBase.pupilList()) {
-                fw.write(p.processTransactions(dataBase.fittedData.get(p)).getFileLine());
+                fw.write(p.processTransactions(dataBase.fittedData().get(p)).getFileLine());
             }
         } catch (IOException ex) {
             Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
@@ -323,8 +321,8 @@ public class DoCompare {
             fw.write(String.join("\t", "Id", "SkryptID", "Szkoła", "Imie", "Nazwisko", "Klasa", "Tel Mamy", "Tel Taty", "Mail",
                     "Zaj 1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "obecny", "Nieobecny", "Usprawiedliwione",
                     "Suma wpłat", "Winien", "wpłaty", "W sumie zaplaci", "Ilosc zajec w szkole", "DanePrzelewow", "konta" + "\n"));
-            for (var p : dataBase.sibFitted.keySet()) {
-                fw.write(p.processTransactions(dataBase.sibFitted.get(p)).getFileLine());
+            for (var p : dataBase.sibFitted().keySet()) {
+                fw.write(p.processTransactions(dataBase.sibFitted().get(p)).getFileLine());
             }
         } catch (IOException ex) {
             Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
@@ -345,11 +343,11 @@ public class DoCompare {
     }
 
     public List<String> getWrongLinesList() {
-        return dataBase.wrongLines;
+        return dataBase.wrongLines();
     }
 
     public List<BankTransaction> getSiblingsBTList() {
-        return dataBase.siblings;
+        return dataBase.siblings();
     }
 
     public int getAmountOfFamFittedTransactions() {
@@ -359,15 +357,15 @@ public class DoCompare {
     public void pushLinesToSiblings(BankTransaction bt, List<Pupil> chosenSiblings) {
         int nSiblings = chosenSiblings.size();
         System.out.println("Lista rodzenstwa to: " + nSiblings);
-        System.out.println("sib Fitted: " + dataBase.sibFitted.keySet().size());
+        System.out.println("sib Fitted: " + dataBase.sibFitted().keySet().size());
         for (var p : chosenSiblings) {
             BankTransaction tmpTrans = bt.divideCashAndReturnNew(nSiblings);
-            dataBase.sibFitted.merge(p, new LinkedList<>(List.of(bt)), (o, n) -> {
+            dataBase.sibFitted().merge(p, new LinkedList<>(List.of(bt)), (o, n) -> {
                 o.addAll(n);
                 return o;
             });
         }
-        dataBase.siblings.remove(bt);
+        dataBase.siblings().remove(bt);
 
     }
 

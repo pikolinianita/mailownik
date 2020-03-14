@@ -56,7 +56,7 @@ public class DiscSaver {
 
     private void saveLeftOvers() {
         try (var fw = new FileWriter("e:/leftovers.txt")) { // TODO path
-            for (var transaction : dataBase.leftOvers) {
+            for (var transaction : dataBase.leftOvers()) {
                 fw.write(transaction.saveTransaction());
             }
             for (var transaction : dataBase.humanFamilyToDecide().keySet()) {
@@ -71,7 +71,7 @@ public class DiscSaver {
 
     private void saveWrongLines() {
       try (var fw = new FileWriter("e:/syfy.txt")) {  //TODO path
-            for (var p : dataBase.wrongLines) {
+            for (var p : dataBase.wrongLines()) {
                 fw.write(p);
             }
         } catch (IOException ex) {

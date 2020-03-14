@@ -36,27 +36,27 @@ public class DataBase {
     
     private List<NewFamily> neuFamilyList;
     
-    public List<BankTransaction> listaTransakcji;
+    private List<BankTransaction> listaTransakcji;
     
-    public List<BankTransaction> leftOvers;
+    private List<BankTransaction> leftOvers;
     
     // uporzadkowane dane z Obecności
-    public Map<Integer, List<Pupil>> pupBySchoolMap;
+    private Map<Integer, List<Pupil>> pupBySchoolMap;
     
-    public Map<String, List<Pupil>> pupByKlassMap;
+    private Map<String, List<Pupil>> pupByKlassMap;
     
-    public Map<String, List<Pupil>> pupByAccountMap;
+    private Map<String, List<Pupil>> pupByAccountMap;
     
-    public Map<BankTransaction, List<Pupil>> humanToDecide;
+    private Map<BankTransaction, List<Pupil>> humanToDecide;
     
     //Wynikowe Dane
-    public Map<Pupil, List<BankTransaction>> fittedData;
+    private Map<Pupil, List<BankTransaction>> fittedData;
     
-    public Map<Pupil, List<BankTransaction>> sibFitted;
+    private Map<Pupil, List<BankTransaction>> sibFitted;
     
-    public List<BankTransaction> siblings;
+    private List<BankTransaction> siblings;
     
-    public List<String> wrongLines;    
+    private List<String> wrongLines;    
     
     private Map<Integer, List<NewFamily>> famBySchoolMap;
     
@@ -66,7 +66,7 @@ public class DataBase {
     
     private Map<NewFamily, List<BankTransaction>> famFittedData;
     
-     public Map<BankTransaction, List<NewFamily>> humanFamilyToDecide;
+     private Map<BankTransaction, List<NewFamily>> humanFamilyToDecide;
 
     public void makeStructures() {
         pupBySchoolMap = pupilList().stream().collect(Collectors.groupingBy((e) -> e.getSchoolNr()));

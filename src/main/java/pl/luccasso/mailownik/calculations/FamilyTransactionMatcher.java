@@ -39,7 +39,7 @@ public class FamilyTransactionMatcher {
                 return;
             }*/
             if (bt.isDoomed()) {
-                dataBase.leftOvers.add(bt);
+                dataBase.leftOvers().add(bt);
                 bt.note("Doomed");
                 return;
             }
@@ -55,11 +55,11 @@ public class FamilyTransactionMatcher {
             
             //Catch Wrong Klass and school 
             //tmpList = new LinkedList<>(dataBase.pupilList());
-            dataBase.leftOvers.add(bt);
+            dataBase.leftOvers().add(bt);
             bt.note("Wrong Klass and School");            
             
         } catch (Exception e) {
-            dataBase.leftOvers.add(bt);
+            dataBase.leftOvers().add(bt);
             bt.note("------Exception----------" + e.getMessage());
             System.out.println("anal2: -Ex- : " + bt.title() + "\n" );
             e.printStackTrace();
@@ -84,7 +84,7 @@ public class FamilyTransactionMatcher {
             return;
         } else {
             if (listlName.isEmpty()) {
-                dataBase.leftOvers.add(bt);
+                dataBase.leftOvers().add(bt);
                 bt.note("Klas+ lname- ");
                 return;
             } else if (listlName.size() == 1) {
@@ -116,7 +116,7 @@ public class FamilyTransactionMatcher {
                         bt.note("School+ fName+ lname- klass++ ");
                         return;
                     } else {
-                        dataBase.leftOvers.add(bt);
+                        dataBase.leftOvers().add(bt);
                         bt.note("School+ lName- klass+ fname- ");
                         return;
                     }
@@ -128,12 +128,12 @@ public class FamilyTransactionMatcher {
                     bt.note("School+ fname+ klass+ lName-");
                     return;
                 } else {
-                    dataBase.leftOvers.add(bt);
+                    dataBase.leftOvers().add(bt);
                     bt.note("School+ fname++ klass+ lName- ");
                     return;
                 }
             } else {
-                dataBase.leftOvers.add(bt);
+                dataBase.leftOvers().add(bt);
                 bt.note("School+ lName- klass?");
                 return;
             }
@@ -174,7 +174,7 @@ public class FamilyTransactionMatcher {
     private void accountAlreadyMatched(BankTransaction bt) {
         List<NewFamily> pList = dataBase.famByAccountMap().get(bt.account());
         if (pList.size() > 1) {
-            dataBase.siblings.add(bt);
+            dataBase.siblings().add(bt); //TODO Zrobic check na pocztowe konta, i to chyba jest zle 
             bt.note("Many people with this account: " + bt.account());
             return;
         }
