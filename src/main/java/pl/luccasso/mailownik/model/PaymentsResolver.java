@@ -43,17 +43,44 @@ public class PaymentsResolver {
     PaymentDTO moneyResolve() {
         if (totalPaidAmount == 0) {
             processNoPay();
-        } else if (isYearly(totalPaidAmount)) {
-            processYearly();
-        } else if (isBiYearly(totalPaidAmount)) {
-            processBiYearly();
-        } else if (isMonthly(totalPaidAmount)) {
-            processMonthly();
+            return new PaymentDTO(this);
+        } 
+        
+        if (family.size()==1){
+            processSingle();
         } else {
-            processNoIdea();
+            processSiblings();
         }
-
         return new PaymentDTO(this);
+    }
+    
+    private void processSingle() {
+        int[] paymentValues = family.getValuesArray();
+        makeHistogram(paymentValues);
+    }
+    
+     private void makeHistogram(int[] paymentValues) {
+        int yearly = 0;
+        int yearlySib = 0;
+        int monthly = 0;
+        int monthlySib = 0;
+        int bi = 0;
+        int biSib = 0;
+        int other = 0;
+         
+        for (int i: paymentValues){
+            if (i % DoCompare.finData.singleKlassPayment() == 0) {
+                monthly ++;
+            }
+            else if (i % DoCompare.finData.singleKlassPaymentWithSibling() == 0) {
+                monthlySib++;
+            }
+            if ()
+        }
+    }
+    
+     private void processSiblings() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private boolean isYearly(int value) {
@@ -76,7 +103,7 @@ public class PaymentsResolver {
         needToPay = family.getNumberPaidKlasses() * valueForOneKlass;
     }
 
-    private void processYearly() {
+  /*  private void processYearly() {
         description = "Wpłata Roczna";
         var valueForOneYear = family.size() == 1
                 ? DoCompare.finData.getYearlyFor(family.getSchoolNr())
@@ -121,11 +148,19 @@ public class PaymentsResolver {
     private void processNoIdea() {
         processNoPay(); //TODO - misieczne
         description = "Nie wiem, licze miesieczne";
-    }
+         } */
+    
 
     private int getNumberOfClassesYearlyPerPupil(int schoolNr) {
         return DoCompare.finData.getNumberOfClassesForSchool(schoolNr); //To change body of generated methods, choose Tools | Templates.
     }
+
+   
+
+   
+    
+    
+    
 
     @ToString
     @Accessors(fluent = true, chain = true)
