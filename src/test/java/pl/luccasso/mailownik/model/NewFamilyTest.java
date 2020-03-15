@@ -91,23 +91,23 @@ public class NewFamilyTest {
         softly.assertThat(family.childrens().list()).as("are good names")
                 .extracting("fName")
                 .contains("Bob100","Adam100");
-          System.out.println(Arrays.toString(family.getFileLines()));
+         // System.out.println(Arrays.toString(family.getFileLines()));
     }
     
-   
+    @Disabled //ToDO - NewFamily!
     @Test
     public void testAddTransactionInfo(SoftAssertions softly){
          SinglePupilBuilder sp = new SinglePupilBuilder();
          var transaction = new BankTransaction(new TransactionStringBuilder().create());         
          var list = List.of(transaction);
-         var pupil = sp.createSinglePupil();
+         var pupil = sp.createSinglePupil(); //ToDo NewFamily
          pupil.processTransactions(list);
          
          NewFamily family = new NewFamily(pupil);
          
          softly.assertThat(family.totalPayments()).as("Total payments").isEqualTo(70);
          softly.assertThat(family.allAccounts()).as("accounts list").contains("1234567890");
-         System.out.println(Arrays.toString(family.getFileLines()));
+        // System.out.println(Arrays.toString(family.getFileLines()));
     }
     
     @Disabled
