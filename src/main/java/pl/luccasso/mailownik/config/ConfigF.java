@@ -14,6 +14,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -22,19 +24,30 @@ import java.util.Scanner;
 public class ConfigF {
 
     static String pupPath = "e:/asiowytest/pupils14.txt";
+    
     static String bankPath = "e:/asiowytest/listatestowa14b.csv";
+    
     static String savedPath = "e:/asiowytest/outputtst.txt";
+    
     static String logFile = "e:/asiowytest/logs.txt";
+    
     static String payPerClass = "e:/asiowytest/cenyvsnz.txt";
+    
     static String ClassPerSchool = "e:/asiowytest/zajwszk.txt";
+    
     static String configPath = "e:/asiowytest/config.txt";
 
     static ArrayList<String> commonAccounts;
+    
+    @Getter
+    @Setter
+    private static boolean isSecondSemester; 
 
     //TODO dopisać że to z pliku
     static {
         commonAccounts = new ArrayList<>();
         commonAccounts.add("55114020040000340278370553");
+        isSecondSemester = true;
     }
 
     private ConfigF(){
@@ -143,4 +156,5 @@ public class ConfigF {
         configPath = aConfigPath;
     }
 
+    
 }

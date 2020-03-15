@@ -67,6 +67,14 @@ public class FinancialData {
     public int getYearlyForSiblingsFor (int school){
         return schoolToPaymentsMap.get(school).allYearWithSibling;
     }
+    
+    public  int getHalfYearlyFor (int school){
+        return schoolToPaymentsMap.get(school).oneSemester;
+    }
+    
+    public int getHalfYearlyForSiblingsFor (int school){
+        return schoolToPaymentsMap.get(school).oneSemesterWithSibling;
+    }
             
     /**
      * Klasa zbierająca roczne i półroczne opłaty dla szkoły.
