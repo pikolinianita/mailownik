@@ -138,7 +138,7 @@ public class DataBase {
        map.values().forEach(e->e.sort(null)); //natural ordering
     }
     
-    void saveToDisc(){
+    public void saveToDisc(){
         new DiscSaver(this).saveAllToDisc();
     }
 
