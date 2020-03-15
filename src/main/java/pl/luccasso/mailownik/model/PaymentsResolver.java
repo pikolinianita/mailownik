@@ -32,7 +32,8 @@ public class PaymentsResolver {
 
     //number courses for school
     int nZajec;
-    
+
+       
     PaymentsResolver(NewFamily aThis) {
         family = aThis;
         nZajec = DoCompare.finData.getNumberOfClassesForSchool(family.getSchoolNr());
