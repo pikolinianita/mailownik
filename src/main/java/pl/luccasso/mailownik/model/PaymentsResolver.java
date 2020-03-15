@@ -57,11 +57,13 @@ public class PaymentsResolver {
     }
 
     private boolean isYearly(int value) {
-        return DoCompare.finData.isYearlyAmount(value / family.size());
+        return DoCompare.finData.isYearlyAmount(value / family.size())
+                || DoCompare.finData.isYearlyAmount(value);
     }
 
     private boolean isBiYearly(int value) {
-        return DoCompare.finData.isHalfYearlyAmount(value / family.size());
+        return DoCompare.finData.isHalfYearlyAmount(value / family.size())
+                || DoCompare.finData.isHalfYearlyAmount(value);
     }
 
     private boolean isMonthly(int value) {
@@ -85,7 +87,7 @@ public class PaymentsResolver {
         //czasem placa za n-1 zajec jesli uczen opuscil jedne zajecia
         needToPay = toPayForAllYearAmount - totalPaidAmount;
         //czasem ktos wplaci za n-1, jak np ominie go pierwszy termin
-        if (needToPay > 2) { 
+        if (needToPay > 2) {
             description = "Wpłata Roczna - zla ilosc zajec";
         }
     }
@@ -95,16 +97,16 @@ public class PaymentsResolver {
         var valueForOneSemester = family.size() == 1
                 ? DoCompare.finData.getHalfYearlyFor(family.getSchoolNr())
                 : DoCompare.finData.getHalfYearlyForSiblingsFor(family.getSchoolNr()) * family.size() / 2;
-        toPayForAllYearAmount = valueForOneSemester *2;
-                if(ConfigF.isSecondSemester()) {
-                    needToPay = toPayForAllYearAmount - totalPaidAmount;
-                } else{
-                    needToPay = valueForOneSemester - totalPaidAmount;
-                }   
+        toPayForAllYearAmount = valueForOneSemester * 2;
+        if (ConfigF.isSecondSemester()) {
+            needToPay = toPayForAllYearAmount - totalPaidAmount;
+        } else {
+            needToPay = valueForOneSemester - totalPaidAmount;
+        }
         //czasem ktos wplaci za n-1, jak np ominie go pierwszy termin, 100 powinno byc wiecej niz 
-        if ((needToPay > 2) && (needToPay < 100)) { 
+        if ((needToPay > 2) && (needToPay < 100)) {
             description = "Wpłata Semestralna - zla ilosc zajec";
-        } else if (needToPay >= 100 && !isBiYearly(needToPay)){
+        } else if (needToPay >= 100 && !isBiYearly(needToPay)) {
             description = "semestralna?"; //ToDo
         }
     }
@@ -114,13 +116,15 @@ public class PaymentsResolver {
         var valueForOnecClass = family.size() == 1
                 ? DoCompare.finData.singleKlassPayment()
                 : DoCompare.finData.singleKlassPaymentWithSibling();
-        toPayForAllYearAmount = getNumberOfClassesYearlyPerPupil(family.getSchoolNr())*family.size()  -  family.getNumberUspraw();
-        needToPay = family.getNumberPaidKlasses()* valueForOnecClass - totalPaidAmount;
+        toPayForAllYearAmount
+                = (getNumberOfClassesYearlyPerPupil(family.getSchoolNr()) * family.size()
+                - family.getNumberUspraw()) * valueForOnecClass;
+        needToPay = family.getNumberPaidKlasses() * valueForOnecClass - totalPaidAmount;
     }
 
     private void processNoIdea() {
-        processNoPay(); //TODO - misieczne
-        description = "Nie wiem, licze miesieczne";
+        processMonthly();
+        description = "Nie wiem, licze miesiecznie";
     }
 
     private int getNumberOfClassesYearlyPerPupil(int schoolNr) {
