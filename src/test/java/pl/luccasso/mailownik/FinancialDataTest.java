@@ -5,14 +5,7 @@
  */
 package pl.luccasso.mailownik;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import java.net.URL;
 import java.util.Scanner;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Disabled;
@@ -23,25 +16,7 @@ import org.junit.jupiter.api.Disabled;
  */
 public class FinancialDataTest {
     
-    public FinancialDataTest() {
-    }
     
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
-
     /**
      * Test of importPaymentPerKlasses method, of class FinancialData.
      */
@@ -88,7 +63,19 @@ public class FinancialDataTest {
         assertTrue(finData.isSiblingsValue(33));
         assertTrue(finData.isSiblingsValue(99));
         assertTrue(finData.isSiblingsValue(931));
+        assertFalse(finData.isSiblingsValue(100));
     }
+    
+     @Test
+    public void testSchoolToNklass(){
+        
+       var finData = new FinancialData()
+                .importPaymentPerKlasses("testfiles/cenyvsnz.txt")
+                .importschools("testfiles/zajwszk.txt");
+       assertEquals(16,finData.getNumberOfClassesForSchool(50));
+       
+    }
+    
     
     @Disabled //jtak zebym pamietal
     @Test

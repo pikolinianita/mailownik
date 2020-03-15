@@ -50,4 +50,8 @@ public class PaymentsData{
         transactions.add(new TransactionInfo(bt));
       
     }
+
+    int getSumOfPayments() {
+      return transactions.stream().mapToInt(ti->ti.amount()).sum();
+    }
  }

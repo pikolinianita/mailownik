@@ -168,7 +168,7 @@ public class NewFamily implements Comparable<NewFamily>{
         int i = 0;
          Gson gson = new Gson();
         for (var child : childrens.list()) {
-            child.attendance().AbsenceCalculation();
+            child.attendance().payAbleHoursCalculation();
             PaymentsResolver.PaymentDTO paymentInfo = new PaymentsResolver(this).moneyResolve();
             response[i] = String.join("\t", String.valueOf(child.id().id()),
                      String.valueOf(child.id().skryptId()),
@@ -195,6 +195,26 @@ public class NewFamily implements Comparable<NewFamily>{
             i++;
         }
         return response;
+    }
+
+    int getSumOfPayments() {
+        return payments().getSumOfPayments();
+    }
+
+    int getNumberPaidKlasses() {
+        int sum = 0;
+        for(var child : childrens().list()){
+            sum += child.attendance().payAbleHoursCalculation();
+                    }
+        return sum;
+    }
+
+    int getNumberUspraw() {
+        int sum = 0;
+        for(var child : childrens().list()){
+            sum += child.attendance().zeroes();
+                    }
+        return sum;
     }
 }
 

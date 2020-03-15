@@ -33,7 +33,7 @@ public class AttendanceTest {
     public void testSomeMethod() {
         String[] ts = {"0","1","M","M"};
         att.timeSheet(ts);
-        att.AbsenceCalculation();
+        att.payAbleHoursCalculation();
         System.out.println(att);
     }
     

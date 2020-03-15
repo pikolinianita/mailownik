@@ -3,9 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package pl.luccasso.mailownik;
-
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,6 +14,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 
 /**
  *
@@ -23,32 +23,56 @@ import java.util.logging.Logger;
  */
 public class FinancialData {
 
-    
-    int oneKlass = 35;
-    
-    int oneKlassWhenSibling = 33;
-    
+    @Accessors(fluent = true, chain = true)
+    @Getter()
+    int singleKlassPayment = 35;
+
+    @Accessors(fluent = true, chain = true)
+    @Getter()
+    int singleKlassPaymentWithSibling = 33;
+
     //w tej szkole tyle trzeba płacić;
     Map<Integer, SchoolPayments> schoolToPaymentsMap;
-    
+
     //Przy tylu zajęciach tyle tzreba płacić 
     Map<Integer, SchoolPayments> nKlassesToPaymentMap;
-    
+
+    //
+    Map<Integer, Integer> schoolToNKlassesMap;
+
     List<Integer> siblingsValues;
-    
+
+    List<Integer> NotSiblingsValues;
+
+    List<Integer> yearlyValues;
+
+    List<Integer> halfYearlyValues;
+
+    public int getNumberOfClassesForSchool(int schoolNr) {
+        return schoolToNKlassesMap.get(schoolNr);
+    }
+
+    public boolean isYearlyAmount(int amount) {
+        return yearlyValues.contains(amount);
+    }
+
+    public boolean isHalfYearlyAmount(int amount) {
+        return halfYearlyValues.contains(amount);
+    }
+
     /**
      * Klasa zbierająca roczne i półroczne opłaty dla szkoły.
      */
     class SchoolPayments {
 
         int allYear;
-        
+
         int oneSemester;
-        
+
         int allYearWithSibling;
-        
+
         int oneSemesterWithSibling;
-        
+
         int nZajec;
 
         public SchoolPayments(int nZajec, int allYear, int oneSemester, int allYearWithSibling, int oneSemesterWithSibling) {
@@ -60,18 +84,23 @@ public class FinancialData {
         }
 
     }
-  
+
     public FinancialData() {
         schoolToPaymentsMap = new HashMap<>();
         nKlassesToPaymentMap = new HashMap<>();
+        schoolToNKlassesMap = new HashMap<>();
         siblingsValues = new LinkedList<>();
+        NotSiblingsValues = new LinkedList<>();
+        yearlyValues = new LinkedList<>();
+        halfYearlyValues = new LinkedList<>();
+
     }
 
     public boolean isSiblingsValue(int val) {
         if (siblingsValues.contains(val)) {
             return true;
         }
-        if (val % oneKlassWhenSibling == 0) {
+        if (val % singleKlassPaymentWithSibling == 0) {
             return true;
         } else {
             return false;
@@ -89,7 +118,15 @@ public class FinancialData {
                 nKlassesToPaymentMap.put(sp.nZajec, sp);
                 siblingsValues.add(sp.allYearWithSibling);
                 siblingsValues.add(sp.oneSemesterWithSibling);
+                NotSiblingsValues.add(sp.oneSemester);
+                NotSiblingsValues.add(sp.allYear);
+                yearlyValues.add(sp.allYear);
+                yearlyValues.add(sp.allYearWithSibling);
+                halfYearlyValues.add(sp.oneSemester);
+                halfYearlyValues.add(sp.oneSemesterWithSibling);
             }
+            siblingsValues.sort(null);
+            NotSiblingsValues.sort(null);
         } catch (IOException ex) {  //includes File Not Found Exception
             Logger.getLogger(FinancialData.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -103,7 +140,10 @@ public class FinancialData {
             //skip header
             sc.nextLine();
             while (sc.hasNext()) {
-                schoolToPaymentsMap.put(sc.nextInt(), nKlassesToPaymentMap.get(sc.nextInt()));
+                int school = sc.nextInt();
+                int klassCount = sc.nextInt();
+                schoolToPaymentsMap.put(school, nKlassesToPaymentMap.get(klassCount));
+                schoolToNKlassesMap.put(school, klassCount);
             }
         } catch (IOException ex) { //includes File Not Found Exception
             Logger.getLogger(FinancialData.class.getName()).log(Level.SEVERE, null, ex);

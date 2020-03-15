@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package pl.luccasso.mailownik.model;
 
 import lombok.AccessLevel;
@@ -17,30 +16,29 @@ import lombok.experimental.Accessors;
  *
  * @author piko
  */
-
 @ToString
 @Accessors(fluent = true, chain = true)
 @Getter(AccessLevel.PROTECTED)
 @Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor
-public class Attendance{
-    
-    String [] timeSheet;
-    
+public class Attendance {
+
+    String[] timeSheet;
+
     int nb;
-    
+
     int zeroes;
-    
+
     int ones;
-    
+
     int eMs;
-            
-    int AbsenceCalculation(){
+
+    int payAbleHoursCalculation() {
         zeroes = 0;
         ones = 0;
         eMs = 0;
         String ob = getTimeSheetString();
-        for(char c: ob.toCharArray()){
+        for (char c : ob.toCharArray()) {
             switch (c) {
                 case '0':
                     zeroes++;
@@ -55,10 +53,10 @@ public class Attendance{
                     break;
             }
         }
-        return  ones + zeroes;
+        return ones + zeroes;
     }
-           
-    String getTimeSheetString(){
+
+    String getTimeSheetString() {
         return String.join("\t", timeSheet);
     }
 }

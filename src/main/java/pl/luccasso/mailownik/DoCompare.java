@@ -32,7 +32,7 @@ import pl.luccasso.mailownik.persistence.DataBase;
 @Setter
 public class DoCompare {
 
-    static FinancialData finData;
+    public static FinancialData finData;
     DataBase dataBase;
 
     static {
@@ -48,7 +48,7 @@ public class DoCompare {
     public DoCompare() {
         dataBase = new DataBase();
         try {
-            ConfigF.readConfigFromFile("e:/asiowytest/config.txt");
+            ConfigF.readConfigFromFile("e:/asiowytest/config.txt");  //TODO Powinien czytac z nie wiem czego...
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -67,7 +67,7 @@ public class DoCompare {
         finData = new FinancialData()
                 .importPaymentPerKlasses(ConfigF.getPayPerClass()) //"e:/cenyvsnz.txt
                 .importschools(ConfigF.getClassPerSchool());
-        BankFileParser.finData = this.finData;
+        BankFileParser.finData = DoCompare.finData;
         var parser = new BankFileParser(ConfigF.getBankPath());
         dataBase.listaTransakcji(parser.getListaTransakcji());
         dataBase.wrongLines(parser.getWrongLines());
