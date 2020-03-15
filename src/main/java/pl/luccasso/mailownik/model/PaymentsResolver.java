@@ -6,42 +6,131 @@
 package pl.luccasso.mailownik.model;
 
 import lombok.Getter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
+import pl.luccasso.mailownik.DoCompare;
 
 /**
  *
  * @author piko
  */
 public class PaymentsResolver {
+
     NewFamily family;
 
+    //Kind of payments - monthy, yearly...
+    String description;
+
+    //Sum of paid money
+    int totalPaidAmount;
+
+    //... assuming 100% attendance
+    int toPayForAllYearAmount;
+
+    //debt
+    int needToPay;
+
+    //number courses for school
+    int nZajec;
+    
     PaymentsResolver(NewFamily aThis) {
         family = aThis;
-    }
-    
-    PaymentDTO moneyResolve(){
-        
-        return new PaymentDTO();
+        nZajec = DoCompare.finData.getNumberOfClassesForSchool(family.getSchoolNr());
+        totalPaidAmount = family.getSumOfPayments();
     }
 
+    PaymentDTO moneyResolve() {
+        if (totalPaidAmount == 0) {
+            processNoPay();
+        } else if (isYearly()) {
+            processYearly();
+        } else if (isBiYearly()) {
+            processBiYearly();
+        } else if (isMonthly()) {
+            processMonthly();
+        } else {
+            processNoIdea();
+        }
+
+        return new PaymentDTO(this);
+    }
+
+    private boolean isYearly() {
+        return DoCompare.finData.isYearlyAmount(totalPaidAmount/family.size());
+    }
+
+    private boolean isBiYearly() {
+        return DoCompare.finData.isHalfYearlyAmount(totalPaidAmount/family.size());
+    }
+
+    private boolean isMonthly() {
+        return totalPaidAmount % DoCompare.finData.singleKlassPayment()== 0
+                || totalPaidAmount % DoCompare.finData.singleKlassPaymentWithSibling() == 0;
+    }
+
+    private void processNoPay() {
+        description = "Brak wpłat";
+        var valueForOneKlass = family.size() == 1 ? DoCompare.finData.singleKlassPayment() : DoCompare.finData.singleKlassPaymentWithSibling();
+        toPayForAllYearAmount = (family.size()*nZajec - family.getNumberUspraw())*valueForOneKlass;
+        needToPay = family.getNumberPaidKlasses()*valueForOneKlass;
+    }
+
+    private void processYearly() {
+       description = "Wpłata Roczna";
+       var valueForOneyear = family.size() == 1 ? DoCompare.finData.getYearlyFor(family.getSchoolNr()) : DoCompare.finData.getYearlyForSiblingsFor(family.getSchoolNr())*family.size()/2;
+       toPayForAllYearAmount = valueForOneyear;
+       //czasem placa za n-1 zajec jesli uczen opuscil jedne zajecia
+       needToPay = toPayForAllYearAmount - totalPaidAmount;
+       if (needToPay > 2){
+           description = "Wpłata Roczna - zla ilosc zajec";
+       }
+    }
+
+    private void processBiYearly() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void processMonthly() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void processNoIdea() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    
+    
+    
+    
+    
+    @ToString
     @Accessors(fluent = true, chain = true)
     @Getter
     static class PaymentDTO {
-        
+
         //Kind of payments - monthy, yearly...
         String description;
-        
+
         //Sum of paid money
         int totalPaidAmount;
-        
+
         //... assuming 100% attendance
         int toPayForAllYearAmount;
-        
+
         //debt
         int needToPay;
-        
+
         //number courses for school
         int nZajec;
-        
-        }    
+
+        public PaymentDTO(PaymentsResolver dataSource) {
+            this.description = dataSource.description;
+            this.needToPay = dataSource.needToPay;
+            this.toPayForAllYearAmount = dataSource.toPayForAllYearAmount;
+            this.totalPaidAmount = dataSource.totalPaidAmount;
+            this.nZajec = dataSource.nZajec;
+        }
+
+    }
 }

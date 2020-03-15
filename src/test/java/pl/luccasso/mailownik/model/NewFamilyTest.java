@@ -29,6 +29,7 @@ import pl.luccasso.utils.TransactionStringBuilder;
  *
  * @author piko
  */
+
 @ExtendWith(SoftAssertionsExtension.class)
 public class NewFamilyTest {   
     

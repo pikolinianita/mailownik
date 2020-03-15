@@ -48,7 +48,7 @@ public class FamilyTransactionMatcherTest {
         var ftm = new FamilyTransactionMatcher(db);
         var gson = new GsonBuilder().setPrettyPrinting().create();
        
-        System.out.println( gson.toJson(ftm));
+        //System.out.println( gson.toJson(ftm));
     }
 
 }
