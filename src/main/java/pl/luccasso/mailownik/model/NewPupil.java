@@ -39,9 +39,7 @@ public class NewPupil {
     public boolean isMySchoolHere(String q){
     return q.contains(String.valueOf(school));
     }
-            
-    
-   
+               
     public boolean isMyKlassHere(String q){
         var ql = q.toLowerCase();
         if (ql.contains(klass)) {

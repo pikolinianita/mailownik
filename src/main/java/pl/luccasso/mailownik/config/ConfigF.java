@@ -25,24 +25,24 @@ import lombok.Setter;
 public class ConfigF {
 
     static String pupPath = "e:/asiowytest/pupils14.txt";
-    
+
     static String bankPath = "e:/asiowytest/listatestowa14b.csv";
-    
+
     static String savedPath = "e:/asiowytest/outputtst.txt";
-    
+
     static String logFile = "e:/asiowytest/logs.txt";
-    
+
     static String payPerClass = "e:/asiowytest/cenyvsnz.txt";
-    
+
     static String ClassPerSchool = "e:/asiowytest/zajwszk.txt";
-    
+
     static String configPath = "e:/asiowytest/config.txt";
 
     static ArrayList<String> commonAccounts;
-    
+
     @Getter
     @Setter
-    private static boolean isSecondSemester; 
+    private static boolean isSecondSemester;
 
     //TODO dopisać że to z pliku
     static {
@@ -51,10 +51,10 @@ public class ConfigF {
         isSecondSemester = true;
     }
 
-    private ConfigF(){
-        
+    private ConfigF() {
+
     }
-    
+
     public static void saveToFile(String f) throws IOException {
 
         Path p = Paths.get(f);
@@ -156,22 +156,19 @@ public class ConfigF {
     public static void setConfigPath(String aConfigPath) {
         configPath = aConfigPath;
     }
-    
-    public static void readFromJsonFile(String path) throws FileNotFoundException, IOException{
-       var gson = new GsonBuilder().excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT).create();
-        try (var fr = new FileReader(path)){
+
+    public static void readFromJsonFile(String path) throws IOException {
+        var gson = new GsonBuilder().excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT).create();
+        try (var fr = new FileReader(path)) {
             gson.fromJson(fr, ConfigF.class);
         }
     }
-    
 
-    public static void saveToJsonFile(String path) throws IOException{
-       var gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT).create();
-       var cnf = new ConfigF();
-       try(var fw = new FileWriter(path)){
-               gson.toJson(cnf,fw);            
-       }
+    public static void saveToJsonFile(String path) throws IOException {
+        var gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT).create();
+        var cnf = new ConfigF();
+        try (var fw = new FileWriter(path)) {
+            gson.toJson(cnf, fw);
+        }
     }
-    
-        
 }

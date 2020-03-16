@@ -361,21 +361,25 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
                         break new_transaction;
                     }
                 }
-                FinancialData.SchoolPayments payValues = DoCompare.finData.schoolToPaymentsMap.get(schoolNr);
-                if (bt.amount == payValues.allYear || bt.amount == payValues.allYearWithSibling) {
-                    allYear = true;
-                } else if (bt.amount == payValues.oneSemester || bt.amount == payValues.oneSemesterWithSibling) {
-                    oneSemester = true;
-                }
-                if (bt.amount == payValues.allYearWithSibling || bt.amount == payValues.oneSemesterWithSibling) {
-                    this.isSibling = true;
-                }
-                transactions.add(new TransactionInfo(bt));
-                accountNrs.add(bt.account);
-                allPayments += bt.amount;
+                addTransactionToTiList(bt);
             }
         }
         return this;
+    }
+
+    private void addTransactionToTiList(BankTransaction bt) {
+        FinancialData.SchoolPayments payValues = DoCompare.finData.schoolToPaymentsMap.get(schoolNr);
+        if (bt.amount == payValues.allYear || bt.amount == payValues.allYearWithSibling) {
+            allYear = true;
+        } else if (bt.amount == payValues.oneSemester || bt.amount == payValues.oneSemesterWithSibling) {
+            oneSemester = true;
+        }
+        if (bt.amount == payValues.allYearWithSibling || bt.amount == payValues.oneSemesterWithSibling) {
+            this.isSibling = true;
+        }
+        transactions.add(new TransactionInfo(bt));
+        accountNrs.add(bt.account);
+        allPayments += bt.amount;
     }
 
     

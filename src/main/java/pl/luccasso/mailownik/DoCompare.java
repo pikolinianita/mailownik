@@ -7,15 +7,12 @@ package pl.luccasso.mailownik;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import java.util.Scanner;
 import lombok.Getter;
 import lombok.Setter;
@@ -75,15 +72,7 @@ public class DoCompare {
         dataBase.pupilList(new GAppsParser(ConfigF.getPupPath(), dataBase.pupilList()).pupils);
         dataBase.neuFamilyList(dataBase.convertPupilListToFamilyList(dataBase.pupilList()));
     }  
-
-    public void setBankPath(String path) {
-        ConfigF.setBankPath(path); //TODO remove this Function
-    }
-
-    public void setPupPath(String path) {
-        ConfigF.setPupPath(path); //TODO remove this Function
-    }
-
+    
     public void addToFittedData(NewFamily nf, BankTransaction bt) {
         dataBase.famFittedData().merge(nf, new LinkedList<>(List.of(bt)), (o, n) -> {
             o.addAll(n);
@@ -98,59 +87,7 @@ public class DoCompare {
     public void addToLeftOvers(BankTransaction bt) {
         dataBase.leftOvers().add(bt);
     }
-
-   /* public void save() {
-
-        try (var fw = new FileWriter("e:/leftovers.txt")) {
-            for (var p : dataBase.leftOvers()) {
-                fw.write(p.saveTransaction());
-            }
-            for (var p : dataBase.humanToDecide().keySet()) {
-                fw.write(p.saveTransaction());
-            }
-        } catch (IOException exc) {
-            Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, exc);
-        }
-
-        try (var fw = new FileWriter("e:/siblings_org.txt")) {
-            for (var p : dataBase.siblings()) {
-                fw.write(p.saveTransaction());
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try (var fw = new FileWriter("e:/syfy.txt")) {
-            for (var p : dataBase.wrongLines()) {
-                fw.write(p);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try (var fw = new FileWriter("e:/output.txt")) {
-            fw.write(String.join("\t", "Id", "SkryptID", "Szkoła", "Imie", "Nazwisko", "Klasa", "Tel Mamy", "Tel Taty", "Mail",
-                    "Zaj 1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "obecny", "Nieobecny", "Usprawiedliwione",
-                    "Suma wpłat", "Winien", "wpłaty", "W sumie zaplaci", "Ilosc zajec w szkole", "DanePrzelewow", "konta") + "\n");
-            for (var p : dataBase.pupilList()) {
-                fw.write(p.processTransactions(dataBase.fittedData().get(p)).getFileLine());
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try (var fw = new FileWriter("e:/siblings_calc.txt")) {
-            fw.write(String.join("\t", "Id", "SkryptID", "Szkoła", "Imie", "Nazwisko", "Klasa", "Tel Mamy", "Tel Taty", "Mail",
-                    "Zaj 1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "obecny", "Nieobecny", "Usprawiedliwione",
-                    "Suma wpłat", "Winien", "wpłaty", "W sumie zaplaci", "Ilosc zajec w szkole", "DanePrzelewow", "konta" + "\n"));
-            for (var p : dataBase.sibFitted().keySet()) {
-                fw.write(p.processTransactions(dataBase.sibFitted().get(p)).getFileLine());
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-*/
+   
     public List<BankTransaction> getLeftOvers() {
         System.out.println("Kurka - getLeftOvers");
         return dataBase.leftOvers();
@@ -213,25 +150,6 @@ public class DoCompare {
         ConfigF.setSavedPath(dBPath);
     }
 
-    private void updatePupilsAddIfAbsent(List<Pupil> oldList, List<Pupil> googleList) {
-        next_pupil:
-        for (var p : googleList) {
-            String ID = p.getSkryptId();
-            for (var op : oldList) {
-                if (ID.equals(op.getSkryptId())) {
-                    op.updateValuesWithGoogleData(p);
-                    break next_pupil;
-                }
-            }
-            oldList.add(p);
-        }
-    }
-
-    void searchForSiblings() {
-        //TODO
-    }
-    
-    
 }
 
     /*

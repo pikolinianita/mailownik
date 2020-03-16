@@ -32,10 +32,19 @@ public class PaymentsData {
 
     List<TransactionInfo> transactions;
 
-    void amend(SinglePupil sp) {
+    void amendWith(SinglePupil sp) {
         //TODO Do something with it
         accountNrs().addAll(sp.getAccountNrs());
         //add only single transactions
+        outer:
+        for(var otherTi : sp.getTransactions()){
+            for (var ti: transactions){
+                if (! ti.sameAs(otherTi)){
+                    transactions.add(otherTi);
+                    break outer;
+                }
+            }
+        }
     }
 
     int toalPayments() {
