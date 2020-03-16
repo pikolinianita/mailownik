@@ -23,30 +23,50 @@ import lombok.experimental.Accessors;
 public class BankTransaction {
 
     String title;           //pole z mięskiem do dalszej analizy
+    
     LocalDate date;         //data wpłaty
+    
     int amount;             //wartość wpłaty
+    
     String account;         //numer konta
+    
     String klass;           //Jaka klasa
+    
     String school;          //Jaka szkoła
+    
     // cyfra-litera otoczone spacje/kropka etc. 
     static Pattern forKlass = Pattern.compile("(\\b\\d\\s?[a-z]\\b)", Pattern.CASE_INSENSITIVE);
+    
     // klasy w formacie IIIa lub iv c
     static Pattern forKlass2 = Pattern.compile("(\\bi+\\s?[a-z]\\b)|(\\biv\\s?[a-z]\\b)", Pattern.CASE_INSENSITIVE);
+    
     // dwie lub trzy cyfry otoczone spacja lub SPCyfry
     static Pattern forSchool = Pattern.compile("(\\b(\\d{2,3})\\b)|(\\bsp\\d+)", Pattern.CASE_INSENSITIVE);
+    
     // SP XXX gdzie X to cyfry
     static Pattern forSchool2 = Pattern.compile("\\bsp\\s?\\d{2,3}", Pattern.CASE_INSENSITIVE);
+   
     // diwe/try cyfry, na osteczną poprawkę szkoły
     static Pattern fewDigits = Pattern.compile("\\d{2,3}" , Pattern.CASE_INSENSITIVE);
+    
     String dubiousInfo;         // co mi się nie zgadza z klasą/szkołą
+    
     String amStr;               //String z wartością wpłaty
+    
     boolean isDoomed;           //błąd krytyczny, nic nie wymyślę
+    
     boolean hasDubiousKlass;    //problem z analizą klasy
+    
     boolean hasDubiousSchool;   //problem z analizą szkoły
+    
     boolean siblingsSuspected;  //tu może być dwójka dzieci
+    
     String[] splittedTitle;     // tablice pomocnicze, może do wywałki?
+    
     String[] syfTitle;          // tablice pomocnice, moze do wywałki
+    
     public String niceString;          //String z tytułem przelewu, I hope
+    
     String matchNotes;          //info about matches with guys  
 
     /**

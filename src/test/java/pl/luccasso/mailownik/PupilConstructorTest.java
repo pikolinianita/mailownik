@@ -26,41 +26,39 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author piko
  */
 public class PupilConstructorTest {
-    
-    List <Pupil> pupils = new LinkedList<>();
-    
+
+    List<Pupil> pupils = new LinkedList<>();
+
     @BeforeAll
-    public static void setUpClass() {}
-    
+    public static void setUpClass() {
+    }
+
     @AfterAll
     public static void tearDownClass() {
     }
-    
+
     @BeforeEach
     public void setUp() {
     }
-    
+
     @AfterEach
     public void tearDown() {
     }
-    
+
     @Test
-    public void testLoadFromOutput(){
-    
-    try(var sc = new Scanner(new BufferedReader(new FileReader("testfiles/autputtst.txt")))){
+    public void testLoadFromOutput() {
+
+        try (var sc = new Scanner(new BufferedReader(new FileReader("testfiles/autputtst.txt")))) {
             sc.nextLine();
-            while (sc.hasNext()){
+            while (sc.hasNext()) {
                 pupils.add(new SinglePupil(sc.nextLine()));
-                System.out.println(pupils.get(pupils.size()-1).getPupilDataNoTimeSheet());
+                System.out.println(pupils.get(pupils.size() - 1).getPupilDataNoTimeSheet());
             }
-        
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(PupilConstructorTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(PupilConstructorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println(pupils);
-    
+
     }
-    
+
 }

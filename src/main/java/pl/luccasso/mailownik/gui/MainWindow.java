@@ -46,10 +46,7 @@ public class MainWindow extends JPanel implements ActionListener {
     JLabel dBLabel;
     JLabel summary;
     JLabel header;
-
-  //  String bankPath;
-  //  String pupPath;
-  //  String dBPath;
+ 
 
     TBDWindow tbdWindow;
     LeftOWindow leftOWindow;
@@ -131,7 +128,7 @@ public class MainWindow extends JPanel implements ActionListener {
         }
 
         if (e.getSource() == saveButton) {
-            MainWindow.doCompare.getDataBase().saveToDisc(); //TODO connect to Saver
+            MainWindow.doCompare.getDataBase().saveToDisc();
         }
 
         if (e.getSource() == leftOButton) {
