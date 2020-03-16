@@ -1,0 +1,13 @@
+{
+  "pupPath": "e:/asiowytest/pupils14.txt",
+  "bankPath": "e:/asiowytest/listatestowa14b.csv",
+  "savedPath": "e:/asiowytest/outputtst.txt",
+  "logFile": "kokoszka",
+  "payPerClass": "e:/asiowytest/cenyvsnz.txt",
+  "ClassPerSchool": "e:/asiowytest/zajwszk.txt",
+  "configPath": "e:/asiowytest/config.txt",
+  "commonAccounts": [
+    "55114020040000340278370553"
+  ],
+  "isSecondSemester": true
+}
