@@ -29,6 +29,11 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }} 
     
+    - name: Run codacy-coverage-reporter
+      uses: mrfyda/codacy-coverage-reporter-action@master
+      with:
+        project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+    
     - name: upload report
       uses: actions/upload-artifact@v1
       with:
