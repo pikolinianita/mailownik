@@ -7,6 +7,7 @@ package pl.luccasso.mailownik.config;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.junit.jupiter.api.AfterEach;
@@ -36,14 +37,7 @@ public class ConfigFTest {
         }
     }
     
-    @BeforeEach
-    public void setUp() {
-    }
     
-    @AfterEach
-    public void tearDown() {
-    }
-
     /**
      * Test of saveToFile method, of class ConfigF.
      * @throws java.lang.Exception
@@ -88,7 +82,26 @@ public class ConfigFTest {
     }
 
     @Test
-public void testPath(){
-             
-}    
+    public void testJson() throws IOException {
+        ConfigF.setLogFile("kokoszka");
+        ConfigF.saveToJsonFile("testfiles/fakejsonTxt.txt");
+        File f = new File("testfiles/fakejsonTxt.txt");
+        assertEquals(true, f.isFile());
+        
+    }
+    @Test
+    public void testReadJson() throws IOException {
+        ConfigF.setLogFile("kokoszka");
+        
+        ConfigF.saveToJsonFile("testfiles/fakejsonTxt.txt");
+        ConfigF.setLogFile("kukuruznik");        
+        assertEquals("kukuruznik", ConfigF.getLogFile());
+        
+        ConfigF.readFromJsonFile("testfiles/fakejsonTxt.txt");
+        assertEquals("kokoszka", ConfigF.getLogFile());
+        
+        //CleanUP
+        ConfigF.restoreCleanTestConfiguration();
+    }
+    
 }

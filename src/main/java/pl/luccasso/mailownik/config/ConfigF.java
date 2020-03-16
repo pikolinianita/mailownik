@@ -5,6 +5,7 @@
  */
 package pl.luccasso.mailownik.config;
 
+import com.google.gson.GsonBuilder;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -155,6 +156,22 @@ public class ConfigF {
     public static void setConfigPath(String aConfigPath) {
         configPath = aConfigPath;
     }
-
     
+    public static void readFromJsonFile(String path) throws FileNotFoundException, IOException{
+       var gson = new GsonBuilder().excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT).create();
+        try (var fr = new FileReader(path)){
+            gson.fromJson(fr, ConfigF.class);
+        }
+    }
+    
+
+    public static void saveToJsonFile(String path) throws IOException{
+       var gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT).create();
+       var cnf = new ConfigF();
+       try(var fw = new FileWriter(path)){
+               gson.toJson(cnf,fw);            
+       }
+    }
+    
+        
 }
