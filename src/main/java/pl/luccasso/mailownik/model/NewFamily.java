@@ -11,7 +11,6 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import pl.luccasso.mailownik.BankTransaction;
-import pl.luccasso.mailownik.DoCompare;
 import pl.luccasso.mailownik.Pupil;
 import pl.luccasso.mailownik.SinglePupil;
 
@@ -89,7 +88,7 @@ public class NewFamily implements Comparable<NewFamily>{
                 .school(sp.getSchoolNr());
 
         childrens.add(child);
-        payments.amend(sp);
+        payments.amendWith(sp);
 
         return this;
     }

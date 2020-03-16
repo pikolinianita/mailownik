@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Disabled;
 import pl.luccasso.utils.SinglePupilBuilder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import pl.luccasso.mailownik.BankTransaction;
+import pl.luccasso.mailownik.SinglePupil;
 import pl.luccasso.mailownik.config.ConfigF;
 import pl.luccasso.utils.TransactionStringBuilder;
 
@@ -32,6 +33,15 @@ import pl.luccasso.utils.TransactionStringBuilder;
 
 @ExtendWith(SoftAssertionsExtension.class)
 public class NewFamilyTest {   
+    
+    private SinglePupil CreateSinglePupilWithOneTransaction() {
+        SinglePupilBuilder sp = new SinglePupilBuilder();
+        var transaction = new BankTransaction(new TransactionStringBuilder().create());
+        var list = List.of(transaction);
+        var pupil = sp.createSinglePupil();
+        pupil.processTransactions(list);
+        return pupil;
+    }
     
     @BeforeEach
     public void setUp() {
@@ -94,14 +104,10 @@ public class NewFamilyTest {
          // System.out.println(Arrays.toString(family.getFileLines()));
     }
     
-    @Disabled //ToDO - NewFamily!
+    //@Disabled //ToDO - NewFamily!
     @Test
     public void testAddTransactionInfo(SoftAssertions softly){
-         SinglePupilBuilder sp = new SinglePupilBuilder();
-         var transaction = new BankTransaction(new TransactionStringBuilder().create());         
-         var list = List.of(transaction);
-         var pupil = sp.createSinglePupil(); //ToDo NewFamily
-         pupil.processTransactions(list);
+         SinglePupil pupil = CreateSinglePupilWithOneTransaction();
          
          NewFamily family = new NewFamily(pupil);
          
@@ -110,14 +116,38 @@ public class NewFamilyTest {
         // System.out.println(Arrays.toString(family.getFileLines()));
     }
     
-    @Disabled
+    //@Disabled
     @Test
-    public void testAddTransactionInfoBrother(SoftAssertions softly){
-        
-        
+    public void testAddBrotherWithSameTI(SoftAssertions softly){
+         SinglePupil pupil = CreateSinglePupilWithOneTransaction();
+         SinglePupil pupil2 = CreateSinglePupilWithOneTransaction();
+         
+         NewFamily family = new NewFamily(pupil);
+         family.add(pupil2);
+         
+         softly.assertThat(family.totalPayments()).as("Total payments").isEqualTo(70);
+         softly.assertThat(family.allAccounts()).as("accounts list").hasSize(1);
+         softly.assertThat(family.size()).as("size of family").isEqualTo(2);
+         softly.assertThat(family.payments().transactions()).as("number of TI").hasSize(1);
+         
     }
     
-     @Test void testAccountsMargeTransactions(){
-        
+     @Test 
+        public void testAddBrotherWithOtherTI(SoftAssertions softly){
+         SinglePupil pupil = CreateSinglePupilWithOneTransaction();
+         SinglePupil pupil2 = CreateSinglePupilWithOneTransaction();
+         var transaction = new BankTransaction(new TransactionStringBuilder()
+                 .pln("170,00 PLN")
+                 .create());
+         
+         pupil2.processTransactions(List.of(transaction));
+         
+         NewFamily family = new NewFamily(pupil);
+         
+         family.add(pupil2);
+         
+         softly.assertThat(family.totalPayments()).as("Total payments").isEqualTo(240);
+         softly.assertThat(family.allAccounts()).as("accounts list").hasSize(1);
+         softly.assertThat(family.size()).as("size of family").isEqualTo(2);
     }
 }
