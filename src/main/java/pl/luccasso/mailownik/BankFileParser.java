@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.FileWriter;
@@ -51,14 +50,14 @@ public class BankFileParser {
         try (var sc = new Scanner(new FileReader(fileName))) {
             boolean isFirst = true;
             while (sc.hasNext()) {
-                analizeLine(sc.nextLine(), isFirst);
+                isFirst = analizeLine(sc.nextLine(), isFirst);
             }
         } catch (FileNotFoundException ex) {
             throw new RuntimeException("Nie ma pliku Bankowego z przelewami", ex);
         } 
     }
 
-    public void analizeLine(String line, boolean isFirst) {
+    public final boolean analizeLine(String line, boolean isFirst) {
 
         if (line.contains("mBiznes konto pomocnicze 0711 ... 2221;") && line.contains("Wpływy - inne")) {
             listaTransakcji.add(new BankTransaction(line));
@@ -68,6 +67,7 @@ public class BankFileParser {
                 wrongLines.add(line);
             }
         }
+        return isFirst;
     }
 
     private static void saveToFile(String patch, String message) {
