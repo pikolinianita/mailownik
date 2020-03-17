@@ -71,4 +71,10 @@ public class PaymentsData{
     int getSumOfPayments() {
       return transactions.stream().mapToInt(ti->ti.amount()).sum();
     }
+    
+     int[] getValuesArray() {
+        return transactions.stream()
+                .mapToInt(ti -> ti.amount())
+                .toArray();
+    }
  }

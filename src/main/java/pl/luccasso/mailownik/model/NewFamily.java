@@ -218,5 +218,9 @@ public class NewFamily implements Comparable<NewFamily>{
                     }
         return sum;
     }   
+    
+    int[] getValuesArray(){
+        return payments().getValuesArray();
+    }
 }
 
