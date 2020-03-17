@@ -206,13 +206,8 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
             return false;
         }
         
-        if(this.skryptId.equals(other.skryptID)) {
-            return true;
-        }
-        
-        return false;        
-    }
-    
+        return this.skryptId.equals(other.skryptID);        
+    }    
     
     @Override
     public boolean isMyfNameHere(String q){
@@ -380,14 +375,8 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
         transactions.add(new TransactionInfo(bt));
         accountNrs.add(bt.account);
         allPayments += bt.amount;
-    }
-
-    
-   /* @Override
-    public int compareTo(Pupil p) {
-        return this.lName.compareTo(p.lName);
-    } */
-
+    }    
+  
     @Override
     public void updateValuesWithGoogleData(Pupil p) {
        this.fName = p.getFName();
@@ -401,9 +390,6 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
        this.nb = p.getNb();
     }
 
-    
-
-    
     
     @Override
     public int getSchoolNr() {

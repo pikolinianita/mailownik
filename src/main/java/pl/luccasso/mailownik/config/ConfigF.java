@@ -39,6 +39,10 @@ public class ConfigF {
     static String configPath = "e:/asiowytest/config.txt";
 
     static ArrayList<String> commonAccounts;
+    
+    @Getter
+    @Setter
+    static String outputDirectory = "e:/asiowytest/output/";
 
     @Getter
     @Setter

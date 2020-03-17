@@ -43,8 +43,6 @@ public class BankFileParser {
         StringBuilder sb = new StringBuilder();
         parser.listaTransakcji.forEach((s) -> sb.append(s.specialToString()).append("\n"));
         saveToFile("e:/special.txt", sb.toString());
-        //System.out.println("----- dub klas --------");
-        //parser.listaTransakcji.stream().filter(e->e.hasDubiousKlass).forEach(System.out::println);
     }
 
     public BankFileParser(String fileName) {

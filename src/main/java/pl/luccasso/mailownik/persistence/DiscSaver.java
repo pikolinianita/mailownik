@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import lombok.Getter;
 import lombok.Setter;
+import pl.luccasso.mailownik.config.ConfigF;
 import pl.luccasso.mailownik.model.NewFamily;
 
 
@@ -54,7 +55,7 @@ public class DiscSaver {
     }
 
     private void saveLeftOvers() {
-        try (var fw = new FileWriter("e:/leftovers.txt")) { // TODO path
+        try (var fw = new FileWriter(ConfigF.getOutputDirectory() + "leftovers.txt")) { 
             for (var transaction : dataBase.leftOvers()) {
                 fw.write(transaction.saveTransaction());
             }
@@ -69,7 +70,7 @@ public class DiscSaver {
    
 
     private void saveWrongLines() {
-      try (var fw = new FileWriter("e:/syfy.txt")) {  //TODO path
+      try (var fw = new FileWriter(ConfigF.getOutputDirectory() + "syfy.txt")) {  
             for (var p : dataBase.wrongLines()) {
                 fw.write(p);
             }
@@ -79,7 +80,7 @@ public class DiscSaver {
     }
 
     private void saveOutput() {
-       try (var fw = new FileWriter("e:/output.txt")) {  //TODO path
+       try (var fw = new FileWriter(ConfigF.getOutputDirectory() + "output.txt")) { 
             writeCSVFileHeader(fw);
             for (var family : dataBase.neuFamilyList()) {
                 family.convertTransactionsToTrInfo( dataBase.getTransactionListFor(family));
@@ -95,7 +96,7 @@ public class DiscSaver {
     void writeCSVFileHeader(final FileWriter fw) throws IOException {
         fw.write(String.join("\t", "Id", "SkryptID", "Szkoła", "Imie", "Nazwisko", "Klasa", "Tel Mamy", "Tel Taty", "Mail",
                 "Zaj 1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "obecny", "Nieobecny", "Usprawiedliwione",
-                "Suma wpłat", "Winien", "wpłaty", "W sumie zaplaci", "Ilosc zajec w szkole", "DanePrzelewow", "konta") + "\n");
+                "Id rodzenstwa", "Suma wpłat", "Winien", "wpłaty", "W sumie zaplaci", "Ilosc zajec w szkole", "DanePrzelewow", "konta") + "\n");
     }
 
     private void writeFamilyMembersToFile(NewFamily family, FileWriter fw) throws IOException {

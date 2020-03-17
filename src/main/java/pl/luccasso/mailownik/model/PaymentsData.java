@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package pl.luccasso.mailownik.model;
 
 import java.util.List;
@@ -26,46 +27,52 @@ import pl.luccasso.mailownik.TransactionInfo;
 @Getter(AccessLevel.PROTECTED)
 @Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor
-public class PaymentsData {
-
-    Set<String> accountNrs;
-
-    List<TransactionInfo> transactions;
+public class PaymentsData{
+    
+     Set <String> accountNrs;
+     
+     List <TransactionInfo> transactions;
 
     void amendWith(SinglePupil sp) {
         //TODO Do something with it
         accountNrs().addAll(sp.getAccountNrs());
         //add only single transactions
-        outer:
         for(var otherTi : sp.getTransactions()){
-            for (var ti: transactions){
-                if (! ti.sameAs(otherTi)){
-                    transactions.add(otherTi);
-                    break outer;
-                }
+            if (addedTRIfNotPresent(otherTi)) {
+                break;
             }
         }
     }
 
+    private boolean addedTRIfNotPresent(TransactionInfo otherTi) {
+        for (TransactionInfo ti : transactions) {
+            if (ti.sameAs(otherTi)) {
+                return false;
+            }
+        }
+        transactions.add(otherTi);
+        return true;
+    }
+
     int toalPayments() {
         return transactions.stream()
-                .mapToInt(t -> t.amount())
+                .mapToInt(t->t.amount())
                 .sum();
     }
 
     void addTransaction(BankTransaction bt) {
+        
         accountNrs.add(bt.account());
-        transactions.add(new TransactionInfo(bt));
-
+        addedTRIfNotPresent(new TransactionInfo(bt));
     }
 
     int getSumOfPayments() {
-        return transactions.stream().mapToInt(ti -> ti.amount()).sum();
+      return transactions.stream().mapToInt(ti->ti.amount()).sum();
     }
-
-    int[] getValuesArray() {
+    
+     int[] getValuesArray() {
         return transactions.stream()
                 .mapToInt(ti -> ti.amount())
                 .toArray();
     }
-}
+ }
