@@ -64,8 +64,6 @@ public class PaymentsData{
         
         accountNrs.add(bt.account());
         addedTRIfNotPresent(new TransactionInfo(bt));
-        //transactions.add(new TransactionInfo(bt));
-      
     }
 
     int getSumOfPayments() {
