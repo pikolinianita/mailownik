@@ -9,5 +9,6 @@
   "commonAccounts": [
     "55114020040000340278370553"
   ],
+  "outputDirectory": "e:/asiowytest/output/",
   "isSecondSemester": true
 }

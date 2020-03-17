@@ -37,15 +37,21 @@ public class PaymentsData{
         //TODO Do something with it
         accountNrs().addAll(sp.getAccountNrs());
         //add only single transactions
-        outer:
         for(var otherTi : sp.getTransactions()){
-            for (var ti: transactions){
-                if (! ti.sameAs(otherTi)){
-                    transactions.add(otherTi);
-                    break outer;
-                }
+            if (addedTRIfNotPresent(otherTi)) {
+                break;
             }
         }
+    }
+
+    private boolean addedTRIfNotPresent(TransactionInfo otherTi) {
+        for (pl.luccasso.mailownik.TransactionInfo ti : transactions) {
+            if (ti.sameAs(otherTi)) {
+                return false;
+            }
+        }
+        transactions.add(otherTi);
+        return true;
     }
 
     int toalPayments() {
@@ -55,8 +61,10 @@ public class PaymentsData{
     }
 
     void addTransaction(BankTransaction bt) {
+        
         accountNrs.add(bt.account());
-        transactions.add(new TransactionInfo(bt));
+        addedTRIfNotPresent(new TransactionInfo(bt));
+        //transactions.add(new TransactionInfo(bt));
       
     }
 
