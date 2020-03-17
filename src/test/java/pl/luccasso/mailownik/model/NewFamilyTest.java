@@ -7,20 +7,17 @@
 package pl.luccasso.mailownik.model;
 
 import java.io.FileNotFoundException;
-import java.util.Arrays;
-
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import pl.luccasso.utils.SinglePupilBuilder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import pl.luccasso.mailownik.BankTransaction;
+import pl.luccasso.mailownik.DoCompare;
 import pl.luccasso.mailownik.SinglePupil;
 import pl.luccasso.mailownik.config.ConfigF;
 import pl.luccasso.utils.TransactionStringBuilder;
@@ -33,24 +30,33 @@ import pl.luccasso.utils.TransactionStringBuilder;
 
 @ExtendWith(SoftAssertionsExtension.class)
 public class NewFamilyTest {   
+    DoCompare dc;
     
-    private SinglePupil CreateSinglePupilWithOneTransaction() {
+    private SinglePupil createSinglePupilWithOneTransaction() {
+        SinglePupil pupil = null;
+        
+        try{
         SinglePupilBuilder sp = new SinglePupilBuilder();
         var transaction = new BankTransaction(new TransactionStringBuilder().create());
         var list = List.of(transaction);
-        var pupil = sp.createSinglePupil();
+         pupil = sp.createSinglePupil();
         pupil.processTransactions(list);
+        } catch ( Exception ex){
+            ex.printStackTrace();}
         return pupil;
     }
     
     @BeforeEach
     public void setUp() {
+       dc = new DoCompare();
+        
         try {
             ConfigF.restoreCleanTestConfiguration();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(NewFamilyTest.class.getName()).log(Level.SEVERE, null, ex);
             throw new RuntimeException("Problem with restore clean configuration");
         }
+        dc.loadStuff();
     }
     
     
@@ -107,7 +113,7 @@ public class NewFamilyTest {
     //@Disabled //ToDO - NewFamily!
     @Test
     public void testAddTransactionInfo(SoftAssertions softly){
-         SinglePupil pupil = CreateSinglePupilWithOneTransaction();
+         SinglePupil pupil = createSinglePupilWithOneTransaction();
          
          NewFamily family = new NewFamily(pupil);
          
@@ -119,8 +125,8 @@ public class NewFamilyTest {
     //@Disabled
     @Test
     public void testAddBrotherWithSameTI(SoftAssertions softly){
-         SinglePupil pupil = CreateSinglePupilWithOneTransaction();
-         SinglePupil pupil2 = CreateSinglePupilWithOneTransaction();
+         SinglePupil pupil = createSinglePupilWithOneTransaction();
+         SinglePupil pupil2 = createSinglePupilWithOneTransaction();
          
          NewFamily family = new NewFamily(pupil);
          family.add(pupil2);
@@ -134,8 +140,8 @@ public class NewFamilyTest {
     
      @Test 
         public void testAddBrotherWithOtherTI(SoftAssertions softly){
-         SinglePupil pupil = CreateSinglePupilWithOneTransaction();
-         SinglePupil pupil2 = CreateSinglePupilWithOneTransaction();
+         SinglePupil pupil = createSinglePupilWithOneTransaction();
+         SinglePupil pupil2 = createSinglePupilWithOneTransaction();
          var transaction = new BankTransaction(new TransactionStringBuilder()
                  .pln("170,00 PLN")
                  .create());

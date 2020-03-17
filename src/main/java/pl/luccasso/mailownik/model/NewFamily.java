@@ -158,7 +158,9 @@ public class NewFamily implements Comparable<NewFamily>{
     }
 
     public void convertTransactionsToTrInfo(List<BankTransaction> btList) {
-        btList.forEach(payments::addTransaction);
+        if (btList != null) {
+            btList.forEach(payments::addTransaction);
+        }
                 
     }
 
