@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pl.luccasso.mailownik;
+/*package OldStuff;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
@@ -13,10 +13,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import pl.luccasso.utils.SinglePupilBuilder;
 
-/**
- *
- * @author piko
- */
+
 public class FamilyTest {
     
     public FamilyTest() {
@@ -64,4 +61,4 @@ public class FamilyTest {
     @Test void testAccountsMargeTransactions(){
         
     }
-}
+}*/

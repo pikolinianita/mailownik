@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pl.luccasso.mailownik;
+package OldStuff;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -14,6 +14,8 @@ import java.util.Set;
  *
  * @author piko
  */
+
+/*
 public class Family implements Pupil{
 
     private List<SinglePupil> siblings;
@@ -164,3 +166,4 @@ public class Family implements Pupil{
         return this;
     }
 }
+*/

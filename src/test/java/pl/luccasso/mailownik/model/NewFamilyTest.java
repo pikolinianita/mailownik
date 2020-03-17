@@ -30,7 +30,8 @@ import pl.luccasso.utils.TransactionStringBuilder;
 
 @ExtendWith(SoftAssertionsExtension.class)
 public class NewFamilyTest {   
-    DoCompare dc;
+    
+    private DoCompare dc;
     
     private SinglePupil createSinglePupilWithOneTransaction() {
         SinglePupil pupil = null;

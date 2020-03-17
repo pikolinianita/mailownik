@@ -45,7 +45,7 @@ public class PaymentsData{
     }
 
     private boolean addedTRIfNotPresent(TransactionInfo otherTi) {
-        for (pl.luccasso.mailownik.TransactionInfo ti : transactions) {
+        for (TransactionInfo ti : transactions) {
             if (ti.sameAs(otherTi)) {
                 return false;
             }

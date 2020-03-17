@@ -99,24 +99,4 @@ public class GAppsParser {
             }
         }
     }
-/*
-    List<PupilImport> fakenNauczLudziKomentek() {
-        var fakenEntries = new LinkedList<PupilImport>();
-        for (var p : pupilsI) {
-            for (var s : p.timeSheet) {
-                if (s.length() > 1) {
-                    fakenEntries.add(p);
-                    break;
-                }
-            }
-        }
-        return fakenEntries;
-    }
-    
-    List<PupilImport> fakenKlasses() {
-        var fakenEntries = pupilsI.stream()
-                .filter( (ele) -> { return ! ele.klass.toLowerCase().matches("\\b\\d[a-z]\\b");  })
-                .collect(Collectors.toCollection(LinkedList::new));
-        return fakenEntries;
-     }*/
 }

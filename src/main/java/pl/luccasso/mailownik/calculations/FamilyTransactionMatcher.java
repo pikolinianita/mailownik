@@ -17,51 +17,42 @@ import pl.luccasso.mailownik.persistence.DataBase;
  * @author piko
  */
 public class FamilyTransactionMatcher {
-    
+
     DataBase dataBase;
 
     public FamilyTransactionMatcher(DataBase dataBase) {
         this.dataBase = dataBase;
     }
-    
+
     public void analyzeTransaction3(BankTransaction bt) {
         bt.note("===========Fakk==============");
-       // this.dataBase = db;
         try {
             if (dataBase.famByAccountMap().containsKey(bt.account())) {
                 accountAlreadyMatched(bt);
                 return;
             }
-          /*  bt.checkForSiblings();
-            if (bt.siblingsSuspected()) {
-                dataBase.siblings.add(bt);
-                bt.note("siblings");
-                return;
-            }*/
             if (bt.isDoomed()) {
                 dataBase.leftOvers().add(bt);
                 bt.note("Doomed");
                 return;
             }
-           // List<NewFamily> tmpList;
             if (!bt.hasDubiousSchool()) {
                 schoolInTransactionIsOK(bt);
                 return;
             }
-            if (!bt.hasDubiousKlass())    {
+            if (!bt.hasDubiousKlass()) {
                 klassIsOKButSchoolIsNot(bt);
                 return;
             }
-            
-            //Catch Wrong Klass and school 
-            //tmpList = new LinkedList<>(dataBase.pupilList());
+
+            //Catch Wrong Klass and school
             dataBase.leftOvers().add(bt);
-            bt.note("Wrong Klass and School");            
-            
+            bt.note("Wrong Klass and School");
+
         } catch (Exception e) {
             dataBase.leftOvers().add(bt);
             bt.note("------Exception----------" + e.getMessage());
-            System.out.println("anal2: -Ex- : " + bt.title() + "\n" );
+            System.out.println("anal2: -Ex- : " + bt.title() + "\n");
             e.printStackTrace();
         }
     }
@@ -174,34 +165,22 @@ public class FamilyTransactionMatcher {
     private void accountAlreadyMatched(BankTransaction bt) {
         List<NewFamily> pList = dataBase.famByAccountMap().get(bt.account());
         if (pList.size() > 1) {
-            dataBase.siblings().add(bt); //TODO Zrobic check na pocztowe konta, i to chyba jest zle 
+            dataBase.siblings().add(bt); //TODO Zrobic check na pocztowe konta, i to chyba jest zle
             bt.note("Many people with this account: " + bt.account());
             return;
         }
-        dataBase.famFittedData().merge(pList.get(0), new LinkedList<>(List.of(bt)), (o, n) -> {
-            o.addAll(n);
-            return o;
-        });
+        dataBase.famFittedData().merge(pList.get(0), new LinkedList<>(List.of(bt)),
+                (o, n) -> {
+                    o.addAll(n);
+                    return o;
+                });
         bt.note("account");
-        return;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   private List<NewFamily> tryFitKlass(BankTransaction bt, List<NewFamily> lList) {
-        var x = lList.stream()
+
+    private List<NewFamily> tryFitKlass(BankTransaction bt, List<NewFamily> lList) {
+        return lList.stream()
                 .filter(p -> p.isMyKlass(bt.klass()))
                 .collect(Collectors.toCollection(LinkedList::new));
-        return x;
-        
     }
 
     private List<NewFamily> tryFindSchool(BankTransaction bt, List<NewFamily> lList) {
@@ -221,4 +200,4 @@ public class FamilyTransactionMatcher {
                 .filter(p -> p.isMylNameHere(bt.niceString))
                 .collect(Collectors.toCollection(LinkedList::new));
     }
-} 
+}
