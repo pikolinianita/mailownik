@@ -59,7 +59,7 @@ public class FamilyTransactionMatcher {
 
     void klassIsOKButSchoolIsNot(BankTransaction bt) {
         List<NewFamily> tmpList;
-        tmpList = new LinkedList(dataBase.famByKlassMap().get(bt.klass())); //TODO Throws Exception when Wrong School
+        tmpList = new LinkedList<NewFamily>(dataBase.famByKlassMap().get(bt.klass())); //TODO Throws Exception when Wrong School
         List<NewFamily> listlName = tryFitNames(bt, tmpList);
         List<NewFamily> listwSchool = tryFindSchool(bt, listlName);
         if (listwSchool.size() > 1) {
@@ -95,7 +95,7 @@ public class FamilyTransactionMatcher {
 
     void schoolInTransactionIsOK(BankTransaction bt) throws NumberFormatException {
         List<NewFamily> tmpList;
-        tmpList = new LinkedList(dataBase.famBySchoolMap().get(Integer.valueOf(bt.school())));
+        tmpList = new LinkedList<NewFamily>(dataBase.famBySchoolMap().get(Integer.valueOf(bt.school())));
         List<NewFamily> listWithlNames = tryFitNames(bt, tmpList);
         if (listWithlNames.isEmpty()) {
             if (!bt.hasDubiousKlass()) {

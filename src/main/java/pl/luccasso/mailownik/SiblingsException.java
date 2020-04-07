@@ -9,6 +9,7 @@ package pl.luccasso.mailownik;
  *
  * @author piko
  */
+@SuppressWarnings("serial")
 public class SiblingsException extends RuntimeException {
 
     public SiblingsException(String message) {

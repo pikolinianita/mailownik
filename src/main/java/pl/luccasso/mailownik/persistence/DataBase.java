@@ -74,7 +74,7 @@ public class DataBase {
         pupByAccountMap = new HashMap<>();
         for (Pupil p : pupilList()) {
             for (String acc : p.getAccountNrs()) {
-                pupByAccountMap.merge(acc, new LinkedList(List.of(p)), (o, n) -> {
+                pupByAccountMap.merge(acc, new LinkedList<Pupil>(List.of(p)), (o, n) -> {
                     o.addAll(n);
                     return o;
                 });
@@ -94,7 +94,7 @@ public class DataBase {
         famByAccountMap = new HashMap<>();
         for (NewFamily p : neuFamilyList()) {
             for (String acc : p.getAccountNrs()) {
-                famByAccountMap.merge(acc, new LinkedList(List.of(p)), (o, n) -> {
+                famByAccountMap.merge(acc, new LinkedList<NewFamily>(List.of(p)), (o, n) -> {
                     o.addAll(n);
                     return o;
                 });
