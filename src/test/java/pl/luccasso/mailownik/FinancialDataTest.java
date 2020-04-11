@@ -89,7 +89,7 @@ public class FinancialDataTest {
         System.out.println(s);
         s = getClass().getClassLoader().getResourceAsStream("cenywsz.txt");        
         System.out.println(s);
-        var sc = new Scanner(s);
+       try(var sc = new Scanner(s)){
         
         s = getClass().getClassLoader().getResourceAsStream("resources/cenywsz.txt");
         System.out.println(s);
@@ -107,5 +107,5 @@ public class FinancialDataTest {
             System.out.println(sc.nextLine());
         }
     }
-    
+    }
 }

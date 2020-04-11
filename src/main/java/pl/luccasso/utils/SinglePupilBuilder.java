@@ -51,10 +51,6 @@ public class SinglePupilBuilder {
 
     private int count = 100;
     
-    private boolean isThisFirst = true;
-    
-    private boolean shouldAddCounter = false;
-    
     public SinglePupilBuilder() {
        
         //Default constructor
@@ -198,11 +194,7 @@ public class SinglePupilBuilder {
                 , isSibling);
     }
     
-    public SinglePupilBuilder shouldAddCounter(boolean b){
-        this.shouldAddCounter = b;
-        return this;
-    }
-    
+        
     public List<SinglePupil> createSinglePupilList(int count) {
         var list = new LinkedList<SinglePupil>();
         list.add(createSinglePupil());

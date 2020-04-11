@@ -61,7 +61,8 @@ public class BankFileParserTest {
     @Test
     public void testWrongFileName(){
         System.out.println("------------------testWrongFileName--------------");
-        Exception exception = assertThrows(RuntimeException.class, () -> {
+        @SuppressWarnings("unused")
+		Exception exception = assertThrows(RuntimeException.class, () -> {
         var bp = new BankFileParser("u:/uhuh.xxx"); });
         
         assertTrue(exception.getMessage()

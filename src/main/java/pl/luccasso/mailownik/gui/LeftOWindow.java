@@ -24,7 +24,11 @@ import pl.luccasso.mailownik.DoCompare;
  * @author piko
  */
 class LeftOWindow extends JFrame implements ActionListener {
-    transient List<BankTransaction> btList;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	transient List<BankTransaction> btList;
     transient List<LOPanel> lOPanList;
     JButton ok; 
     JButton cancel; 
