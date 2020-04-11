@@ -51,10 +51,6 @@ public class SinglePupilBuilder {
 
     private int count = 100;
     
-    private boolean isThisFirst = true;
-    
-    private boolean shouldAddCounter = false;
-    
     public SinglePupilBuilder() {
        
         //Default constructor
