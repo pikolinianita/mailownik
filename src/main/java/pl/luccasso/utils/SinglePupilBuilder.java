@@ -194,11 +194,7 @@ public class SinglePupilBuilder {
                 , isSibling);
     }
     
-    public SinglePupilBuilder shouldAddCounter(boolean b){
-        this.shouldAddCounter = b;
-        return this;
-    }
-    
+        
     public List<SinglePupil> createSinglePupilList(int count) {
         var list = new LinkedList<SinglePupil>();
         list.add(createSinglePupil());
