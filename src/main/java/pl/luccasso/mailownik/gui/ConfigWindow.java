@@ -50,6 +50,17 @@ public class ConfigWindow extends JPanel {
 	JPanel configButtonsPanel;
 
 	JPanel bottomPanel;
+	
+	static ConfigWindow instance;
+
+	public static ConfigWindow getInstance() {
+		return instance;
+	}
+	
+	private ConfigWindow setInstance(ConfigWindow inst) {
+		instance = inst;
+		return this;
+	}
 
 	private JButton saveConfigButton;
 
@@ -63,21 +74,34 @@ public class ConfigWindow extends JPanel {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// Create and set up the content pane.
 		var mainPanel = new ConfigWindow();
-		mainPanel.createComponents()
+		mainPanel.setInstance(mainPanel)
+			.createComponents()
 			.updateLabelsFromConfig()
-			.addComponentsToFrame();
-		// .addToActionListener();
+			.addComponentsToFrame()
+		    .addActionListener();
 		JScrollPane newContentPane = new JScrollPane(mainPanel);
 		newContentPane.setOpaque(true); // content panes must be opaque
 
 		frame.setContentPane(newContentPane);
-		frame.setSize(400, 300);
+		
 		// Display the window.
 		frame.pack();
+		frame.setSize(800, 600);
 		frame.setVisible(true);
 	}
 
-	private ConfigWindow updateLabelsFromConfig() {
+	private void addActionListener() {
+		previousDataButton.addActionListener(new ConfigWindowListeners.PreviousListener());
+		bankButton.addActionListener(new ConfigWindowListeners.BankListener());
+		pupilsButton.addActionListener(new ConfigWindowListeners.GoogleListener());
+		
+		payPerClassButton.addActionListener(new ConfigWindowListeners.PayPerListener());
+		classPerSchoolButton.addActionListener(new ConfigWindowListeners.ClassPerListener());
+		configPathButton.addActionListener(new ConfigWindowListeners.ConfigListener());
+		//saveConfigButton.addActionListener(new ConfigWindowListeners.);
+	}
+
+	public ConfigWindow updateLabelsFromConfig() {
 		
 		bankLabel.setText("plik z banku to: " + ConfigF.getBankPath());		
 		pupilsLabel.setText("plik z googla to: " + ConfigF.getPupPath());
@@ -86,8 +110,7 @@ public class ConfigWindow extends JPanel {
 		payPerClassLabel.setText("PLN za n klas to: " + ConfigF.getPayPerClass());
 		classPerSchoolLabel.setText("ilosc zajec w szkolach to: " + ConfigF.getClassPerSchool());
 		configPathLabel.setText("konfiguracja to: " + ConfigF.getConfigPath());
-		
-		
+				
 		return this;
 	}
 
