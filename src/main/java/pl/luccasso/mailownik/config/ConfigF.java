@@ -175,4 +175,12 @@ public class ConfigF {
             gson.toJson(cnf, fw);
         }
     }
+
+	
+	public static String staticToString() {
+		
+		return String.join(System.lineSeparator() , pupPath, bankPath, savedPath, configPath, System.lineSeparator());
+	}
+    
+    
 }

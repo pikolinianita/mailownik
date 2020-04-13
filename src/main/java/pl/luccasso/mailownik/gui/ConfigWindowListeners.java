@@ -3,8 +3,10 @@ package pl.luccasso.mailownik.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileSystemView;
 
 import pl.luccasso.mailownik.config.ConfigF;
@@ -109,4 +111,45 @@ public class ConfigWindowListeners {
 			}
 		}
 	}
+	
+	public static class SaveListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JFileChooser jfc = new JFileChooser(lastPath);
+			int returnValue = jfc.showSaveDialog(null);
+			if (returnValue == JFileChooser.APPROVE_OPTION) {
+				try {
+                File file = jfc.getSelectedFile();
+                ConfigF.saveToJsonFile(file.getPath());
+                lastPath = file.getPath();
+				}
+				catch (IOException exception) {
+					JOptionPane.showMessageDialog(window,
+						    "Nie udalo sie zapisać konfiguracji :( \nPopraw się!",
+						    "Inane error",
+						    JOptionPane.ERROR_MESSAGE);
+				}				
+			}			
+		}
+	}
+	
+	public static class loadConfigFromFileListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+				ConfigF.readFromJsonFile(ConfigF.getConfigPath());
+			} catch (IOException e1) {
+				JOptionPane.showMessageDialog(window,
+					    "Nie udalo sie wczytać konfiguracji :( \nPopraw się!",
+					    "Inane error",
+					    JOptionPane.ERROR_MESSAGE);
+			} finally {
+			window.updateLabelsFromConfig();
+			}
+		}
+		
+	}
+	
 }

@@ -44,11 +44,12 @@ public class DoCompare {
 
     public DoCompare() {
         dataBase = new DataBase();
-        try {
-            ConfigF.readConfigFromFile("e:/asiowytest/config.txt");  //TODO Powinien czytac z nie wiem czego...
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex);
-        }
+		/*
+		 * try { ConfigF.readConfigFromFile("e:/asiowytest/config.txt"); 
+		 * //TODO Powinien czytac z nie wiem czego... 
+		 * } catch (FileNotFoundException ex) {
+		 * Logger.getLogger(DoCompare.class.getName()).log(Level.SEVERE, null, ex); }
+		 */
     }
 
     public void doWork() {
