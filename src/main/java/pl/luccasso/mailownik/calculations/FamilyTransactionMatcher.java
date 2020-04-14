@@ -52,7 +52,8 @@ public class FamilyTransactionMatcher {
         } catch (Exception e) {
             dataBase.leftOvers().add(bt);
             bt.note("------Exception----------" + e.getMessage());
-            System.out.println("anal2: -Ex- : " + bt.title() + "\n");
+            System.out.println("anal3: -Ex- : " + bt.title() + "\n");
+            System.out.println(bt);
             e.printStackTrace();
         }
     }

@@ -51,14 +51,14 @@ public class BankFileParser {
         try (var sc = new Scanner(new FileReader(fileName))) {
             boolean isFirst = true;
             while (sc.hasNext()) {
-                analizeLine(sc.nextLine(), isFirst);
+                isFirst = analizeLine(sc.nextLine(), isFirst);
             }
         } catch (FileNotFoundException ex) {
             throw new RuntimeException("Nie ma pliku Bankowego z przelewami", ex);
         } 
     }
 
-    public void analizeLine(String line, boolean isFirstPar) {
+    public boolean analizeLine(String line, boolean isFirstPar) {
 
     	var isFirst = isFirstPar;
         if (line.contains("mBiznes konto pomocnicze 0711 ... 2221;") && line.contains("ywy - inne")) {
@@ -69,6 +69,7 @@ public class BankFileParser {
                 wrongLines.add(line);
             }
         }
+        return isFirst;
     }
 
     private static void saveToFile(String patch, String message) {
