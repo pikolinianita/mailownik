@@ -38,6 +38,7 @@ public class ConfigF {
 
     static String configPath = "e:/asiowytest/config.txt";
 
+    @Getter
     static ArrayList<String> commonAccounts;
     
     @Getter

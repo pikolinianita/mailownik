@@ -66,9 +66,22 @@ public class NewFamily implements Comparable<NewFamily>{
             return false;
         }
          
-        return contacts.eMail().equalsIgnoreCase(pup.getEMail())
-                && contacts.nTel().equals(pup.getNTel())
-                && contacts.nTel2().equals(pup.getNTel2());   
+        int matches = 0;
+        
+        if(!"".equals(contacts.eMail()) 
+                &&  contacts.eMail().equalsIgnoreCase(pup.getEMail())) {
+            matches ++;
+        }
+        
+        if(!"".equals(contacts.nTel()) && contacts.nTel().equals(pup.getNTel())){
+            matches++;
+        }
+        
+        if(!"".equals(contacts.nTel2()) && contacts.nTel2().equals(pup.getNTel2())){
+            matches++;
+        }
+        
+        return (matches >=2);   
     }
 
     public NewFamily add(SinglePupil sp) {

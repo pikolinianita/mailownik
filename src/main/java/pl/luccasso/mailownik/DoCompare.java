@@ -129,7 +129,7 @@ public class DoCompare {
 
     }
 
-    List<Pupil> loadPreviousData(String inpPath) {
+    public List<Pupil> loadPreviousData(String inpPath) {
         if (inpPath == null) {
             return new LinkedList<>();
         }

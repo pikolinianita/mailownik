@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import pl.luccasso.mailownik.BankTransaction;
+import pl.luccasso.mailownik.config.ConfigF;
 import pl.luccasso.mailownik.model.NewFamily;
 import pl.luccasso.mailownik.persistence.DataBase;
 
@@ -27,7 +28,7 @@ public class FamilyTransactionMatcher {
     public void analyzeTransaction3(BankTransaction bt) {
         bt.note("===========Fakk==============");
         try {
-            if (dataBase.famByAccountMap().containsKey(bt.account())) {
+            if (AccountNotGeneric(bt.account()) && dataBase.famByAccountMap().containsKey(bt.account())) {
                 accountAlreadyMatched(bt);
                 return;
             }
@@ -166,7 +167,7 @@ public class FamilyTransactionMatcher {
     private void accountAlreadyMatched(BankTransaction bt) {
         List<NewFamily> pList = dataBase.famByAccountMap().get(bt.account());
         if (pList.size() > 1) {
-            dataBase.siblings().add(bt); //TODO Zrobic check na pocztowe konta, i to chyba jest zle
+            dataBase.leftOvers().add(bt); //TODO Zrobic check na pocztowe konta, i to chyba jest zle
             bt.note("Many people with this account: " + bt.account());
             return;
         }
@@ -200,5 +201,9 @@ public class FamilyTransactionMatcher {
         return lList.stream()
                 .filter(p -> p.isMylNameHere(bt.niceString))
                 .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    private boolean AccountNotGeneric(String account) {
+       return !ConfigF.getCommonAccounts().contains(account);
     }
 }
