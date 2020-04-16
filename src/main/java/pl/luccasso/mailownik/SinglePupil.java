@@ -113,6 +113,10 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
         sc.next();
         sc.next();
         sc.next();
+        
+        //Stary format do nowego TODO - wywalic comment jak zbędna
+        //sc.next();
+        
         sc.next();
         TransactionInfo[] tr = gson.fromJson(sc.next(), TransactionInfo[].class);
         this.transactions = new LinkedList<TransactionInfo>(Arrays.asList(tr));

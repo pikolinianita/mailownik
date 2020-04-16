@@ -193,8 +193,8 @@ public class ConfigWindow extends JPanel {
 
 		bottomPanel.add(exitButton);
 		bottomPanel.add(loadConfigFromFileButton);
-		configButtonsPanel.add(configPathButton);
-		configButtonsPanel.add(saveConfigButton);
+		bottomPanel.add(configPathButton);
+		bottomPanel.add(saveConfigButton);
 	}
 
 	public static void main(String[] args) {
