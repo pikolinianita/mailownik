@@ -59,4 +59,6 @@ public interface Pupil {
     public String getEMail();
 
     public String[] getTimeSheet();
+
+    String getFamilyID();
 }

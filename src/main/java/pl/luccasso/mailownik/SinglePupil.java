@@ -35,13 +35,15 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
         String [] timeSheet;
         Set <String> accountNrs;
         List <TransactionInfo> transactions;
-
+        String familyID;
    
         int allPayments;
         boolean allYear;
         boolean oneSemester;
         boolean isSibling;
 
+        
+        //do wczytywania z Googlowego pliku, nie ma FamilyId
     public SinglePupil(int id, String skryptId, int nb, int schoolNr, String fName, String lName, String klass, String nTel, String nTel2, String eMail, String[] timeSheet, Set<String> accountNrs, List<TransactionInfo> transactions, int allPayments, boolean allYear, boolean oneSemester, boolean isSibling) {
         this.id = id;
         this.skryptId = skryptId;
@@ -109,14 +111,11 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
         sc.next();
         sc.next();
         sc.next();
+        this.familyID = sc.next();
         this.allPayments = sc.nextInt();
         sc.next();
         sc.next();
-        sc.next();
-        
-        //Stary format do nowego TODO - wywalic comment jak zbędna
-        //sc.next();
-        
+        sc.next();       
         sc.next();
         TransactionInfo[] tr = gson.fromJson(sc.next(), TransactionInfo[].class);
         this.transactions = new LinkedList<TransactionInfo>(Arrays.asList(tr));
@@ -458,4 +457,10 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
         accountNrs.add(accNo);
         return this;
     }
+
+    public String getFamilyID() {
+        return familyID;
+    }
+     
+     
 }

@@ -29,8 +29,12 @@ public class NewFamily implements Comparable<NewFamily>{
 
     Childrens childrens;
 
+    String familyID;
+    
     public NewFamily(SinglePupil sp)  {
-
+        
+        familyID = sp.getFamilyID();
+        
         contacts = new ContactData()
                 .eMail(sp.getEMail())
                 .nTel(sp.getNTel())
@@ -54,10 +58,14 @@ public class NewFamily implements Comparable<NewFamily>{
                 .id(iDs)
                 .school(sp.getSchoolNr());
 
-        childrens = new Childrens().add(child);
+        childrens = new Childrens().add(child); 
     }
 
     public boolean isMyBrother(Pupil pup) {
+        
+        if (familyID() != null && familyID().equals(pup.getFamilyID())){
+            return true;
+        }        
         
         //In case all contact data is empty
         if("".equals(contacts.eMail()) 
