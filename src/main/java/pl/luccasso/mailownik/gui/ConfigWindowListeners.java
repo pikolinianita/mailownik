@@ -130,7 +130,8 @@ public class ConfigWindowListeners {
 						    "Inane error",
 						    JOptionPane.ERROR_MESSAGE);
 				}				
-			}			
+			}
+			window.updateLabelsFromConfig();
 		}
 	}
 	
@@ -148,8 +149,33 @@ public class ConfigWindowListeners {
 			} finally {
 			window.updateLabelsFromConfig();
 			}
+		}		
+	}
+	
+	public static class SavePlace implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JFileChooser jfc = new JFileChooser(lastPath);
+			jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+			int returnValue = jfc.showSaveDialog(null);
+			if (returnValue == JFileChooser.APPROVE_OPTION) {
+				var resultString = prepareDirectory(jfc.getSelectedFile());
+				ConfigF.setOutputDirectory(resultString);
+				lastPath = resultString;
+			}
+			window.updateLabelsFromConfig();
 		}
 		
+		String prepareDirectory(File placeToSave) {
+	        File directory = placeToSave;
+	        if (!directory.exists()){
+	            directory.mkdirs();
+	        } else if (directory.isFile()){
+	            directory = directory.getParentFile();
+	       }
+	        return directory.getAbsolutePath();
+	    }
 	}
 	
 }

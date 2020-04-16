@@ -19,6 +19,8 @@ public class ConfigWindow extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	JButton exitButton;
+	
+	JButton outputDir;
 
 	JButton loadConfigFromFileButton;
 
@@ -43,6 +45,8 @@ public class ConfigWindow extends JPanel {
 	JLabel classPerSchoolLabel;
 
 	JButton configPathButton;
+	
+	
 
 	JLabel configPathLabel;
 
@@ -95,9 +99,10 @@ public class ConfigWindow extends JPanel {
 
 		payPerClassButton.addActionListener(new ConfigWindowListeners.PayPerListener());
 		classPerSchoolButton.addActionListener(new ConfigWindowListeners.ClassPerListener());
+		outputDir.addActionListener(new ConfigWindowListeners.SavePlace());
+		
 		configPathButton.addActionListener(new ConfigWindowListeners.ConfigListener());
 		saveConfigButton.addActionListener(new ConfigWindowListeners.SaveListener());
-
 		exitButton.addActionListener(action -> SwingUtilities.windowForComponent(this).dispose());
 		loadConfigFromFileButton.addActionListener(new ConfigWindowListeners.loadConfigFromFileListener());
 	}
@@ -170,13 +175,11 @@ public class ConfigWindow extends JPanel {
 
 		payPerClassButton = new JButton("PLN za nZajeć");
 		classPerSchoolButton = new JButton("Ile Zajec W szkolach");
-		configPathButton = new JButton("wybierz konfig");
-		saveConfigButton = new JButton("zapisz konfig");
+		outputDir = new JButton("Zapis do...");
 
 		configButtonsPanel.add(payPerClassButton);
 		configButtonsPanel.add(classPerSchoolButton);
-		configButtonsPanel.add(configPathButton);
-		configButtonsPanel.add(saveConfigButton);
+		configButtonsPanel.add(outputDir);
 	}
 
 	private void createBottomPanel() {
@@ -185,9 +188,13 @@ public class ConfigWindow extends JPanel {
 
 		exitButton = new JButton("wyjscie");
 		loadConfigFromFileButton = new JButton("wczytaj z wybranego pliku konfiguracji");
+		configPathButton = new JButton("wybierz konfig");
+		saveConfigButton = new JButton("zapisz konfig");
 
 		bottomPanel.add(exitButton);
 		bottomPanel.add(loadConfigFromFileButton);
+		configButtonsPanel.add(configPathButton);
+		configButtonsPanel.add(saveConfigButton);
 	}
 
 	public static void main(String[] args) {

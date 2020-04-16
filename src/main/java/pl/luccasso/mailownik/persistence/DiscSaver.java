@@ -55,7 +55,7 @@ public class DiscSaver {
     }
 
     private void saveLeftOvers() {
-        try (var fw = new FileWriter(ConfigF.getOutputDirectory() + "leftovers.txt")) { 
+        try (var fw = new FileWriter(ConfigF.getOutputDirectory() + "//leftovers.txt")) { 
             for (var transaction : dataBase.leftOvers()) {
                 fw.write(transaction.saveTransaction());
             }
@@ -70,7 +70,7 @@ public class DiscSaver {
    
 
     private void saveWrongLines() {
-      try (var fw = new FileWriter(ConfigF.getOutputDirectory() + "syfy.txt")) {  
+      try (var fw = new FileWriter(ConfigF.getOutputDirectory() + "//syfy.txt")) {  
             for (var p : dataBase.wrongLines()) {
                 fw.write(p);
             }
@@ -80,7 +80,7 @@ public class DiscSaver {
     }
 
     private void saveOutput() {
-       try (var fw = new FileWriter(ConfigF.getOutputDirectory() + "output.txt")) { 
+       try (var fw = new FileWriter(ConfigF.getOutputDirectory() + "//output.txt")) { 
             writeCSVFileHeader(fw);
             for (var family : dataBase.neuFamilyList()) {
                 family.convertTransactionsToTrInfo( dataBase.getTransactionListFor(family));

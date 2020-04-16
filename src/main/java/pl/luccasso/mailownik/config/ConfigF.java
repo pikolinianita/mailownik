@@ -52,6 +52,7 @@ public class ConfigF {
     static {
         commonAccounts = new ArrayList<>();
         commonAccounts.add("55114020040000340278370553");
+        commonAccounts.add("59132000190099041520000398");
         isSecondSemester = true;
     }
 
