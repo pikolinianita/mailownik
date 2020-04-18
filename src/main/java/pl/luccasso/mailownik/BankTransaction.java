@@ -83,6 +83,74 @@ public class BankTransaction {
         try (Scanner sc = new Scanner(tit)) {
 
             //wczytaj datę - pierwsze pole pliku
+            sc.useDelimiter("[;\"]+");
+            date = LocalDate.parse(sc.next());
+            //wczytaj pole z mięskiem - może zawierać ";", na szczęście wiem co jest w następnym polu, 
+            //więc jak to nie to to łączę 
+            title = sc.next();
+            String tmp = sc.next();
+            while (!tmp.contains("mBiznes konto pomocnicze 0711 ... 2221")) {
+                title = new StringBuilder(title).append(", ").append(tmp).toString();
+                tmp = sc.next();
+            }
+            //pomija co trzeba i szuka jaka była wpłata
+            sc.next(); 
+            amStr = sc.next();
+            try {
+                amount = Integer.valueOf(amStr.substring(0, amStr.length() - 7));
+            } catch (NumberFormatException e) {
+                isDoomed = true;
+            }
+        }
+        /*w mięsku oddzielone wieloma spacjami są pewne subpola: Mięsko właściwe, Adres nadawcy, rodzaj przelewu, numer konta. Ekstracja*/
+        syfTitle = title.split("\\s\\s+");
+        account = syfTitle[syfTitle.length - 1];
+        splittedTitle = syfTitle[0].split(",");
+        
+        //Czasem na początku mięska jest powtórzone imię nadawcy. Wycinamy. TODO - czy naprawde tu jest problem z kartą? 
+        try {
+            if (!syfTitle[syfTitle.length - 2].contains("KARTY KREDYTOWEJ")) {
+                niceString = syfTitle[0].substring(syfTitle[0].indexOf(',')).toLowerCase();
+            } else {
+                niceString = syfTitle[0].toLowerCase();
+            }
+        } catch (StringIndexOutOfBoundsException e) {
+            System.out.println("-------- out of bound -----" + syfTitle[0]);
+            niceString = null;
+            isDoomed = true;
+        }
+        
+        //Jeśli dotąd nie było dużego błędu to staramy się dalej procedować
+        if (!isDoomed) {
+                        
+            if (!checkForKlass(niceString, forKlass)) {
+                checkForKlass(niceString, forKlass2);
+            }
+
+            //TODO ogarnąć suspected siblings;
+            if (!checkForSchool(niceString, forSchool2)) {
+                checkForSchool(niceString, forSchool);
+            }
+
+            // Formatowanie szkoły i klasy do ludzkiej postaci: "1a" i "358"
+            if (klass!=null) {
+                klassPrettify();
+            } 
+            if (school!=null) {
+                schoolPrettify();
+            }
+
+        }
+    }
+
+     public BankTransaction(String tit, boolean withoutEars) {
+              
+        isDoomed = false;
+        hasDubiousKlass = false;
+        dubiousInfo = "";
+        try (Scanner sc = new Scanner(tit)) {
+
+            //wczytaj datę - pierwsze pole pliku
             sc.useDelimiter(";");
             date = LocalDate.parse(sc.next());
             //wczytaj pole z mięskiem - może zawierać ";", na szczęście wiem co jest w następnym polu, 
@@ -142,7 +210,8 @@ public class BankTransaction {
 
         }
     }
-
+    
+    
     public BankTransaction(BankTransaction bt, int div) {
         this.title = bt.title;
         this.date = bt.date;
