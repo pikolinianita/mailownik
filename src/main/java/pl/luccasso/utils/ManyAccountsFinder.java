@@ -23,7 +23,7 @@ public class ManyAccountsFinder {
         dataBase = new DataBase();
         dc = new DoCompare();
 
-        dataBase.pupilList(dc.loadPreviousData("e:\\backup\\Asiowe\\OfficialData\\output_old2.txt"));
+        dataBase.pupilList(dc.loadPreviousData("e:\\backup\\Asiowe\\OfficialData\\out do konca\\output.txt"  ));
 
         var list = dataBase.pupilList();
 
