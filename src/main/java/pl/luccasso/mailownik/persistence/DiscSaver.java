@@ -72,7 +72,7 @@ public class DiscSaver {
     private void saveWrongLines() {
       try (var fw = new FileWriter(ConfigF.getOutputDirectory() + "//syfy.txt")) {  
             for (var p : dataBase.wrongLines()) {
-                fw.write(p);
+                fw.write(p + System.lineSeparator());
             }
         } catch (IOException ex) {
             Logger.getLogger(DiscSaver.class.getName()).log(Level.SEVERE, null, ex);

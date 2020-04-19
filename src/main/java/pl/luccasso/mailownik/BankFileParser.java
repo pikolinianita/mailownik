@@ -61,7 +61,7 @@ public class BankFileParser {
     public boolean analizeLine(String line, boolean isFirstPar) {
 
     	var isFirst = isFirstPar;
-        if (line.contains("mBiznes konto pomocnicze 0711 ... 2221") && line.contains("ywy - inne")) {
+        if (line.contains("mBiznes konto pomocnicze ") && line.contains("ywy - inne")) {
             listaTransakcji.add(new BankTransaction(line));
             isFirst = false;
         } else {
