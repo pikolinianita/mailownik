@@ -89,7 +89,7 @@ public class BankTransaction {
             //więc jak to nie to to łączę 
             title = sc.next();
             String tmp = sc.next();
-            while (!tmp.contains("mBiznes konto pomocnicze 0711 ... 2221")) {
+            while (!tmp.contains("mBiznes konto pomocnicze")) {
                 title = new StringBuilder(title).append(", ").append(tmp).toString();
                 tmp = sc.next();
             }
