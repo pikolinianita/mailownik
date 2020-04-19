@@ -153,6 +153,18 @@ public class DoCompare {
         ConfigF.setSavedPath(dBPath);
     }
 
+    public void oldFileRewriter(){
+         finData = new FinancialData()
+                .importPaymentPerKlasses(ConfigF.getPayPerClass()) //"e:/cenyvsnz.txt
+                .importschools(ConfigF.getClassPerSchool());
+        
+         dataBase.pupilList(loadPreviousData(ConfigF.getSavedPath()));
+         dataBase.neuFamilyList(dataBase.convertPupilListToFamilyList(dataBase.pupilList()));
+         dataBase.makeStructures();
+         dataBase.wrongLines(new LinkedList<>());
+         dataBase.saveToDisc();
+    }
+    
 }
 
 /*
