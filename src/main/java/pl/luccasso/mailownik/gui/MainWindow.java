@@ -49,6 +49,7 @@ public class MainWindow extends JPanel implements ActionListener {
 	JLabel bankLabel;
 	JLabel familyPupLabel;
 	JLabel dBLabel;
+        JLabel outputLabel;
 	JLabel summary;
 	JLabel header;
 
@@ -68,6 +69,7 @@ public class MainWindow extends JPanel implements ActionListener {
 		dBLabel = new JLabel("Plik z istniejącą bazą Danych to: " + ConfigF.getSavedPath());
 		bankLabel = new JLabel("Wybierz plik z banku. Teraz to: " + ConfigF.getBankPath());
 		familyPupLabel = new JLabel("wybierz plik z danymi uczniów. Teraz to" + ConfigF.getPupPath());
+                outputLabel = new JLabel("Zapis do: " + ConfigF.getOutputDirectory());
 		loadDB = new JButton("Otwórz");
 		bankButton = new JButton("Otwórz");
 		pupButton = new JButton("Otworz");
@@ -107,6 +109,7 @@ public class MainWindow extends JPanel implements ActionListener {
 		add(bankButton);
 		add(familyPupLabel);
 		add(pupButton);
+                add(outputLabel);
 		add(fireButton);
 		add(leftOButton);
 		add(tbdButton);
@@ -194,6 +197,7 @@ public class MainWindow extends JPanel implements ActionListener {
 		bankLabel.setText("Wybierz plik z banku. Teraz to:" + ConfigF.getBankPath());
 		dBLabel.setText("Plik z istniejącą bazą Danych to: " + ConfigF.getSavedPath());
 		familyPupLabel.setText("wybierz plik z danymi uczniów. Teraz to" + ConfigF.getPupPath());
+                outputLabel.setText("Zapis do: " + ConfigF.getOutputDirectory());
 		if (doCompare == null || doCompare.getLeftOvers() == null) {
 			summary.setText("<html>Niepoliczone<br><br><br><br><br><br><br><br></html>");
 		} else {

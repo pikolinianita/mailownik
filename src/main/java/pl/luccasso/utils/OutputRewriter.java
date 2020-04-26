@@ -21,10 +21,10 @@ public class OutputRewriter {
     }
 
     public OutputRewriter() {
-        ConfigF.setSavedPath("e:\\backup\\Asiowe\\OfficialData\\SyfyFix\\output 02.txt");
+        ConfigF.setSavedPath("e:\\backup\\Asiowe\\OfficialData\\SyfyFix3\\opu3tst.csv");
         ConfigF.setClassPerSchool("e:\\backup\\Asiowe\\OfficialData\\zajwszk.txt" );
         ConfigF.setPayPerClass("e:\\backup\\Asiowe\\OfficialData\\cenyvsnz.txt" );
-        ConfigF.setOutputDirectory("e:\\backup\\Asiowe\\OfficialData\\SyfyFix2");
+        ConfigF.setOutputDirectory("e:\\backup\\Asiowe\\OfficialData\\SyfyFix3");
         
         dc = new DoCompare();
         

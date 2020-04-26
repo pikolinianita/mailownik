@@ -51,6 +51,8 @@ public class ConfigWindow extends JPanel {
 	JLabel configPathLabel;
 
 	JPanel inputButtonsPanel;
+        
+        JLabel outputLabel;
 
 	JPanel configButtonsPanel;
 
@@ -116,6 +118,8 @@ public class ConfigWindow extends JPanel {
 		payPerClassLabel.setText("PLN za n klas to: " + ConfigF.getPayPerClass());
 		classPerSchoolLabel.setText("ilosc zajec w szkolach to: " + ConfigF.getClassPerSchool());
 		configPathLabel.setText("konfiguracja to: " + ConfigF.getConfigPath());
+                
+                outputLabel.setText("Zapis do: " + ConfigF.getOutputDirectory());
 
 		return this;
 	}
@@ -132,6 +136,8 @@ public class ConfigWindow extends JPanel {
 		add(configPathLabel);
 		add(configButtonsPanel);
 
+                add(outputLabel);
+                
 		add(bottomPanel);
 		// add(exitButton);
 		// add(saveButton);
@@ -149,6 +155,8 @@ public class ConfigWindow extends JPanel {
 		classPerSchoolLabel = new JLabel("", SwingConstants.LEFT);
 		configPathLabel = new JLabel("", SwingConstants.LEFT);
 
+                outputLabel = new JLabel("", SwingConstants.CENTER);
+                
 		createInputPanel();
 		createConfigPanel();
 		createBottomPanel();

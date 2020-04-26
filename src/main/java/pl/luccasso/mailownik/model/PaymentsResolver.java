@@ -43,12 +43,12 @@ public class PaymentsResolver {
     PaymentDTO moneyResolve() {
         if (totalPaidAmount == 0) {
             processNoPay();
+        } else if (isMonthly(totalPaidAmount)) {
+            processMonthly();
         } else if (isYearly(totalPaidAmount)) {
             processYearly();
         } else if (isBiYearly(totalPaidAmount)) {
             processBiYearly();
-        } else if (isMonthly(totalPaidAmount)) {
-            processMonthly();
         } else {
             processNoIdea();
         }

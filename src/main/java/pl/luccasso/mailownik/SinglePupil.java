@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -118,8 +119,8 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
         sc.next();       
         sc.next();
         TransactionInfo[] tr = gson.fromJson(sc.next(), TransactionInfo[].class);
-        this.transactions = new LinkedList<TransactionInfo>(Arrays.asList(tr));
-        this.accountNrs = new HashSet<>(Arrays.asList(gson.fromJson(sc.next(), String[].class)));
+        this.transactions = new LinkedList<>(Arrays.asList(tr));        
+        this.accountNrs = new HashSet<>(Arrays.asList(gson.fromJson(sc.next(), String[].class)));     
         }
     }
            
@@ -282,7 +283,11 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
                 nbs++;
             }
         }
-        String tr =  gson.toJson(transactions);
+        //String tr =  gson.toJson(transactions);
+        
+        String tr = transactions.stream()
+                .map(t->t.toString()+System.lineSeparator())
+                .reduce("",(a,b) -> a+b);
         String acc = gson.toJson(accountNrs);
         String paymentType;
         int toPay;
