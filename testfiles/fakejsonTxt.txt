@@ -7,7 +7,8 @@
   "ClassPerSchool": "testfiles/zajwszk.txt",
   "configPath": "testfiles/config.txt",
   "commonAccounts": [
-    "55114020040000340278370553"
+    "55114020040000340278370553",
+    "59132000190099041520000398"
   ],
   "outputDirectory": "e:/asiowytest/output/",
   "isSecondSemester": true

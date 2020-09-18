@@ -4,3 +4,5 @@
 /bin/
 /.classpath
 /.project
+
+/src/main/Resources/credentials.json

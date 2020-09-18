@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.stream.Collectors;
+import pl.luccasso.mailownik.persistence.google.GSheetMap;
 
 /**
  *
@@ -22,7 +22,8 @@ import java.util.stream.Collectors;
  */
 public class SinglePupil implements Pupil //implements Comparable<Pupil>
 {
-        static int idCount = 5000;
+        static GSheetMap sheetMapper = GSheetMap.getInstance();
+        static int idCount = 7000;
         int id;
         String skryptId;
         int nb;
@@ -465,7 +466,6 @@ public class SinglePupil implements Pupil //implements Comparable<Pupil>
 
     public String getFamilyID() {
         return familyID;
-    }
-     
+    }     
      
 }
